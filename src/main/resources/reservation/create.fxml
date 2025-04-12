@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.AjouterReservationController"
+            prefHeight="500.0" prefWidth="600.0">
+
+    <VBox spacing="15" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0"
+          AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
+
+        <Label text="Create New Reservation" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+        <GridPane hgap="10" vgap="10">
+            <padding>
+                <Insets top="20" />
+            </padding>
+
+            <columnConstraints>
+                <ColumnConstraints minWidth="100" prefWidth="150" />
+                <ColumnConstraints prefWidth="350" hgrow="ALWAYS" />
+            </columnConstraints>
+
+            <!-- Topic -->
+            <Label text="Topic:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <VBox spacing="3" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <TextField fx:id="topicField" promptText="Enter meeting topic" />
+                <Label fx:id="topicErrorLabel" textFill="red" style="-fx-font-size: 11px;" />
+            </VBox>
+
+            <!-- Start Time -->
+            <Label text="Start Time:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <VBox spacing="3" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <HBox spacing="10">
+                    <DatePicker fx:id="datePicker" promptText="Select date" prefWidth="200" />
+                    <ComboBox fx:id="hourComboBox" promptText="Hour" prefWidth="80" />
+                    <ComboBox fx:id="minuteComboBox" promptText="Min" prefWidth="80" />
+                </HBox>
+                <Label fx:id="dateErrorLabel" textFill="red" style="-fx-font-size: 11px;" />
+                <Label fx:id="timeErrorLabel" textFill="red" style="-fx-font-size: 11px;" />
+            </VBox>
+
+            <!-- Status -->
+            <Label text="Status:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <VBox spacing="3" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                <ComboBox fx:id="statusComboBox" promptText="Select status" />
+                <Label fx:id="statusErrorLabel" textFill="red" style="-fx-font-size: 11px;" />
+            </VBox>
+
+            <!-- Duration -->
+            <Label text="Duration (min):" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+            <VBox spacing="3" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                <Spinner fx:id="durationSpinner" editable="true" />
+                <Label fx:id="durationErrorLabel" textFill="red" style="-fx-font-size: 11px;" />
+            </VBox>
+
+        </GridPane>
+
+        <HBox spacing="15" alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="20" />
+            </padding>
+            <Button text="Cancel" onAction="#cancelAction" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+            <Button text="Save Reservation" onAction="#saveReservationAction" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
