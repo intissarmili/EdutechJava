@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-public class ModifierReservationController {
+public class ModifierReservationController  {
 
     @FXML private TextField topicField;
     @FXML private DatePicker datePicker;
@@ -24,6 +24,15 @@ public class ModifierReservationController {
     @FXML private Spinner<Integer> durationSpinner;
 
     private reservation currentReservation;
+
+
+
+    @FXML
+    public void initialize() {
+        durationSpinner.setValueFactory(
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(15, 240, 30, 15)
+        );
+    }
 
     public void setReservation(reservation r) {
         this.currentReservation = r;
@@ -58,7 +67,7 @@ public class ModifierReservationController {
             ReservationService service = new ReservationService();
             service.update(currentReservation);
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DetailReservation.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reservation/details.fxml"));
             Parent root = loader.load();
             DetailReservationController controller = loader.getController();
             controller.setReservation(currentReservation);

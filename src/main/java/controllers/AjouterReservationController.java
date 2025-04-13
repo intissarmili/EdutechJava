@@ -67,6 +67,8 @@ public class AjouterReservationController implements Initializable {
         statusComboBox.setItems(statusOptions);
 
         // Initialize duration spinner (15-180 minutes, increment by 15)
+        durationSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(15, 240, 30, 15));
+
         SpinnerValueFactory<Integer> valueFactory =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(15, 180, 30, 15);
         durationSpinner.setValueFactory(valueFactory);

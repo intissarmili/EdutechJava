@@ -12,6 +12,26 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+
+//used in delete action
+
+
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
+
+import models.reservation;
+import service.ReservationService;
+
+
 public class DetailReservationController {
 
     @FXML
@@ -29,8 +49,12 @@ public class DetailReservationController {
     @FXML
     private Label statusLabel;
 
+    private reservation currentReservation;
+
+
     // Method to receive the reservation and update the labels
     public void setReservation(reservation res) {
+        this.currentReservation =res;
         topicLabel.setText(res.getTopic());
 
         // Convert java.util.Date to LocalDateTime
@@ -47,7 +71,7 @@ public class DetailReservationController {
     @FXML
     void backAction(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reservation/create.fxml"));
             Parent root = loader.load();
             topicLabel.getScene().setRoot(root);
         } catch (IOException e) {
@@ -58,7 +82,7 @@ public class DetailReservationController {
     @FXML
     private void handleUpdate(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Update.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reservation/update.fxml"));
             Parent root = loader.load();
 
             ModifierReservationController controller = loader.getController();
@@ -69,4 +93,29 @@ public class DetailReservationController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleDelete(ActionEvent event) {
+        try {
+            // Confirm deletion (optional but nice UX)
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm Deletion");
+            alert.setHeaderText("Delete Reservation");
+            alert.setContentText("Are you sure you want to delete this reservation?");
+
+            if (alert.showAndWait().get() == ButtonType.OK) {
+                // Delete from DB
+                ReservationService service = new ReservationService();
+                service.delete(currentReservation.getId());
+
+                // Redirect to home or list view
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListReservations.fxml")); // adjust if needed
+                Parent root = loader.load();
+                topicLabel.getScene().setRoot(root);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

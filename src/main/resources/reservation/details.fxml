@@ -35,6 +35,8 @@
         </GridPane>
 
         <Button text="Back" onAction="#backAction" style="-fx-background-color: #95a5a6; -fx-text-fill: white;" />
+        <Button text="Delete" onAction="#handleDelete" style="-fx-background-color: #ff4d4d; -fx-text-fill: white;"/>
+
         <Button text="Update Reservation" onAction="#handleUpdate" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
 
     </VBox>
