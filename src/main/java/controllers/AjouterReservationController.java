@@ -29,181 +29,154 @@ public class AjouterReservationController implements Initializable {
     private DatePicker datePicker;
 
     @FXML
-    private ComboBox<Integer> hourComboBox;
+    private ComboBox<String> hourComboBox;
 
     @FXML
-    private ComboBox<Integer> minuteComboBox;
+    private ComboBox<String> minuteComboBox;
 
     @FXML
-    private ComboBox<String> statusComboBox;
+    private ComboBox<Integer> durationComboBox;
 
     @FXML
-    private Spinner<Integer> durationSpinner;
-    @FXML private Label topicErrorLabel;
-    @FXML private Label dateErrorLabel;
-    @FXML private Label timeErrorLabel;
-    @FXML private Label statusErrorLabel;
-    @FXML private Label durationErrorLabel;
-
-  /*  @FXML
-    private ComboBox<Integer> availabilityComboBox;*/
+    private Label topicErrorLabel;
+    @FXML
+    private Label dateErrorLabel;
+    @FXML
+    private Label timeErrorLabel;
+    @FXML
+    private Label durationErrorLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Initialize hour combo box with values 0-23
-        ObservableList<Integer> hours = FXCollections.observableArrayList();
+        // Heures (00-23)
+        ObservableList<String> hours = FXCollections.observableArrayList();
         for (int i = 0; i < 24; i++) {
-            hours.add(i);
+            hours.add(String.format("%02d", i));
         }
         hourComboBox.setItems(hours);
 
-        // Initialize minute combo box with values 0, 15, 30, 45
-        ObservableList<Integer> minutes = FXCollections.observableArrayList(0, 15, 30, 45);
+        // Minutes (00-55, de 5 en 5)
+        ObservableList<String> minutes = FXCollections.observableArrayList();
+        for (int i = 0; i < 60; i += 5) {
+            minutes.add(String.format("%02d", i));
+        }
         minuteComboBox.setItems(minutes);
 
-        // Initialize status combo box
-        ObservableList<String> statusOptions =
-                FXCollections.observableArrayList("Confirmed", "Pending", "Cancelled");
-        statusComboBox.setItems(statusOptions);
+        // Durée
+        durationComboBox.getItems().addAll(15, 20, 30);
+        durationComboBox.setValue(15);
 
-        // Initialize duration spinner (15-180 minutes, increment by 15)
-        durationSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(15, 240, 30, 15));
-
-        SpinnerValueFactory<Integer> valueFactory =
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(15, 180, 30, 15);
-        durationSpinner.setValueFactory(valueFactory);
-
-        // Set default values
+        // Valeurs par défaut
         datePicker.setValue(LocalDate.now());
-        hourComboBox.setValue(9); // Default to 9 AM
-        minuteComboBox.setValue(0); // Default to 00 minutes
-        statusComboBox.setValue("Pending");
+        hourComboBox.setValue("09");
+        minuteComboBox.setValue("00");
 
-        // Load availabilities from database
-   //     loadAvailabilities();
+        // Cacher les erreurs au début
+        topicErrorLabel.setVisible(false);
+        dateErrorLabel.setVisible(false);
+        timeErrorLabel.setVisible(false);
+        durationErrorLabel.setVisible(false);
     }
-
-  /*  private void loadAvailabilities() {
-        try {
-            // In a real application, you would fetch availability IDs from your database
-            // For simplicity, we're just adding some example IDs
-            ObservableList<Integer> availabilityIds = FXCollections.observableArrayList(1, 2, 3, 4, 5);
-            availabilityComboBox.setItems(availabilityIds);
-
-            // Set default selection
-            if (!availabilityIds.isEmpty()) {
-                availabilityComboBox.setValue(availabilityIds.get(0));
-            }
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Could not load availabilities: " + e.getMessage());
-        }
-    }*/
 
     @FXML
     void saveReservationAction(ActionEvent event) {
-        // Clear all previous error messages first
         topicErrorLabel.setText("");
         dateErrorLabel.setText("");
         timeErrorLabel.setText("");
-        statusErrorLabel.setText("");
         durationErrorLabel.setText("");
 
         boolean hasError = false;
 
         try {
-            // Validate Topic
+            // Sujet
             String topic = topicField.getText().trim();
             if (topic.isEmpty()) {
-                topicErrorLabel.setText("Topic cannot be empty.");
+                topicErrorLabel.setText("Le sujet ne peut pas être vide.");
+                topicErrorLabel.setVisible(true); // <-- ajout nécessaire
+
                 hasError = true;
             } else if (topic.length() < 20 || topic.length() > 150) {
-                topicErrorLabel.setText("Topic must be between 20 and 150 characters.");
+                topicErrorLabel.setText("Le sujet doit contenir entre 20 et 150 caractères.");
+                topicErrorLabel.setVisible(true); // <-- ajout nécessaire
+
                 hasError = true;
+            } else {
+                topicErrorLabel.setVisible(false); // <-- pour cacher si c'est corrigé
             }
 
-            // Validate Date
+            // Date
             LocalDate date = datePicker.getValue();
             LocalDate today = LocalDate.now();
             if (date == null) {
-                dateErrorLabel.setText("Please select a reservation date.");
+                dateErrorLabel.setText("Veuillez choisir une date.");
+                dateErrorLabel.setVisible(true);
                 hasError = true;
             } else if (date.isBefore(today)) {
-                dateErrorLabel.setText("The date cannot be in the past.");
+                dateErrorLabel.setText("La date ne peut pas être dans le passé.");
+                dateErrorLabel.setVisible(true);
                 hasError = true;
             } else if (date.isAfter(today.plusWeeks(2))) {
-                dateErrorLabel.setText("The date must be within the next 2 weeks.");
+                dateErrorLabel.setText("La date doit être dans les deux semaines à venir.");
+                dateErrorLabel.setVisible(true);
                 hasError = true;
             }
 
-            // Validate Time
-            Integer hour = hourComboBox.getValue();
-            Integer minute = minuteComboBox.getValue();
-            if (hour == null || minute == null) {
-                timeErrorLabel.setText("Please select a valid time.");
+            // Heure
+            String hourStr = hourComboBox.getValue();
+            String minuteStr = minuteComboBox.getValue();
+            if (hourStr == null || minuteStr == null) {
+                timeErrorLabel.setText("Veuillez sélectionner une heure et des minutes.");
+                timeErrorLabel.setVisible(true);
                 hasError = true;
             }
 
-            // Validate Status
-            String status = statusComboBox.getValue();
-            if (status == null || status.trim().isEmpty()) {
-                statusErrorLabel.setText("Please select a reservation status.");
-                hasError = true;
-            }
-
-            // Validate Duration
-            Integer duration = durationSpinner.getValue();
+            // Durée
+            Integer duration = durationComboBox.getValue();
             if (duration == null) {
-                durationErrorLabel.setText("Please select a valid duration.");
+                durationErrorLabel.setText("Veuillez choisir une durée.");
+                durationErrorLabel.setVisible(true);
                 hasError = true;
             }
 
-            // If any error was found, stop here
             if (hasError) return;
 
-            // Combine date and time
+            // Conversion
+            int hour = Integer.parseInt(hourStr);
+            int minute = Integer.parseInt(minuteStr);
+
             LocalDateTime dateTime = LocalDateTime.of(date, java.time.LocalTime.of(hour, minute));
             Date startTime = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
 
-            // Temporary hardcoded availability_id
-            int availability_id = 20;
+            int availability_id = 20; // valeur temporaire
 
-            // Create the reservation
-            reservation newReservation = new reservation(topic, startTime, status, duration, availability_id);
+            reservation newReservation = new reservation(topic, startTime, duration, availability_id);
             ReservationService reservationService = new ReservationService();
             reservationService.add(newReservation);
 
-            // Show success message
-            showAlert(Alert.AlertType.INFORMATION, "Reservation Added", "Reservation added successfully!");
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "Réservation ajoutée avec succès !");
 
-
-            // Optional: Navigate to detail view
+            // Rediriger vers la vue de détails
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/reservation/details.fxml"));
-            Parent root = loader.load(); // This line actually loads the FXML
+            Parent root = loader.load();
             DetailReservationController controller = loader.getController();
-            controller.setReservation(newReservation); // Pass the reservation object
-            topicField.getScene().setRoot(root); // Now this works, since 'root' is defined
-
-
+            controller.setReservation(newReservation);
+            topicField.getScene().setRoot(root);
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // You can also add a hidden label in FXML for unexpected errors if needed
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
-
     @FXML
     void cancelAction(ActionEvent event) {
         try {
-            // Navigate back to the main view or list view
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListReservations.fxml"));
             Parent root = loader.load();
             topicField.getScene().setRoot(root);
         } catch (IOException e) {
-            System.out.println("Error navigating back: " + e.getMessage());
+            System.out.println("Erreur de navigation : " + e.getMessage());
             e.printStackTrace();
         }
     }

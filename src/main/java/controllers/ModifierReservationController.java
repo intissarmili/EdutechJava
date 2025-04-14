@@ -3,41 +3,42 @@ package controllers;
 import models.reservation;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.Scene;
+import javafx.scene.Parent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import service.ReservationService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.stream.IntStream;
 
-public class ModifierReservationController  {
+public class ModifierReservationController {
 
     @FXML private TextField topicField;
     @FXML private DatePicker datePicker;
     @FXML private ComboBox<Integer> hourComboBox;
     @FXML private ComboBox<Integer> minuteComboBox;
-    @FXML private ComboBox<String> statusComboBox;
-    @FXML private Spinner<Integer> durationSpinner;
+    @FXML private ComboBox<Integer> durationComboBox;
 
     private reservation currentReservation;
 
-
-
     @FXML
     public void initialize() {
-        durationSpinner.setValueFactory(
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(15, 240, 30, 15)
-        );
+        // Heures : 0 à 23
+        hourComboBox.getItems().addAll(IntStream.range(0, 24).boxed().toList());
+        // Minutes : 0 à 59 (de 5 en 5)
+        minuteComboBox.getItems().addAll(IntStream.range(0, 60).filter(i -> i % 5 == 0).boxed().toList());
+
+        // Durée
+        durationComboBox.getItems().addAll(15, 20, 30);
+        durationComboBox.setValue(15);
     }
 
     public void setReservation(reservation r) {
         this.currentReservation = r;
 
-        // populate fields
         topicField.setText(r.getTopic());
 
         Date start = r.getStart_time();
@@ -46,14 +47,14 @@ public class ModifierReservationController  {
         hourComboBox.setValue(localDateTime.getHour());
         minuteComboBox.setValue(localDateTime.getMinute());
 
-        statusComboBox.setValue(r.getStatus());
-        durationSpinner.getValueFactory().setValue(r.getDuration());
+        durationComboBox.setValue(r.getDuration());
     }
 
     @FXML
     void updateReservationAction(ActionEvent event) {
         try {
             currentReservation.setTopic(topicField.getText());
+
             LocalDate date = datePicker.getValue();
             int hour = hourComboBox.getValue();
             int minute = minuteComboBox.getValue();
@@ -61,8 +62,7 @@ public class ModifierReservationController  {
             Date startTime = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
             currentReservation.setStart_time(startTime);
 
-            currentReservation.setStatus(statusComboBox.getValue());
-            currentReservation.setDuration(durationSpinner.getValue());
+            currentReservation.setDuration(durationComboBox.getValue());
 
             ReservationService service = new ReservationService();
             service.update(currentReservation);
@@ -80,9 +80,8 @@ public class ModifierReservationController  {
 
     @FXML
     void cancelAction(ActionEvent event) {
-        // Go back to details
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DetailReservation.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reservation/details.fxml"));
             Parent root = loader.load();
             DetailReservationController controller = loader.getController();
             controller.setReservation(currentReservation);

@@ -6,7 +6,7 @@ public class reservation {
     private int id;
     private String topic;
     private Date start_time;
-    private String  status;
+    private String status ;
     private int duration;
     private int avaibility_id;
 
@@ -19,10 +19,10 @@ public class reservation {
         this.avaibility_id = avaibility_id;
          }
 
-    public reservation(String topic, Date start_time, String status, int duration, int avaibility_id) {
+    public reservation(String topic, Date start_time, int duration, int avaibility_id) {
         this.topic = topic;
         this.start_time = start_time;
-        this.status = status;
+        this.status = "Not Confirmed"; // set by default
         this.duration = duration;
         this.avaibility_id = avaibility_id;
     }
