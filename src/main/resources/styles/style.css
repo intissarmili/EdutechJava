@@ -214,6 +214,7 @@ Label {
     -fx-graphic-text-gap: 8px;
 }
 
+
 .save-button:hover {
     -fx-background-color: derive(-fx-primary-green, 10%);
 }

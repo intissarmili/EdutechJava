@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class Home extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/reservation/create.fxml")); // vérifie le chemin
+        Parent root = FXMLLoader.load(getClass().getResource("/avaibility/create.fxml")); // vérifie le chemin
         primaryStage.setTitle("JavaFX App");
         primaryStage.setScene(new Scene(root, 1024, 768));
         primaryStage.show();
