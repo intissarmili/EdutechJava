@@ -33,6 +33,7 @@ public class CategoryEventService implements categoryeventinterface {
                         categoryEvent.setId(generatedKeys.getInt(1));
                     }
                 }
+
             } else {
                 System.out.println("⚠️ Aucune ligne n'a été insérée.");
             }
