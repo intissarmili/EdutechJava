@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.AjouterEventController"
+      spacing="15"
+      style="-fx-padding: 20;"
+      alignment="TOP_CENTER"
+      prefWidth="600"
+      prefHeight="650">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Ajouter un nouvel événement" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="15" vgap="15">
+        <columnConstraints>
+            <ColumnConstraints prefWidth="150" halignment="RIGHT"/>
+            <ColumnConstraints prefWidth="300" hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <!-- Titre -->
+        <Label text="Titre:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="titleField" promptText="Titre de l'événement" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <!-- Description -->
+        <Label text="Description:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <TextArea fx:id="descriptionArea" promptText="Description de l'événement" GridPane.rowIndex="1" GridPane.columnIndex="1" prefHeight="100" wrapText="true"/>
+
+        <!-- Catégorie -->
+        <Label text="Catégorie:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="categoryField" promptText="Sélectionnez une catégorie" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <!-- Date -->
+        <Label text="Date:" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <DatePicker fx:id="datePicker" promptText="Sélectionnez une date" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <!-- Heure -->
+        <Label text="Heure (HH:mm):" GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="timeField" promptText="Ex: 14:30" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <!-- Image/Photo -->
+        <Label text="Image:" GridPane.rowIndex="5" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <HBox spacing="10" GridPane.rowIndex="5" GridPane.columnIndex="1" alignment="CENTER_LEFT">
+            <Button fx:id="photoButton" text="Choisir une image" onAction="#handleChoosePhoto"/>
+            <Label fx:id="photoPathLabel" text="Aucune image sélectionnée"/>
+        </HBox>
+    </GridPane>
+
+    <!-- Messages de validation -->
+    <Label fx:id="validationMessageLabel" style="-fx-text-fill: red;" wrapText="true"/>
+
+    <!-- Barre de séparation -->
+    <Separator/>
+
+    <!-- Boutons d'action -->
+    <HBox spacing="15" alignment="CENTER_RIGHT">
+        <Button fx:id="cancelButton" text="Annuler" onAction="#handleCancel"
+                style="-fx-background-color: #f0f0f0; -fx-padding: 8 15 8 15;"/>
+        <Button fx:id="saveButton" text="Enregistrer" onAction="#handleSave" defaultButton="true"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 8 15 8 15;"/>
+    </HBox>
+</VBox>
