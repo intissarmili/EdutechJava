@@ -34,6 +34,7 @@ public class CategoryEventService implements categoryeventinterface {
                     }
                 }
 
+
             } else {
                 System.out.println("⚠️ Aucune ligne n'a été insérée.");
             }
