@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.AjouterAvaibilityController"
+            stylesheets="@../styles/style.css"
+            prefHeight="520.0" prefWidth="650.0">
+
+    <VBox spacing="20" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="30.0"
+          AnchorPane.rightAnchor="30.0" AnchorPane.bottomAnchor="20.0"
+          styleClass="form-container">
+
+        <Label text="Nouvelle Disponibilité"
+               styleClass="form-title"/>
+
+        <GridPane hgap="10" vgap="15">
+            <padding>
+                <Insets top="10" />
+            </padding>
+
+            <columnConstraints>
+                <ColumnConstraints minWidth="120" />
+                <ColumnConstraints prefWidth="400" hgrow="ALWAYS" />
+            </columnConstraints>
+
+            <!-- Date -->
+            <Label text="Date :" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <VBox spacing="3" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <DatePicker fx:id="datePicker" promptText="Choisir une date" styleClass="input-field"/>
+                <Label fx:id="dateErrorLabel" textFill="red" styleClass="error-label" />
+            </VBox>
+
+            <!-- Heure de début -->
+            <Label text="Heure de début :" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <VBox spacing="3" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <ComboBox fx:id="startHourComboBox" prefWidth="90" promptText="Heure" styleClass="time-input"/>
+                    <Label text=":"/>
+                    <ComboBox fx:id="startMinuteComboBox" prefWidth="90" promptText="Min" styleClass="time-input"/>
+                </HBox>
+                <Label fx:id="startTimeErrorLabel" textFill="red" styleClass="error-label" />
+            </VBox>
+
+            <!-- Heure de fin -->
+            <Label text="Heure de fin :" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <VBox spacing="3" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <ComboBox fx:id="endHourComboBox" prefWidth="90" promptText="Heure" styleClass="time-input"/>
+                    <Label text=":"/>
+                    <ComboBox fx:id="endMinuteComboBox" prefWidth="90" promptText="Min" styleClass="time-input"/>
+                </HBox>
+                <Label fx:id="endTimeErrorLabel" textFill="red" styleClass="error-label" />
+            </VBox>
+        </GridPane>
+
+        <HBox spacing="20" alignment="CENTER_RIGHT">
+            <Button text="Annuler" fx:id="cancelButton" onAction="#cancelAction" styleClass="cancel-button" />
+            <Button text="Enregistrer" fx:id="saveButton" onAction="#saveavaibilityAction" styleClass="save-button" />
+            <Button text="Back to List" fx:id="BackButton" onAction="#handleCancelOrBack" />
+        </HBox>
+    </VBox>
+</AnchorPane>

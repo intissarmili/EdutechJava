@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.ReservationListController">
+    <TableView fx:id="reservationTable" layoutX="14" layoutY="14" prefWidth="600" prefHeight="400">
+        <columns>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
+            <TableColumn fx:id="topicColumn" text="Topic" prefWidth="100"/>
+            <TableColumn fx:id="startTimeColumn" text="Start Time" prefWidth="150"/>
+            <TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/>
+            <TableColumn fx:id="durationColumn" text="Duration (min)" prefWidth="100"/>
+        </columns>
+    </TableView>
+</AnchorPane>
