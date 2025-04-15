@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/20.0.2"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.FeedItemController"
+      style="-fx-padding: 15; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-color: #fff;"
+      spacing="10">
+
+    <Label fx:id="feedContent" wrapText="true" style="-fx-font-size: 14;"/>
+
+    <HBox spacing="10">
+        <Button fx:id="btnEditFeed" text="✏️ Modifier" style="-fx-background-color: #FFC107; -fx-text-fill: black;"/>
+        <Button fx:id="btnDeleteFeed" text="🗑️ Supprimer" style="-fx-background-color: #F44336; -fx-text-fill: white;"/>
+    </HBox>
+
+    <VBox fx:id="commentsContainer" spacing="8" style="-fx-padding: 10 0 0 20;"/>
+
+    <HBox spacing="10">
+        <TextField fx:id="newCommentField"
+                   promptText="Ajouter un commentaire..."
+                   style="-fx-pref-width: 300;"
+                   onKeyReleased="#checkCommentLength"/>
+        <Button fx:id="btnAddComment"
+                text="Ajouter"
+                onAction="#handleAddComment"
+                style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+    </HBox>
+    <Label fx:id="commentLengthLabel" text="0/10" style="-fx-text-fill: grey; -fx-font-size: 12;"/>
+</VBox>
