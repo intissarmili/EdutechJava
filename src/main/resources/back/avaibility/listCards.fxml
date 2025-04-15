@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.back.ListAvaibilityController"
+            style="-fx-background-color: #ECEFF1;">
+
+    <!-- Header -->
+    <HBox spacing="20" layoutX="20" layoutY="20"
+          AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+        <Label text="Availability Management"
+               style="-fx-font-size: 22px; -fx-text-fill: #2C3E50; -fx-font-weight: bold;"
+               HBox.hgrow="ALWAYS"/>
+
+        <Button text="Add"
+                fx:id="addButton"
+                style="-fx-background-color: #34495E; -fx-text-fill: white; -fx-font-weight: bold;"
+                onAction="#handleAddAvaibility"/>
+    </HBox>
+
+    <!-- Main content area -->
+    <StackPane fx:id="contentPane"
+               layoutX="20" layoutY="70"
+               AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20"
+               AnchorPane.topAnchor="70" AnchorPane.bottomAnchor="20"
+               style="-fx-background-color: #F7F9FA; -fx-border-color: #B0BEC5; -fx-border-radius: 4; -fx-padding: 10;">
+
+        <!-- List View -->
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+            <VBox fx:id="cardsContainer" spacing="12" style="-fx-padding: 10;"/>
+        </ScrollPane>
+
+        <!-- Details View -->
+        <AnchorPane fx:id="detailsPane" visible="false"
+                    style="-fx-background-color: white; -fx-border-color: #CFD8DC; -fx-border-width: 1; -fx-border-radius: 6;">
+            <Label fx:id="detailsTitle" text="Availability Details"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2C3E50;"
+                   layoutX="20" layoutY="20"/>
+
+            <VBox spacing="8" layoutX="20" layoutY="60">
+                <Label fx:id="detailsDate" style="-fx-font-size: 14; -fx-text-fill: #37474F;"/>
+                <Label fx:id="detailsTime" style="-fx-font-size: 14; -fx-text-fill: #37474F;"/>
+                <Label fx:id="detailsTutor" style="-fx-font-size: 14; -fx-text-fill: #37474F;"/>
+
+                <Button text="Back" onAction="#handleBackToList"
+                        style="-fx-background-color: #546E7A; -fx-text-fill: white;"/>
+            </VBox>
+        </AnchorPane>
+
+    </StackPane>
+
+</AnchorPane>

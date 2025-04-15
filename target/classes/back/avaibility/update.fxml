@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="520.0" prefWidth="650.0"
+            xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.back.ModifierAvaibilityController">
+
+    <VBox alignment="TOP_CENTER" layoutX="60.0" layoutY="30.0" spacing="25.0" prefWidth="530.0">
+        <Label text="Modifier la Disponibilité" styleClass="form-title" />
+
+        <!-- Date -->
+        <VBox spacing="5.0">
+            <Label text="Date" />
+            <DatePicker fx:id="datePicker" prefHeight="30.0" />
+            <Label fx:id="dateErrorLabel" textFill="RED" />
+        </VBox>
+
+        <!-- Heure de début -->
+        <VBox spacing="5.0">
+            <Label text="Heure de début" />
+            <HBox spacing="10.0">
+                <ComboBox fx:id="startHourComboBox" prefWidth="120.0" promptText="Heure" />
+                <Label text=":"/>
+                <ComboBox fx:id="startMinuteComboBox" prefWidth="120.0" promptText="Min" />
+            </HBox>
+            <Label fx:id="startTimeErrorLabel" textFill="RED" />
+        </VBox>
+
+        <!-- Heure de fin -->
+        <VBox spacing="5.0">
+            <Label text="Heure de fin" />
+            <HBox spacing="10.0">
+                <ComboBox fx:id="endHourComboBox" prefWidth="120.0" promptText="Heure" />
+                <Label text=":"/>
+                <ComboBox fx:id="endMinuteComboBox" prefWidth="120.0" promptText="Min" />
+            </HBox>
+            <Label fx:id="endTimeErrorLabel" textFill="RED" />
+        </VBox>
+
+        <!-- Boutons -->
+        <HBox spacing="20.0" alignment="CENTER">
+            <Button text="Annuler" onAction="#cancelAction" styleClass="cancel-button" />
+            <Button text="Mettre à jour" onAction="#updateAvaibilityAction" styleClass="save-button" />
+        </HBox>
+    </VBox>
+</AnchorPane>
