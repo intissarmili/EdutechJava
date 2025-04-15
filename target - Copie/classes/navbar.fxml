@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.Insets?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/21.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.NavbarController"
+ fitToWidth="false" hbarPolicy="ALWAYS" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="500.0" style="-fx-background: #1cacd2; -fx-background-color: #1cacd2;" vbarPolicy="NEVER" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0">
+
+    <content>
+        <!-- HBox avec largeur étendue pour forcer le scroll -->
+        <HBox minHeight="75.0" prefHeight="75.0" prefWidth="1339.0" style="-fx-padding: 20px; -fx-spacing: 20; -fx-alignment: center-left; -fx-background-color: #1cacd2; -fx-min-height: 80;">
+            <!-- Logo -->
+            <HBox alignment="CENTER_LEFT" spacing="0" style="-fx-padding: 0 30 0 0;">
+                <Label text="EduTech" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: white;" />
+                <Label text="." style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #16ac63;" />
+            </HBox>
+
+            <!-- Menu principal - Contenu étendu -->
+            <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-background-color: #1cacd2;">
+                <!-- Vos boutons existants... -->
+                <Button text="Accueil" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 90; -fx-font-size: 16px; -fx-padding: 5 0;" />
+
+                <MenuButton text="Réservation" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 120; -fx-font-size: 16px; -fx-padding: 5 0;">
+                    <items>
+                        <MenuItem text="Disponibilité" style="-fx-text-fill: black;"/>
+                        <MenuItem text="Mes réservations" style="-fx-text-fill: black;"/>
+                    </items>
+                </MenuButton>
+
+                <Button text="Portfolio" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 90; -fx-font-size: 16px; -fx-padding: 5 0;" />
+                <Button text="Abonnements" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 110; -fx-font-size: 16px; -fx-padding: 5 0;" />
+                <Button text="Team" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 70; -fx-font-size: 16px; -fx-padding: 5 0;" />
+                <Button text="Cours" onAction="#naviguerVersBlogCours" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 70; -fx-font-size: 16px; -fx-padding: 5 0;" />
+                <Button text="Feed" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 70; -fx-font-size: 16px; -fx-padding: 5 0;" />
+
+                <!-- Icônes -->
+                <StackPane style="-fx-padding: 0 10 0 0;">
+                    <Button text="🔔" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px; -fx-min-width: 40; -fx-padding: 5 0;" />
+                    <Circle radius="7" fill="#ff0000" translateX="12" translateY="-10" />
+                </StackPane>
+
+                <Button text="🛒" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px; -fx-min-width: 40; -fx-padding: 5 0;" />
+                <Button text="❤️" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px; -fx-min-width: 40; -fx-padding: 5 0;" />
+
+                <MenuButton text="Gérer" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 90; -fx-font-size: 16px; -fx-padding: 5 0;">
+                    <items>
+                        <MenuItem text="Gérer Cours" onAction="#naviguerVersAffichierCours" style="-fx-text-fill: black;"/>
+                        <MenuItem text="Gérer Certificat" onAction="#naviguerVersAffichierCertificat" style="-fx-text-fill: black;"/>
+                        <MenuItem text="Gérer Quiz" onAction="#naviguerVersAffichierQuiz" style="-fx-text-fill: black;"/>
+                        <MenuItem text="Gérer Question" onAction="#naviguerVersAffichierQuestion" style="-fx-text-fill: black;"/>
+                    </items>
+                </MenuButton>
+            </HBox>
+
+            <!-- Bouton Commencer -->
+            <Button text="Commencer"
+                    style="-fx-background-color: #16ac63; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-font-size: 16px; -fx-background-radius: 5; -fx-min-width: 120;"/>
+        </HBox>
+    </content>
+</ScrollPane>

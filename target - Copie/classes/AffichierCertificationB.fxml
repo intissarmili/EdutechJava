@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<VBox xmlns="http://javafx.com/javafx/21.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.affichierCertificationControllerB"
+      style="-fx-background-color: #f5f5f5; -fx-padding: 20px;"
+      spacing="20">
+
+    <!-- Tableau des certifications -->
+    <TableView fx:id="certificationTable" style="-fx-font-size: 14px;">
+        <columns>
+            <TableColumn fx:id="idCol" text="ID" prefWidth="60"/>
+            <TableColumn fx:id="nomCol" text="Nom" prefWidth="150"/>
+            <TableColumn fx:id="descriptionCol" text="Description" prefWidth="300"/>
+            <TableColumn fx:id="prixCol" text="Prix" prefWidth="80"/>
+            <TableColumn fx:id="prixPieceCol" text="Prix Pièce" prefWidth="80"/>
+            <TableColumn fx:id="noteCol" text="Note" prefWidth="60"/>
+            <TableColumn fx:id="actionsCol" text="Actions" prefWidth="120"/>
+        </columns>
+    </TableView>
+
+    <!-- Boutons d'actions -->
+    <HBox alignment="CENTER" spacing="25">
+        <Button fx:id="backBtn" text="⬅ Retour"/>
+        <Button fx:id="addBtn" text="➕ Ajouter"/>
+        <Button fx:id="deleteBtn" text="🗑️ Supprimer" disable="true"/>
+    </HBox>
+</VBox>

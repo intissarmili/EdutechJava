@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.Back.affichierQuizController"
+            style="-fx-background-color: #f6f9ff; -fx-padding: 20px;">
+
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 0 0 20px 0;">
+            <Label text="Gestion des Quiz" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #4154f1;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="addBtn" text="Ajouter Quiz" style="-fx-background-color: #4154f1; -fx-text-fill: white;" />
+        </HBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.7">
+            <items>
+                <TableView fx:id="quizTable">
+                    <columns>
+                        <TableColumn fx:id="idCol" text="ID" />
+                        <TableColumn fx:id="noteCol" text="Note" />
+                        <TableColumn fx:id="prixPieceCol" text="Prix Pièce" />
+                        <TableColumn fx:id="coursIdCol" text="Cours ID" />
+                        <TableColumn fx:id="questionsCol" text="Questions" />
+                        <TableColumn fx:id="actionsCol" text="Actions" />
+                    </columns>
+                </TableView>
+
+                <VBox spacing="10" style="-fx-padding: 10px;">
+                    <Label text="Questions associées:" style="-fx-font-weight: bold;" />
+                    <ListView fx:id="questionsListView" />
+                    <Button fx:id="deleteBtn" text="Supprimer" style="-fx-background-color: #ff3d3d; -fx-text-fill: white;"
+                            disable="true" />
+                </VBox>
+            </items>
+        </SplitPane>
+    </center>
+</BorderPane>

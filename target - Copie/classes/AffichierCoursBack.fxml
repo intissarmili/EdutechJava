@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.*?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.affichierCoursController" style="-fx-background-color: #f5f5f5;">
+
+    <!-- Barre de navigation agrandie (80px) -->
+    <ScrollPane fitToWidth="false" hbarPolicy="ALWAYS" vbarPolicy="NEVER"
+                style="-fx-background: #1cacd2; -fx-background-color: #1cacd2;"
+                AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"
+                prefHeight="80">
+        <content>
+            <HBox style="-fx-padding: 20px; -fx-spacing: 20; -fx-alignment: center-left; -fx-background-color: #1cacd2; -fx-min-height: 80;">
+                <!-- Logo plus visible -->
+                <HBox alignment="CENTER_LEFT" spacing="0" style="-fx-padding: 0 30 0 0;">
+                    <Label text="EduTech" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: white;" />
+                    <Label text="." style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #16ac63;" />
+                </HBox>
+
+                <!-- Menu principal avec éléments agrandis -->
+                <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-background-color: #1cacd2;">
+                    <Button text="Accueil" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 90; -fx-font-size: 16px; -fx-padding: 5 0;" />
+
+                    <MenuButton text="Réservation" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 120; -fx-font-size: 16px; -fx-padding: 5 0;">
+                        <items>
+                            <MenuItem text="Disponibilité" style="-fx-text-fill: black;"/>
+                            <MenuItem text="Mes réservations" style="-fx-text-fill: black;"/>
+                        </items>
+                        <contextMenu>
+                            <ContextMenu style="-fx-background-color: white;"/>
+                        </contextMenu>
+                    </MenuButton>
+
+                    <Button text="Portfolio" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 90; -fx-font-size: 16px; -fx-padding: 5 0;" />
+                    <Button text="Abonnements" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 110; -fx-font-size: 16px; -fx-padding: 5 0;" />
+                    <Button text="Team" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 70; -fx-font-size: 16px; -fx-padding: 5 0;" />
+                    <Button text="Cours" onAction="#naviguerVersBlogCours" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 70; -fx-font-size: 16px; -fx-padding: 5 0;" />
+                    <Button text="Feed" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 70; -fx-font-size: 16px; -fx-padding: 5 0;" />
+
+                    <!-- Icônes agrandies -->
+                    <StackPane style="-fx-padding: 0 10 0 0;">
+                        <Button text="🔔" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px; -fx-min-width: 40; -fx-padding: 5 0;" />
+                        <Circle radius="7" fill="#ff0000" translateX="12" translateY="-10" />
+                    </StackPane>
+
+                    <Button text="🛒" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px; -fx-min-width: 40; -fx-padding: 5 0;" />
+                    <Button text="❤️" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 20px; -fx-min-width: 40; -fx-padding: 5 0;" />
+
+                    <MenuButton text="Gérer" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 90; -fx-font-size: 16px; -fx-padding: 5 0;">
+                        <items>
+                            <MenuItem text="Gérer Cours" onAction="#naviguerVersAffichierCours" style="-fx-text-fill: black;"/>
+                            <MenuItem text="Gérer Certificat" onAction="#naviguerVersAffichierCertificat" style="-fx-text-fill: black;"/>
+                            <MenuItem text="Gérer Quiz" onAction="#naviguerVersAffichierQuiz" style="-fx-text-fill: black;"/>
+                            <MenuItem text="Gérer Question" onAction="#naviguerVersAffichierQuestion" style="-fx-text-fill: black;"/>
+                        </items>
+                        <contextMenu>
+                            <ContextMenu style="-fx-background-color: white;"/>
+                        </contextMenu>
+                    </MenuButton>
+                </HBox>
+
+                <!-- Bouton Commencer plus visible -->
+                <Button text="Commencer"
+                        style="-fx-background-color: #16ac63; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-font-size: 16px; -fx-background-radius: 5; -fx-min-width: 120;"/>
+            </HBox>
+        </content>
+    </ScrollPane>
+
+    <!-- Contenu principal avec espacement accru -->
+    <VBox alignment="CENTER" spacing="25" style="-fx-padding: 30 20 20 20;"
+          AnchorPane.topAnchor="90" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <!-- Tableau des cours -->
+        <TableView fx:id="TableCours" style="-fx-font-size: 14px;">
+            <columns>
+                <TableColumn fx:id="IdcoursColum" text="ID" prefWidth="60">
+                    <cellValueFactory><PropertyValueFactory property="id"/></cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="IdcertifColum" text="Certif" prefWidth="60">
+                    <cellValueFactory><PropertyValueFactory property="certificationId"/></cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="idTitreColum" text="Titre" prefWidth="200">
+                    <cellValueFactory><PropertyValueFactory property="titre"/></cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="idContenuColum" text="Contenu" prefWidth="300">
+                    <cellValueFactory><PropertyValueFactory property="contenu"/></cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="idCategorieColum" text="Catégorie" prefWidth="150">
+                    <cellValueFactory><PropertyValueFactory property="categorie"/></cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="actionsColum" text="Actions" prefWidth="120">
+                    <!-- La cellule sera gérée dans le contrôleur -->
+                </TableColumn>
+            </columns>
+        </TableView>
+
+        <!-- Boutons d'actions -->
+        <HBox alignment="CENTER" spacing="25">
+            <Button fx:id="btnAddCours" text="➕ Ajouter"
+                    style="-fx-background-color: #16ac63; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-font-size: 14px; -fx-background-radius: 3;"
+                    onAction="#naviguerVersAjoutCours"/>
+
+            <Button fx:id="btnSupCours" text="🗑️ Supprimer"
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-font-size: 14px; -fx-background-radius: 3;"
+                    onAction="#supprimerCours"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
