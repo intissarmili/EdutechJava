@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5bff7771-b0c0-4976-909f-48e1253efed7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/controllers/back/AjouterAvaibilityController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controllers/back/DetailAvaibilityController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controllers/back/ListAvaibilityController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controllers/back/ModifierAvaibilityController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/back/avaibility/AvaibilityCard.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/back/avaibility/create.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/back/avaibility/details.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/back/avaibility/listCards.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/back/avaibility/update.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/back/reservation/create.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/back/reservation/details.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/back/reservation/list.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/back/reservation/update.fxml" afterDir="false" />
-    </list>
+    <list default="true" id="5bff7771-b0c0-4976-909f-48e1253efed7" name="Changes" comment="test" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,7 +22,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="reservation" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -61,32 +47,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Home.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Maven.Projet [install].executor": "Run",
-    "Maven.Projet [org.apache.maven.plugins:maven-install-plugin:3.1.2:install].executor": "Run",
-    "Maven.workshopjdbc3a [install].executor": "Run",
-    "Maven.workshopjdbc3a [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/lenovo/IdeaProjects/Projet/src/main/java/controllers/back",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "C:/Users/lenovo/IdeaProjects/Projet/src/main/java/org/example/Main.java",
-    "settings.editor.selected.configurable": "preferences.JavaFX",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Home.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Projet [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Projet [org.apache.maven.plugins:maven-install-plugin:3.1.2:install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.workshopjdbc3a [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.workshopjdbc3a [org.openjfx:javafx-maven-plugin:0.0.8:run].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/lenovo/IdeaProjects/Projet/src/main/java/controllers/back&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/lenovo/IdeaProjects/Projet/src/main/java/org/example/Main.java&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.JavaFX&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\lenovo\IdeaProjects\Projet\src\main\java\controllers\back" />
       <recent name="C:\Users\lenovo\IdeaProjects\Projet\src\main\resources\back" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -124,20 +123,9 @@
       </map>
     </option>
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/controllers/ListAvaibilityController.java</url>
-          <line>170</line>
-          <properties class="controllers.ListAvaibilityController" method="handleShowReservations">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="test" />
+    <option name="LAST_COMMIT_MESSAGE" value="test" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
