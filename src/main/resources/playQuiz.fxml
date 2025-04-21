@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<VBox spacing="30" alignment="TOP_CENTER"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.QuizView"
+      style="-fx-padding: 30; -fx-background-color: #f7f9fc;">
+
+    <!-- Conteneur principal des questions -->
+    <VBox fx:id="quizContainer" spacing="20">
+        <!-- Question affichée -->
+        <Label fx:id="labelQuestion" wrapText="true"
+               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
+               maxWidth="600"/>
+
+        <!-- Choix de réponses -->
+        <VBox fx:id="optionsBox" spacing="12"/>
+
+        <!-- Navigation -->
+        <HBox spacing="20" alignment="CENTER">
+            <Button text="⏮ Précédent" onAction="#handlePrevious"
+                    style="-fx-background-color: #bdc3c7; -fx-text-fill: white;"/>
+            <Button text="⏭ Suivant" onAction="#handleNext"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+            <Button text="✅ Soumettre" onAction="#handleSubmit"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+        </HBox>
+    </VBox>
+
+    <!-- Conteneur des résultats (initialement caché) -->
+    <VBox fx:id="resultsContainer" spacing="20" alignment="CENTER" visible="false">
+        <Label fx:id="resultIcon" style="-fx-font-size: 48px;"/>
+        <Label fx:id="scoreLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        <Label fx:id="coinsLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        <Button text="Terminer" onAction="#handleFinish"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16px;"/>
+    </VBox>
+
+    <!-- Résultat partiel -->
+    <Label fx:id="noteLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+</VBox>

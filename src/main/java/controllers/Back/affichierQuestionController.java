@@ -1,10 +1,8 @@
 package controllers.Back;
 
-import controllers.modifierQuestionController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -39,6 +37,7 @@ public class affichierQuestionController {
     public void initialize() {
         configureTableColumns();
         loadQuestions();
+        setupSelectionListener();
     }
 
     private void configureTableColumns() {
@@ -50,7 +49,10 @@ public class affichierQuestionController {
                 new SimpleStringProperty(String.join(" | ", cellData.getValue().getOptions()))
         );
 
-        // Colonne modification unique
+        setupActionsColumn();
+    }
+
+    private void setupActionsColumn() {
         actionsColum.setCellFactory(param -> new TableCell<>() {
             private final Button modifyButton = new Button("✏️ Modifier");
 
@@ -82,15 +84,25 @@ public class affichierQuestionController {
         }
     }
 
+    private void setupSelectionListener() {
+        tableView.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldSelection, newSelection) ->
+                        btnSupQuestion.setDisable(newSelection == null)
+        );
+    }
+
     @FXML
-    private void BouttonAddQuestion(ActionEvent event) {
+    private void handleAddQuestion() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Back/AjouterQuestion.fxml"));
             Parent root = loader.load();
+
             Stage stage = new Stage();
-            stage.setScene(new Scene(root, 1024, 768));
+            stage.setScene(new Scene(root));
             stage.setTitle("Ajouter une Question");
-            stage.show();
+            stage.showAndWait();
+
+            loadQuestions(); // Rafraîchir après ajout
         } catch (IOException e) {
             showAlert("Erreur", "Ouverture impossible : " + e.getMessage(), Alert.AlertType.ERROR);
         }
@@ -105,7 +117,7 @@ public class affichierQuestionController {
             controller.setQuestion(question);
 
             Stage stage = new Stage();
-            stage.setScene(new Scene(root, 1024, 768));
+            stage.setScene(new Scene(root));
             stage.setTitle("Modifier Question");
             stage.showAndWait();
 
@@ -116,7 +128,7 @@ public class affichierQuestionController {
     }
 
     @FXML
-    private void BouttonSupQuestion(ActionEvent event) {
+    private void handleDeleteQuestion() {
         Question selected = tableView.getSelectionModel().getSelectedItem();
 
         if (selected == null) {

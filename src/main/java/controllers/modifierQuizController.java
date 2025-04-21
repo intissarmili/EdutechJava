@@ -5,7 +5,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.Quiz;
 import services.QuizService;
-
+import services.CoursService;
 import java.sql.SQLException;
 
 public class modifierQuizController {
@@ -16,20 +16,64 @@ public class modifierQuizController {
     @FXML private Button updateBtn;
 
     private QuizService quizService;
+    private CoursService coursService;
     private Quiz quiz;
+    private Runnable onQuizUpdated;
 
     @FXML
     public void initialize() {
         quizService = new QuizService();
+        coursService = new CoursService();
         setupButtons();
-        // Ici vous devriez peupler le ComboBox avec les IDs des cours disponibles
-        // coursComboBox.setItems(...);
+        populateCoursComboBox();
+    }
+
+    public void setOnQuizUpdated(Runnable callback) {
+        this.onQuizUpdated = callback;
+    }
+
+    private void populateCoursComboBox() {
+        try {
+            coursComboBox.getItems().clear();
+            coursComboBox.getItems().addAll(coursService.getAllCoursIds());
+
+            coursComboBox.setCellFactory(lv -> new ListCell<Integer>() {
+                @Override
+                protected void updateItem(Integer item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText("Cours #" + item);
+                    }
+                }
+            });
+
+            coursComboBox.setButtonCell(new ListCell<Integer>() {
+                @Override
+                protected void updateItem(Integer item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText("Sélectionnez un cours");
+                    } else {
+                        setText("Cours #" + item);
+                    }
+                }
+            });
+
+        } catch (SQLException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur de chargement",
+                    "Impossible de charger la liste des cours: " + e.getMessage());
+        }
     }
 
     public void setQuizData(Quiz quiz) {
         this.quiz = quiz;
         prixPieceField.setText(String.valueOf(quiz.getPrixPiece()));
-        coursComboBox.setValue(quiz.getCoursId());
+
+        if (quiz.getCoursId() != null) {
+            coursComboBox.getSelectionModel().select(quiz.getCoursId());
+        }
     }
 
     private void setupButtons() {
@@ -47,19 +91,25 @@ public class modifierQuizController {
             quiz.setCoursId(coursComboBox.getValue());
 
             quizService.update(quiz);
-            showAlert("Succès", "Modification réussie", "Le quiz a été modifié avec succès.", Alert.AlertType.INFORMATION);
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "Quiz modifié avec succès");
+
+            if (onQuizUpdated != null) {
+                onQuizUpdated.run();
+            }
+
             closeWindow();
         } catch (SQLException e) {
-            showAlert("Erreur", "Erreur lors de la modification", e.getMessage(), Alert.AlertType.ERROR);
+            showAlert(Alert.AlertType.ERROR, "Erreur de modification",
+                    "Échec de la modification du quiz: " + e.getMessage());
         } catch (NumberFormatException e) {
-            showAlert("Erreur", "Format invalide", "Veuillez entrer une valeur numérique valide pour le prix pièce.", Alert.AlertType.ERROR);
+            showAlert(Alert.AlertType.ERROR, "Format invalide",
+                    "Veuillez entrer une valeur numérique valide pour le prix pièce");
         }
     }
 
     private boolean validateInputs() {
         StringBuilder errors = new StringBuilder();
 
-        // Validation du prix pièce
         try {
             int prixPiece = Integer.parseInt(prixPieceField.getText());
             if (prixPiece <= 0 || prixPiece > 700) {
@@ -69,13 +119,12 @@ public class modifierQuizController {
             errors.append("- Le prix pièce doit être un nombre valide\n");
         }
 
-        // Validation du cours
         if (coursComboBox.getValue() == null) {
             errors.append("- Vous devez sélectionner un cours\n");
         }
 
         if (errors.length() > 0) {
-            showAlert("Erreur de validation", "Veuillez corriger les erreurs suivantes", errors.toString(), Alert.AlertType.ERROR);
+            showAlert(Alert.AlertType.ERROR, "Erreurs de validation", errors.toString());
             return false;
         }
 
@@ -87,11 +136,11 @@ public class modifierQuizController {
         stage.close();
     }
 
-    private void showAlert(String title, String header, String content, Alert.AlertType type) {
+    private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
         alert.showAndWait();
     }
 }

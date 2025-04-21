@@ -15,7 +15,7 @@ public class Home extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AffichierQuiz.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/BlogCours.fxml"));
             Parent root = loader.load();
 
             Scene scene = new Scene(root, 1024, 768);

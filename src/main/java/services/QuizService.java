@@ -145,10 +145,14 @@ public class QuizService implements IService<Quiz> {
             ps.setInt(1, quizId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
+                    String optionsStr = rs.getString("options");
+                    // On conserve le format brut pour la désérialisation dans Question
+                    String[] options = optionsStr != null ? new String[]{optionsStr} : new String[0];
+
                     questions.add(new Question(
                             rs.getInt("id"),
                             rs.getString("question"),
-                            rs.getString("options").split(","),
+                            options,
                             rs.getString("reponse_correcte"),
                             rs.getInt("quiz_id"),
                             rs.getInt("certification_id")

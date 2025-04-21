@@ -130,6 +130,9 @@ public class affichierCertificationController {
         }
     }
 
+
+
+
     private void handleEditCertification(Certification certification) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Back/ModifierCertification.fxml"));

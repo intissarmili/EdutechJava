@@ -40,8 +40,6 @@
             </GridPane>
 
             <HBox spacing="20.0" alignment="CENTER">
-                <Button text="Annuler" fx:id="cancelBtn" onAction="#handleCancel"
-                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 10 20; -fx-background-radius: 5;" />
 
                 <Button text="+ Ajouter" fx:id="addBtn" onAction="#handleSave"
                         style="-fx-background-color: #16ac63; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 10 20; -fx-background-radius: 5;" />

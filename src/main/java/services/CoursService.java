@@ -9,18 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CoursService implements IService<Cours> {
-    private Connection cnx;
+    private final Connection cnx;
 
     public CoursService() {
         cnx = MyConnection.getInstance().getConnection();
     }
+
     public List<Integer> getAllCoursIds() throws SQLException {
         List<Integer> ids = new ArrayList<>();
         String query = "SELECT id FROM cours";
 
-        try (PreparedStatement ps = cnx.prepareStatement(query);
-             ResultSet rs = ps.executeQuery()) {
-
+        try (Statement st = cnx.createStatement();
+             ResultSet rs = st.executeQuery(query)) {
             while (rs.next()) {
                 ids.add(rs.getInt("id"));
             }
@@ -28,37 +28,41 @@ public class CoursService implements IService<Cours> {
         return ids;
     }
 
-
     public boolean isCertificationUsed(int certificationId) throws SQLException {
         String query = "SELECT COUNT(*) FROM cours WHERE certification_id = ?";
         try (PreparedStatement ps = cnx.prepareStatement(query)) {
             ps.setInt(1, certificationId);
-            ResultSet rs = ps.executeQuery();
-            return rs.next() && rs.getInt(1) > 0;
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
         }
     }
 
     @Override
-
     public void create(Cours cours) throws SQLException {
         if (isCertificationUsed(cours.getCertificationId())) {
             throw new SQLException("La certification ID " + cours.getCertificationId() + " est déjà utilisée");
         }
 
         String query = "INSERT INTO cours(titre, contenu, categorie, certification_id) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement ps = cnx.prepareStatement(query)) {
+        try (PreparedStatement ps = cnx.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, cours.getTitre());
             ps.setString(2, cours.getContenu());
             ps.setString(3, cours.getCategorie());
             ps.setInt(4, cours.getCertificationId());
             ps.executeUpdate();
+
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    cours.setId(rs.getInt(1));
+                }
+            }
         }
     }
 
     @Override
     public void update(Cours cours) throws SQLException {
-        String query = "UPDATE cours SET titre = ?, contenu = ?, categorie = ?, certification_id = ? " +
-                "WHERE id = ?";
+        String query = "UPDATE cours SET titre = ?, contenu = ?, categorie = ?, certification_id = ? WHERE id = ?";
         try (PreparedStatement ps = cnx.prepareStatement(query)) {
             ps.setString(1, cours.getTitre());
             ps.setString(2, cours.getContenu());
@@ -82,9 +86,9 @@ public class CoursService implements IService<Cours> {
     public List<Cours> readAll() throws SQLException {
         List<Cours> coursList = new ArrayList<>();
         String query = "SELECT * FROM cours";
+
         try (Statement st = cnx.createStatement();
              ResultSet rs = st.executeQuery(query)) {
-
             while (rs.next()) {
                 Cours c = new Cours(
                         rs.getInt("id"),

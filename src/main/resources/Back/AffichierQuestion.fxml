@@ -3,7 +3,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21.0.1"
@@ -15,42 +14,28 @@
         <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 0 0 20px 0;">
             <Label text="Gestion des Questions" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #4154f1;" />
             <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="addBtn" text="Ajouter Question" style="-fx-background-color: #4154f1; -fx-text-fill: white;" />
+            <Button fx:id="btnAddQuestion" text="Ajouter Question" style="-fx-background-color: #4154f1; -fx-text-fill: white;" />
         </HBox>
     </top>
 
     <center>
-        <SplitPane dividerPositions="0.8">
-            <items>
-                <TableView fx:id="questionTable" style="-fx-font-size: 14px;">
-                    <columns>
-                        <TableColumn fx:id="idCol" text="ID" prefWidth="60">
-                            <cellValueFactory><PropertyValueFactory property="id"/></cellValueFactory>
-                        </TableColumn>
-                        <TableColumn fx:id="quizIdCol" text="Quiz ID" prefWidth="80">
-                            <cellValueFactory><PropertyValueFactory property="quizId"/></cellValueFactory>
-                        </TableColumn>
-                        <TableColumn fx:id="questionCol" text="Question" prefWidth="300">
-                            <cellValueFactory><PropertyValueFactory property="question"/></cellValueFactory>
-                        </TableColumn>
-                        <TableColumn fx:id="optionsCol" text="Options" prefWidth="350">
-                            <cellValueFactory><PropertyValueFactory property="options"/></cellValueFactory>
-                        </TableColumn>
-                        <TableColumn fx:id="actionsCol" text="Actions" prefWidth="150">
-                            <!-- La cellule sera gérée dans le contrôleur -->
-                        </TableColumn>
-                    </columns>
-                </TableView>
+        <VBox spacing="10">
+            <TableView fx:id="tableView" style="-fx-font-size: 14px;">
+                <columns>
+                    <TableColumn fx:id="idCol" text="ID" prefWidth="50" />
+                    <TableColumn fx:id="quizIdCol" text="Quiz ID" prefWidth="80" />
+                    <TableColumn fx:id="certifIdCol" text="Certif ID" prefWidth="80" />
+                    <TableColumn fx:id="questionCol" text="Question" prefWidth="300" />
+                    <TableColumn fx:id="optionsCol" text="Options" prefWidth="350" />
+                    <TableColumn fx:id="actionsColum" text="Actions" prefWidth="150" />
+                </columns>
+            </TableView>
 
-                <VBox spacing="10" style="-fx-padding: 10px;">
-                    <Label text="Détails de la question:" style="-fx-font-weight: bold;" />
-                    <TextArea fx:id="questionDetails" editable="false" wrapText="true"
-                              style="-fx-font-size: 14px; -fx-min-height: 200;"/>
-                    <Button fx:id="deleteBtn" text="Supprimer"
-                            style="-fx-background-color: #ff3d3d; -fx-text-fill: white;"
-                            disable="true" />
-                </VBox>
-            </items>
-        </SplitPane>
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button fx:id="btnSupQuestion" text="Supprimer Sélection"
+                        style="-fx-background-color: #ff3d3d; -fx-text-fill: white;"
+                        disable="true" />
+            </HBox>
+        </VBox>
     </center>
 </BorderPane>

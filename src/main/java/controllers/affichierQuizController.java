@@ -36,11 +36,10 @@ public class affichierQuizController {
             configureTableColumns();
             setupActionsColumn();
             setupEventHandlers();
-            loadQuizData();
+            refreshQuizData();
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Initialization Error",
-                    "Failed to initialize controller: " + e.getMessage());
-            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur d'initialisation",
+                    "Échec de l'initialisation du contrôleur: " + e.getMessage());
         }
     }
 
@@ -89,13 +88,13 @@ public class affichierQuizController {
         deleteBtn.setOnAction(event -> deleteSelectedQuiz());
     }
 
-    private void loadQuizData() {
+    public void refreshQuizData() {
         try {
             quizzesList.setAll(quizService.readAll());
             quizTable.setItems(quizzesList);
         } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Database Error",
-                    "Failed to load quiz data: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erreur de base de données",
+                    "Échec du chargement des quizzes: " + e.getMessage());
         }
     }
 
@@ -107,10 +106,10 @@ public class affichierQuizController {
             stage.setScene(new Scene(root));
             stage.setTitle("Ajouter Quiz");
             stage.showAndWait();
-            loadQuizData();
+            refreshQuizData();
         } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Window Error",
-                    "Failed to open add window: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erreur de fenêtre",
+                    "Échec de l'ouverture de la fenêtre d'ajout: " + e.getMessage());
         }
     }
 
@@ -122,14 +121,19 @@ public class affichierQuizController {
             modifierQuizController controller = loader.getController();
             controller.setQuizData(quiz);
 
+            // Configuration du callback pour le rafraîchissement
+            controller.setOnQuizUpdated(() -> {
+                refreshQuizData();
+            });
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Modifier Quiz");
             stage.showAndWait();
-            loadQuizData();
+
         } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Window Error",
-                    "Failed to open edit window: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erreur de fenêtre",
+                    "Échec de l'ouverture de la fenêtre de modification: " + e.getMessage());
         }
     }
 
@@ -137,18 +141,20 @@ public class affichierQuizController {
         Quiz selected = quizTable.getSelectionModel().getSelectedItem();
         if (selected == null) return;
 
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
-                "Voulez-vous vraiment supprimer ce quiz?",
-                ButtonType.YES, ButtonType.NO);
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Confirmation de suppression");
+        confirm.setHeaderText(null);
+        confirm.setContentText("Voulez-vous vraiment supprimer ce quiz?");
+
         confirm.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.YES) {
+            if (response == ButtonType.OK) {
                 try {
                     quizService.delete(selected);
                     quizzesList.remove(selected);
                     showAlert(Alert.AlertType.INFORMATION, "Succès", "Quiz supprimé avec succès");
                 } catch (SQLException e) {
-                    showAlert(Alert.AlertType.ERROR, "Database Error",
-                            "Failed to delete quiz: " + e.getMessage());
+                    showAlert(Alert.AlertType.ERROR, "Erreur de base de données",
+                            "Échec de la suppression du quiz: " + e.getMessage());
                 }
             }
         });
