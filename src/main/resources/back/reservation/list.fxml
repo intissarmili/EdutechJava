@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.back.ReservationListController">
+    <!--
+        Backend Note: This table binds to 'reservationTable' in the controller.
+        Columns map to backend fields: id, topic, start_time, status, duration.
+    -->
+    <TableView fx:id="reservationTable" prefWidth="600" prefHeight="400" layoutX="14" layoutY="14">
+        <columns>
+            <!-- Unique identifier (matches backend PK) -->
+            <TableColumn fx:id="idColumn" prefWidth="50" text="ID" />
+
+            <!-- Topic/description of reservation -->
+            <TableColumn fx:id="topicColumn" prefWidth="100" text="Topic" />
+
+            <!-- ISO-8601 datetime (backend-friendly format) -->
+            <TableColumn fx:id="startTimeColumn" prefWidth="150" text="Start Time" />
+
+            <!-- Status: PENDING, CONFIRMED, CANCELLED -->
+            <TableColumn fx:id="statusColumn" prefWidth="100" text="Status" />
+
+            <!-- Duration in minutes (integer) -->
+            <TableColumn fx:id="durationColumn" prefWidth="100" text="Duration (min)" />
+        </columns>
+    </TableView>
+</AnchorPane>

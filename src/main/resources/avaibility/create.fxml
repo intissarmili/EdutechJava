@@ -4,7 +4,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.*?>
-
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.AjouterAvaibilityController"
@@ -61,6 +60,7 @@
         <HBox spacing="20" alignment="CENTER_RIGHT">
             <Button text="Annuler" fx:id="cancelButton" onAction="#cancelAction" styleClass="cancel-button" />
             <Button text="Enregistrer" fx:id="saveButton" onAction="#saveavaibilityAction" styleClass="save-button" />
+            <Button text="Back to List" fx:id="BackButton" onAction="#handleCancelOrBack" />
         </HBox>
     </VBox>
 </AnchorPane>

@@ -1,24 +1,20 @@
-package controllers;
+package controllers.back;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 import models.avaibility;
 import service.AvaibilityService;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.Duration;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class DetailAvaibilityController implements Initializable {
@@ -107,7 +103,7 @@ public class DetailAvaibilityController implements Initializable {
     @FXML
     void backAction(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/avaibility/listCards.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/back/avaibility/listCards.fxml"));
             Parent root = loader.load();
             dateLabel.getScene().setRoot(root);
         } catch (IOException e) {
@@ -129,7 +125,7 @@ public class DetailAvaibilityController implements Initializable {
    @FXML
     void handleUpdate(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/avaibility/update.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/back/avaibility/update.fxml"));
             Parent root = loader.load();
 
             // Get the controller and pass the availability

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.back.ListAvaibilityController"
+            style="-fx-background-color: #f8f9fa;">
+
+    <!-- Header with Add Button -->
+    <HBox spacing="20" alignment="CENTER_LEFT"
+          AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30" AnchorPane.topAnchor="25">
+        <Label text="Tutor Availability"
+               style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
+               HBox.hgrow="ALWAYS"/>
+
+        <Button text="Add Availability"
+                fx:id="addButton"
+                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5;"
+                onAction="#handleAddAvaibility"/>
+    </HBox>
+
+    <!-- Main Content Area -->
+    <StackPane fx:id="contentPane"
+               AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30"
+               AnchorPane.topAnchor="80" AnchorPane.bottomAnchor="25">
+
+        <!-- Table View -->
+        <TableView fx:id="availabilityTable" style="-fx-background-color: transparent;">
+            <columns>
+                <!-- Date Column -->
+                <TableColumn fx:id="dateColumn" text="Date" prefWidth="150"/>
+
+                <!-- Time Column (Handled in controller using custom binding) -->
+                <TableColumn fx:id="timeColumn" text="Time" prefWidth="120"/>
+
+                <!-- Tutor Column -->
+                <TableColumn fx:id="tutorColumn" text="Tutor" prefWidth="150"/>
+            </columns>
+        </TableView>
+
+        <!-- Details View -->
+        <AnchorPane fx:id="detailsPane" visible="false"
+                    style="-fx-background-color: #ffffff; -fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 8;">
+            <Label fx:id="detailsTitle" text="Availability Details"
+                   style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
+                   layoutX="25" layoutY="25"/>
+
+            <VBox spacing="15" layoutX="25" layoutY="70">
+                <Label fx:id="detailsDate" style="-fx-font-size: 15; -fx-text-fill: #333;"/>
+                <Label fx:id="detailsTime" style="-fx-font-size: 15; -fx-text-fill: #333;"/>
+                <Label fx:id="detailsTutor" style="-fx-font-size: 15; -fx-text-fill: #333;"/>
+
+                <HBox spacing="10" style="-fx-padding: 15 0 0 0;">
+                    <Button text="Back" onAction="#handleBackToList"
+                            style="-fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5;"/>
+                </HBox>
+            </VBox>
+        </AnchorPane>
+    </StackPane>
+</AnchorPane>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.CalendarViewController"
+            prefHeight="600.0" prefWidth="800.0">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 10px;">
+            <Label fx:id="availabilityInfoLabel" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Month View" onAction="#handleMonthViewAction"/>
+            <Button text="Week View" onAction="#handleWeekViewAction"/>
+            <Button text="Day View" onAction="#handleDayViewAction"/>
+            <Button text="Back" onAction="#handleBackAction"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox fx:id="calendarContainer" VBox.vgrow="ALWAYS">
+            <!-- CalendarFX will be added here programmatically -->
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10px;">
+            <Button text="Add Reservation" onAction="#handleAddReservationAction"/>
+            <Button text="Refresh" onAction="#handleRefreshAction"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

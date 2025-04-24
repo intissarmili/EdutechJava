@@ -1,7 +1,5 @@
-package controllers;
+package controllers.back;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,19 +8,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.paint.Color;
-import models.reservation;
 import models.avaibility;
+import models.reservation;
 import service.ReservationService;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
-import java.sql.SQLException;
 
 public class AjouterReservationController implements Initializable {
 
@@ -40,11 +37,6 @@ public class AjouterReservationController implements Initializable {
 
     @FXML
     private ComboBox<Integer> durationComboBox;
-    @FXML
-    private Label charCountLabel;
-
-    private final int MAX_CHARS = 255;
-
 
     @FXML
     private Label topicErrorLabel;
@@ -90,17 +82,6 @@ public class AjouterReservationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        // Setup character counter
-        setupCharCounter();
-
-        // Set max length for topic field
-        topicField.setTextFormatter(new javafx.scene.control.TextFormatter<>(change ->
-                change.getControlNewText().length() <= MAX_CHARS ? change : null
-        ));
-
-
-
         // Heures (00-23)
         ObservableList<String> hours = FXCollections.observableArrayList();
         for (int i = 0; i < 24; i++) {
@@ -216,7 +197,7 @@ public class AjouterReservationController implements Initializable {
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Réservation ajoutée avec succès !");
 
             // Rediriger vers la vue de détails
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reservation/details.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/back/reservation/details.fxml"));
             Parent root = loader.load();
             DetailReservationController controller = loader.getController();
             controller.setReservation(newReservation);
@@ -232,7 +213,7 @@ public class AjouterReservationController implements Initializable {
     @FXML
     void cancelAction(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListReservations.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/back/reservation/ListReservations.fxml"));
             Parent root = loader.load();
             topicField.getScene().setRoot(root);
         } catch (IOException e) {
@@ -248,38 +229,4 @@ public class AjouterReservationController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-    private void setupCharCounter() {
-        // Initialize character count
-        updateCharCount(topicField.getText().length());
-
-        // Add listener to track character count
-        topicField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                updateCharCount(newValue.length());
-            }
-        });
-    }
-    private void updateCharCount(int count) {
-        // Update the counter text
-        charCountLabel.setText(count + " / " + MAX_CHARS);
-
-        // Update the color based on count
-        if (count < 20 || count == MAX_CHARS) {
-            charCountLabel.setTextFill(Color.RED);
-        } else if (count >= 200 && count < MAX_CHARS) {
-            charCountLabel.setTextFill(Color.ORANGE);
-        } else {
-            charCountLabel.setTextFill(Color.GREEN);
-        }
-    }
-
-
-
-
-
-
-
-
 }

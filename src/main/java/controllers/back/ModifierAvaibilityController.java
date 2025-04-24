@@ -1,4 +1,4 @@
-package controllers;
+package controllers.back;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,22 +16,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.scene.layout.StackPane;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import javafx.scene.Node;
-import java.io.IOException;
-
-public class AjouterAvaibilityController implements Initializable {
+public class ModifierAvaibilityController implements Initializable {
 
     @FXML
     private DatePicker datePicker;
@@ -57,8 +44,13 @@ public class AjouterAvaibilityController implements Initializable {
     @FXML
     private Label endTimeErrorLabel;
 
+    private avaibility currentAvaibility;
+    private AvaibilityService avaibilityService;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        avaibilityService = new AvaibilityService();
+
         ObservableList<String> hours = FXCollections.observableArrayList();
         ObservableList<String> minutes = FXCollections.observableArrayList();
 
@@ -74,13 +66,6 @@ public class AjouterAvaibilityController implements Initializable {
         startMinuteComboBox.setItems(minutes);
         endHourComboBox.setItems(hours);
         endMinuteComboBox.setItems(minutes);
-
-        // Valeurs par défaut
-        datePicker.setValue(LocalDate.now());
-        startHourComboBox.setValue("09");
-        startMinuteComboBox.setValue("00");
-        endHourComboBox.setValue("10");
-        endMinuteComboBox.setValue("00");
 
         // Restrict date selection to only today and next month
         datePicker.setDayCellFactory(picker -> new DateCell() {
@@ -108,32 +93,62 @@ public class AjouterAvaibilityController implements Initializable {
         endHourComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> validateTimes());
         endMinuteComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> validateTimes());
     }
-    @FXML private AnchorPane createFormRoot;
-    @FXML private StackPane contentPane;
 
+    public void setAvaibilityToUpdate(avaibility avaibility) {
+        this.currentAvaibility = avaibility;
+        populateFields();
+    }
 
-
-
-    @FXML
-    private void handleCancelOrBack() {
+    public void loadAvaibility(int id) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/avaibility/listCards.fxml"));
-            Parent root = loader.load();
-
-            // Get current scene dimensions
-            Stage currentStage = (Stage) contentPane.getScene().getWindow();
-            double width = currentStage.getWidth();
-            double height = currentStage.getHeight();
-
-            // Create new scene with the same dimensions
-            Scene scene = new Scene(root, width, height);
-
-            currentStage.setScene(scene);
-            currentStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+            currentAvaibility = avaibilityService.getById(id);
+            if(currentAvaibility != null) {
+                populateFields();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Disponibilité non trouvée.");
+                cancelAction(null);
+            }
+        } catch (SQLException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors du chargement de la disponibilité: " + e.getMessage());
         }
     }
+
+    private void populateFields() {
+        if(currentAvaibility == null) return;
+
+        // Set the date
+        try {
+            LocalDate date = LocalDate.parse(currentAvaibility.getDate());
+            datePicker.setValue(date);
+        } catch (Exception e) {
+            // Handle date parsing error
+            showAlert(Alert.AlertType.WARNING, "Avertissement", "Format de date invalide. Utilisation de la date actuelle.");
+            datePicker.setValue(LocalDate.now());
+        }
+
+        // Set the start time
+        try {
+            LocalTime startTime = LocalTime.parse(currentAvaibility.getStartTime());
+            startHourComboBox.setValue(String.format("%02d", startTime.getHour()));
+            startMinuteComboBox.setValue(String.format("%02d", startTime.getMinute()));
+        } catch (Exception e) {
+            // Handle time parsing error
+            startHourComboBox.setValue("09");
+            startMinuteComboBox.setValue("00");
+        }
+
+        // Set the end time
+        try {
+            LocalTime endTime = LocalTime.parse(currentAvaibility.getEndTime());
+            endHourComboBox.setValue(String.format("%02d", endTime.getHour()));
+            endMinuteComboBox.setValue(String.format("%02d", endTime.getMinute()));
+        } catch (Exception e) {
+            // Handle time parsing error
+            endHourComboBox.setValue("10");
+            endMinuteComboBox.setValue("00");
+        }
+    }
+
     private void validateTimes() {
         String sh = startHourComboBox.getValue();
         String sm = startMinuteComboBox.getValue();
@@ -159,7 +174,7 @@ public class AjouterAvaibilityController implements Initializable {
     }
 
     @FXML
-    void saveavaibilityAction(ActionEvent event) {
+    void updateAvaibilityAction(ActionEvent event) {
         dateErrorLabel.setVisible(false);
         startTimeErrorLabel.setVisible(false);
         endTimeErrorLabel.setVisible(false);
@@ -215,46 +230,23 @@ public class AjouterAvaibilityController implements Initializable {
                 return;
             }
 
-            // Conversion
-            Date startTime = Date.from(date.atTime(start).atZone(ZoneId.systemDefault()).toInstant());
-            Date endTime = Date.from(date.atTime(end).atZone(ZoneId.systemDefault()).toInstant());
+            // Update the current availability object
+            currentAvaibility.setDate(date.toString());
+            currentAvaibility.setStartTime(start.toString());
+            currentAvaibility.setEndTime(end.toString());
 
-            int tutorId = 1; // temporaire, à remplacer par l'utilisateur connecté
+            // Update in database
+            avaibilityService.update(currentAvaibility);
 
-            avaibility availability = new avaibility(date.toString(), start.toString(), end.toString(), tutorId);
-            AvaibilityService service = new AvaibilityService();
-            service.add(availability);
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "Disponibilité mise à jour avec succès !");
 
-            showAlert(Alert.AlertType.INFORMATION, "Succès", "Disponibilité ajoutée avec succès !");
-            // Redirection
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/avaibility/details.fxml"));
+            // Redirection to details page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/back/avaibility/details.fxml"));
             Parent root = loader.load();
 
-
-            // Get the controller and pass the availability
+            // Pass updated availability to details controller
             DetailAvaibilityController detailController = loader.getController();
-
-// Either pass the availability object directly
-            detailController.setAvaibility(availability);
-// OR pass the ID (if you have it after adding to database)
-// detailController.loadAvaibility(availability.getId());
-
-            datePicker.getScene().setRoot(root);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            detailController.setAvaibility(currentAvaibility);
 
             datePicker.getScene().setRoot(root);
 
@@ -267,9 +259,21 @@ public class AjouterAvaibilityController implements Initializable {
     @FXML
     void cancelAction(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/avaibility/list.fxml"));
-            Parent root = loader.load();
-            datePicker.getScene().setRoot(root);
+            if (currentAvaibility != null) {
+                // Return to details page if we have an availability
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/back/avaibility/details.fxml"));
+                Parent root = loader.load();
+
+                DetailAvaibilityController detailController = loader.getController();
+                detailController.setAvaibility(currentAvaibility);
+
+                datePicker.getScene().setRoot(root);
+            } else {
+                // Return to list page if no availability
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/back/avaibility/list.fxml"));
+                Parent root = loader.load();
+                datePicker.getScene().setRoot(root);
+            }
         } catch (IOException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la navigation: " + e.getMessage());

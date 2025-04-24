@@ -49,7 +49,7 @@ public class AvaibilityService {
         int rowsAffected = stmt.executeUpdate();
 
         if (rowsAffected == 0) {
-            throw new SQLException("Creating availability failed, no rows affected.");
+            throw new SQLException("Creating avaibility failed, no rows affected.");
         }
 
         // Get the generated ID if needed
@@ -99,7 +99,7 @@ public class AvaibilityService {
             return extractavaibilityFromResultSet(rs);
         }
 
-        return null; // No availability found with the given ID
+        return null; // No avaibility found with the given ID
     }
 
     public List<avaibility> getAll() throws SQLException {
@@ -111,7 +111,14 @@ public class AvaibilityService {
         ResultSet rs = stmt.executeQuery(query);
 
         while (rs.next()) {
-            list.add(extractavaibilityFromResultSet(rs));
+            avaibility a = new avaibility(
+                    rs.getInt("id"),
+                    rs.getString("date"),
+                    rs.getString("start_time"),
+                    rs.getString("end_time"),
+                    rs.getInt("tutor_id")
+            );
+            list.add(a);
         }
 
         return list;
@@ -125,5 +132,37 @@ public class AvaibilityService {
         int tutorId = rs.getInt("tutor_id");
 
         return new avaibility(id, date, startTime, endTime, tutorId);
+    }
+
+
+    public void deleteCascade(int id) throws SQLException {
+        Connection conn = MaConnexion.getInstance().getConnection();
+        conn.setAutoCommit(false); // Start transaction
+
+        try {
+            // First update all associated reservations
+            String updateReservationsQuery =
+                    "UPDATE reservation SET status = 'Canceled', avaibility_id = NULL WHERE avaibility_id = ?";
+
+            PreparedStatement updateStmt = conn.prepareStatement(updateReservationsQuery);
+            updateStmt.setInt(1, id);
+            updateStmt.executeUpdate();
+
+            // Then delete the availability
+            String deleteQuery = "DELETE FROM avaibility WHERE id = ?";
+            PreparedStatement deleteStmt = conn.prepareStatement(deleteQuery);
+            deleteStmt.setInt(1, id);
+            deleteStmt.executeUpdate();
+
+            // Commit the transaction
+            conn.commit();
+        } catch (SQLException e) {
+            // If any error occurs, roll back the transaction
+            conn.rollback();
+            throw e; // Re-throw the exception to be handled by the caller
+        } finally {
+            // Reset auto-commit to default state
+            conn.setAutoCommit(true);
+        }
     }
 }

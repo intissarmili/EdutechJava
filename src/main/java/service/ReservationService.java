@@ -38,8 +38,6 @@ public class ReservationService {
         if (generatedKeys.next()) {
             res.setId(generatedKeys.getInt(1));
         }
-
-        // No need to close connections with Singleton pattern as we reuse the same connection
     }
 
     public void update(reservation res) throws SQLException {
@@ -100,14 +98,28 @@ public class ReservationService {
         return reservations;
     }
 
+    public List<reservation> getReservationsByAvaibilityId(int avaibilityId) throws SQLException {
+        String query = "SELECT * FROM reservation WHERE avaibility_id = ? ORDER BY start_time";
+        Connection conn = MaConnexion.getInstance().getConnection();
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setInt(1, avaibilityId);
+        ResultSet rs = stmt.executeQuery();
+
+        List<reservation> reservations = new ArrayList<>();
+        while (rs.next()) {
+            reservations.add(extractReservationFromResultSet(rs));
+        }
+        return reservations;
+    }
+
     private reservation extractReservationFromResultSet(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
         String topic = rs.getString("topic");
         java.util.Date startTime = new java.util.Date(rs.getTimestamp("start_time").getTime());
         String status = rs.getString("status");
         int duration = rs.getInt("duration");
-        int availabilityId = rs.getInt("avaibility_id");
+        int avaibilityId = rs.getInt("avaibility_id");
 
-        return new reservation(id, topic, startTime, status, duration, availabilityId);
+        return new reservation(id, topic, startTime, status, duration, avaibilityId);
     }
 }

@@ -1,4 +1,4 @@
-package controllers;
+package controllers.back;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,7 +7,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import models.avaibility;
 import service.AvaibilityService;
 
@@ -19,17 +23,6 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.scene.layout.StackPane;
-
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import javafx.scene.Node;
-import java.io.IOException;
 
 public class AjouterAvaibilityController implements Initializable {
 
@@ -117,7 +110,7 @@ public class AjouterAvaibilityController implements Initializable {
     @FXML
     private void handleCancelOrBack() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/avaibility/listCards.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/back/avaibility/listCards.fxml"));
             Parent root = loader.load();
 
             // Get current scene dimensions
@@ -227,7 +220,7 @@ public class AjouterAvaibilityController implements Initializable {
 
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Disponibilité ajoutée avec succès !");
             // Redirection
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/avaibility/details.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/back/avaibility/details.fxml"));
             Parent root = loader.load();
 
 

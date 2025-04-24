@@ -32,6 +32,9 @@
             <Label text="Sujet :" GridPane.rowIndex="0" GridPane.columnIndex="0" />
             <VBox spacing="3" GridPane.rowIndex="0" GridPane.columnIndex="1">
                 <TextField fx:id="topicField" promptText="Entrez le sujet de la réunion" styleClass="input-field"/>
+                <HBox alignment="CENTER_RIGHT">
+                    <Label fx:id="charCountLabel" text="0 / 255" styleClass="char-count-label" />
+                </HBox>
                 <Label fx:id="topicErrorLabel" textFill="red" styleClass="error-label" />
             </VBox>
 
