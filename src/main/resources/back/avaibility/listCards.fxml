@@ -21,6 +21,11 @@
                 fx:id="addButton"
                 style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5;"
                 onAction="#handleAddAvaibility"/>
+        <Button text="List Reservations"
+                fx:id="listReservationButton"
+                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5;"
+                onAction="#handleListReservation"/>
+
     </HBox>
 
     <!-- Main Content Area -->
