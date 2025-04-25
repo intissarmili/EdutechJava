@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/20.0.2"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.FeedController">
+    <content>
+        <VBox fx:id="mainVBox" spacing="15" style="-fx-padding: 15;">
+
+            <!-- Formulaire de nouvelle publication -->
+            <VBox spacing="10" style="-fx-border-color: lightgrey; -fx-border-radius: 5; -fx-padding: 15;">
+                <Label text="Nouvelle publication" style="-fx-font-weight: bold; -fx-font-size: 14;"/>
+
+                <TextArea fx:id="newFeedTextArea"
+                          promptText="Écris ta publication ici..."
+                          prefHeight="100"
+                          wrapText="true"
+                          style="-fx-control-inner-background: #f9f9f9;"
+                          onKeyReleased="#checkFeedLength"/>
+
+                <Label fx:id="feedLengthLabel" text="0/14" style="-fx-text-fill: grey; -fx-font-size: 12;"/>
+
+                <!-- Boutons côte à côte voir liste -->
+                <HBox spacing="10">
+                    <Button fx:id="ajouterFeedBtn"
+                            text="Publier"
+                            onAction="#addFeed"
+                            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;"/>
+
+                    <Button fx:id="btnVoirListe"
+                            text="Voir liste"
+                            onAction="#goToList"
+                            style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Conteneur des publications -->
+            <VBox fx:id="feedContainer" spacing="20"/>
+        </VBox>
+    </content>
+</ScrollPane>
