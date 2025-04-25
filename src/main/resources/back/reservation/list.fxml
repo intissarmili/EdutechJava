@@ -17,7 +17,11 @@
            <!-- <Button text="Refresh" onAction="#loadReservations" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>-->
             <Button text="Back" onAction="#handleBack" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
         </HBox>
-
+<HBox spacing="10" alignment="CENTER_LEFT">
+    <Label text="Rechercher :" style="-fx-font-size: 14px;"/>
+    <TextField fx:id="searchField" promptText="Entrez un topic..." onKeyReleased="#handleSearch"/>
+    <Button text="Effacer" onAction="#clearSearch" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+</HBox>
         <!-- Table View -->
         <TableView fx:id="reservationTable" VBox.vgrow="ALWAYS">
             <columns>
