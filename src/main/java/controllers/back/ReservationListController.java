@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import models.reservation;
@@ -28,14 +29,46 @@ public class ReservationListController implements Initializable {
     @FXML private TableColumn<reservation, String> statusColumn;
     @FXML private TableColumn<reservation, Integer> durationColumn; // Added missing column
 
-    private final ReservationService reservationService = new ReservationService();
-    private int availabilityId;
+
+    @FXML
+    private TextField searchField;
+
+    private List<reservation> allReservations; // Stocke toutes les réservations
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupTableColumns();
-        // Don't load here if we're using setAvailabilityId()
+        try {
+            allReservations = reservationService.getAll(); // Utilisation de l'instance
+            reservationTable.getItems().setAll(allReservations);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // TODO: Afficher un message d'erreur dans l'interface utilisateur
+        }
     }
+
+    @FXML
+    private void handleSearch() {
+        String searchText = searchField.getText().toLowerCase().trim();
+        if (searchText.isEmpty()) {
+            reservationTable.getItems().setAll(allReservations); // Réinitialise la liste
+        } else {
+            List<reservation> filteredReservations = allReservations.stream()
+                .filter(res -> res.getTopic().toLowerCase().contains(searchText))
+                .toList();
+            reservationTable.getItems().setAll(filteredReservations);
+        }
+    }
+
+    @FXML
+    private void clearSearch() {
+        searchField.clear();
+        reservationTable.getItems().setAll(allReservations); // Réinitialise la liste
+    }
+    private final ReservationService reservationService = new ReservationService();
+    private int availabilityId;
+
+
 
     private void setupTableColumns() {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -77,4 +110,5 @@ public class ReservationListController implements Initializable {
             e.printStackTrace();
         }
     }
+
 }
