@@ -15,6 +15,25 @@ public class Main {
         connection = MaConnexion.getInstance().getConnection();
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         System.out.println(connection);
         FeedService fs = new FeedService();
         CommentaireService cs = new CommentaireService();
