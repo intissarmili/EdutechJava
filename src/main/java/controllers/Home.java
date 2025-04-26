@@ -11,7 +11,7 @@ public class Home extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
-            // Load the FXML file
+            // Loa d the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/back/avaibility/listCards.fxml"));
             Parent root = loader.load();
 
