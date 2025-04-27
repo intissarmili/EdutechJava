@@ -465,3 +465,23 @@ Label {
 .date-picker {
     -fx-pref-width: 120px;
 }
+
+
+/* API */
+#statusLabel {
+    -fx-text-fill: #666666;
+    -fx-font-style: italic;
+}
+
+#statusLabel.error {
+    -fx-text-fill: #d9534f;
+}
+
+#speakButton {
+    -fx-background-color: #5bc0de;
+    -fx-text-fill: white;
+}
+
+#speakButton:disabled {
+    -fx-background-color: #cccccc;
+}

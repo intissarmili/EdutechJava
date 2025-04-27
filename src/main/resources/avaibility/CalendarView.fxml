@@ -21,6 +21,8 @@
             <Button text="Week View" onAction="#handleWeekViewAction"/>
             <Button text="Day View" onAction="#handleDayViewAction"/>
             <Button text="Back" onAction="#handleBackAction"/>
+            <Button fx:id="speakButton" text="Test TTS" />
+            <Label fx:id="statusLabel" text="TTS Status: Loading..." />
         </HBox>
     </top>
 
@@ -32,7 +34,10 @@
 
     <bottom>
         <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10px;">
+            <Button fx:id="generateMeetingButton" text="Generate Meeting Link" 
+                   style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
             <Button text="Add Reservation" onAction="#handleAddReservationAction"/>
+            <Button fx:id="confirmButton" text="Confirm Reservation" onAction="#handleConfirmReservationAction"/>
             <Button text="Refresh" onAction="#handleRefreshAction"/>
         </HBox>
     </bottom>
