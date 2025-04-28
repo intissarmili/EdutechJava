@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.user.AjouterBackController" prefWidth="400" prefHeight="450">
+    <children>
+        <VBox alignment="CENTER" spacing="10" layoutX="50" layoutY="20">
+            <Label text="Ajouter un utilisateur" style="-fx-font-size: 16px;" />
+
+            <TextField fx:id="emailField" promptText="Email" />
+            <PasswordField fx:id="passwordField" promptText="Mot de passe" />
+            <TextField fx:id="firstNameField" promptText="Prénom" />
+            <TextField fx:id="lastNameField" promptText="Nom" />
+            <TextField fx:id="phoneNumberField" promptText="Téléphone" />
+            <ComboBox fx:id="roleComboBox" promptText="Rôle" />
+
+            <Button text="Valider" onAction="#handleAddUser" />
+        </VBox>
+    </children>
+</AnchorPane>

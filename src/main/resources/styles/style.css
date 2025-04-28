@@ -465,3 +465,56 @@ Label {
 .date-picker {
     -fx-pref-width: 120px;
 }
+.signup-container {
+    -fx-background-color: white;
+}
+
+.title-label {
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 20 0;
+}
+
+.field-label {
+    -fx-text-fill: #34495e;
+    -fx-font-weight: bold;
+}
+
+.text-field, .password-field, .combo-box {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1;
+    -fx-padding: 8;
+}
+
+.text-field:focused, .password-field:focused, .combo-box:focused {
+    -fx-border-color: #3498db;
+}
+
+.primary-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 30;
+    -fx-background-radius: 5;
+}
+
+.secondary-button {
+    -fx-background-color: #95a5a6;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 30;
+    -fx-background-radius: 5;
+}
+
+.send-button {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+}
+
+.button:hover {
+    -fx-opacity: 0.9;
+}

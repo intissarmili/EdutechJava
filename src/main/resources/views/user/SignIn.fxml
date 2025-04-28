@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.web.WebView?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.user.SignInController" prefWidth="500" prefHeight="500">
+    <children>
+        <Label layoutX="50" layoutY="30" text="Email :" />
+        <TextField fx:id="emailField" layoutX="150" layoutY="30" />
+
+        <Label layoutX="50" layoutY="80" text="Mot de passe :" />
+        <PasswordField fx:id="passwordField" layoutX="150" layoutY="80" />
+
+        <Label layoutX="50" layoutY="130" text="Vérification humaine :" />
+        <WebView fx:id="captchaWebView" layoutX="150" layoutY="130" prefWidth="250" prefHeight="150" />
+
+        <Button text="Se connecter" layoutX="150" layoutY="300" onMouseClicked="#handleLogin" />
+
+        <Button text="Mot de passe oublié ?" layoutX="150" layoutY="350" onAction="#handleForgetPassword" />
+    </children>
+</AnchorPane>

@@ -1,3 +1,4 @@
+// Updated User.java
 package models;
 
 public class User {
@@ -10,7 +11,9 @@ public class User {
     private String lastName;
     private String resetToken;
     private String googleId;
-    private boolean emailVerified; // ✅ NEW
+    private boolean emailVerified;
+    private boolean banned;
+    private boolean approved = true; // ✅ NEW FIELD
 
     public User() {}
 
@@ -22,6 +25,8 @@ public class User {
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.emailVerified = false;
+        this.banned = false;
+        this.approved = true;
     }
 
     public User(int id, String email, String password, String roles) {
@@ -36,7 +41,6 @@ public class User {
         this.password = password;
     }
 
-    // ✅ Getters & Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -67,6 +71,12 @@ public class User {
     public boolean isEmailVerified() { return emailVerified; }
     public void setEmailVerified(boolean emailVerified) { this.emailVerified = emailVerified; }
 
+    public boolean isBanned() { return banned; }
+    public void setBanned(boolean banned) { this.banned = banned; }
+
+    public boolean isApproved() { return approved; }
+    public void setApproved(boolean approved) { this.approved = approved; }
+
     @Override
     public String toString() {
         return "User{" +
@@ -80,6 +90,8 @@ public class User {
                 ", resetToken='" + resetToken + '\'' +
                 ", googleId='" + googleId + '\'' +
                 ", emailVerified=" + emailVerified +
+                ", banned=" + banned +
+                ", approved=" + approved +
                 '}';
     }
 }

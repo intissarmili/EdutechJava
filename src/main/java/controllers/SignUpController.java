@@ -99,9 +99,22 @@ public class SignUpController {
 
         User newUser = new User(email, password, role, firstName, lastName, phone);
         newUser.setEmailVerified(true);
+        newUser.setBanned(false);
+
+        if (role.equals("ROLE_ADMIN")) {
+            newUser.setApproved(false); // 🛑 Admin needs manual approval!
+        } else {
+            newUser.setApproved(true); // ✅ Students and Teachers are auto-approved
+        }
+
         userService.addUser(newUser);
 
-        showAlert("Succès", "Utilisateur créé avec succès !");
+        if (role.equals("ROLE_ADMIN")) {
+            showAlert("Succès", "Votre demande d'inscription Admin est envoyée. En attente de validation par un administrateur.");
+        } else {
+            showAlert("Succès", "Utilisateur créé avec succès !");
+        }
+
         clearFields();
 
         new Thread(() -> {
@@ -115,8 +128,12 @@ public class SignUpController {
     }
 
     private void clearFields() {
-        emailField.clear(); passwordField.clear(); firstNameField.clear();
-        lastNameField.clear(); phoneNumberField.clear(); roleComboBox.setValue(null);
+        emailField.clear();
+        passwordField.clear();
+        firstNameField.clear();
+        lastNameField.clear();
+        phoneNumberField.clear();
+        roleComboBox.setValue(null);
         verificationCodeField.clear();
     }
 
@@ -141,7 +158,9 @@ public class SignUpController {
 
     private void showAlert(String title, String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title); alert.setHeaderText(null);
-        alert.setContentText(msg); alert.showAndWait();
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }
