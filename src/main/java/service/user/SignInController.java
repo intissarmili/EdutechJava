@@ -4,17 +4,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import models.User;
 import services.user.IUserService;
 import services.user.UserService;
+import services.user.UserLogService;
 import utils.Session;
+import javafx.event.ActionEvent;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class SignInController {
 
@@ -24,7 +28,32 @@ public class SignInController {
     @FXML
     private PasswordField passwordField;
 
+    @FXML
+    private WebView captchaWebView;
+
     private final IUserService userService = new UserService();
+    private final UserLogService userLogService = new UserLogService();
+
+    private final String SITE_KEY = "6LdMoSYrAAAAAOr5F3wci4ejIm9KFMB3n7hy6mgw"; // your real Site Key
+    private final String SECRET_KEY = "6LdMoSYrAAAAAEl1FVNaw3QVe_sCnFlxR4hTrlMA"; // your real Secret Key
+
+    private WebEngine webEngine;
+
+    @FXML
+    public void initialize() {
+        webEngine = captchaWebView.getEngine();
+        loadCaptcha();
+    }
+
+    private void loadCaptcha() {
+        String html = "<html><head><script src='https://www.google.com/recaptcha/api.js'></script></head>"
+                + "<body>"
+                + "<form action=''>"
+                + "<div class='g-recaptcha' data-sitekey='" + SITE_KEY + "'></div>"
+                + "</form>"
+                + "</body></html>";
+        webEngine.loadContent(html);
+    }
 
     @FXML
     void handleLogin(MouseEvent event) {
@@ -36,9 +65,27 @@ public class SignInController {
             return;
         }
 
+        // If you want to reactivate captcha verification later:
+        // String token = (String) webEngine.executeScript("document.querySelector('textarea[name=\"g-recaptcha-response\"]').value");
+        // if (token == null || token.isEmpty()) {
+        //     showAlert("Erreur", "Veuillez valider le CAPTCHA !");
+        //     return;
+        // }
+        // if (!verifyCaptcha(token)) {
+        //     showAlert("Erreur", "Échec de la vérification CAPTCHA !");
+        //     return;
+        // }
+
         if (userService.login(email, password)) {
             User user = userService.getUserByEmail(email);
-            Session.setCurrentUser(user); // stocke l’utilisateur connecté
+
+            if (!user.isApproved()) {
+                showAlert("Validation en attente", "Votre compte est en attente de validation par un administrateur.");
+                return;
+            }
+
+            Session.setCurrentUser(user);
+            userLogService.addLog(user.getId(), "login");
 
             showAlert("Succès", "Connexion réussie !");
             String role = user.getRoles();
@@ -49,12 +96,11 @@ public class SignInController {
                     fxml = "/views/user/Admin.fxml";
                     break;
                 case "ROLE_STUDENT":
-                    fxml = "/views/user/StudentHome.fxml"; // ✅ on redirige vers le profil complet
+                    fxml = "/views/user/StudentHome.fxml";
                     break;
                 case "ROLE_TEACHER":
                     fxml = "/views/user/TeacherHome.fxml";
                     break;
-
                 default:
                     showAlert("Erreur", "Rôle inconnu !");
                     return;
@@ -73,7 +119,43 @@ public class SignInController {
             }
 
         } else {
-            showAlert("Erreur", "Email ou mot de passe incorrect.");
+            User user = userService.getUserByEmail(email);
+            if (user != null && user.isBanned()) {
+                showAlert("Accès refusé", "Votre compte est banni. Veuillez contacter l'administration.");
+            } else {
+                showAlert("Erreur", "Email ou mot de passe incorrect.");
+            }
+        }
+    }
+
+    private boolean verifyCaptcha(String token) {
+        try {
+            String url = "https://www.google.com/recaptcha/api/siteverify";
+            String params = "secret=" + SECRET_KEY + "&response=" + token;
+
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+
+            try (DataOutputStream output = new DataOutputStream(connection.getOutputStream())) {
+                output.writeBytes(params);
+                output.flush();
+            }
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            return response.toString().contains("\"success\": true");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -83,5 +165,17 @@ public class SignInController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.show();
+    }
+
+    @FXML
+    private void handleForgetPassword(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/user/ForgetPassword.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) emailField.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (Exception e) {
+            System.err.println("Erreur chargement ForgetPassword.fxml : " + e.getMessage());
+        }
     }
 }

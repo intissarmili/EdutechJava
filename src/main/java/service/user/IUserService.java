@@ -11,4 +11,8 @@ public interface IUserService {
     void updateUser(User user);
     void deleteUser(int id);
     List<User> getAllUsers();
+
+    // ✅ NEW Methods for Ban/Unban
+    void banUser(int id);
+    void unbanUser(int id);
 }

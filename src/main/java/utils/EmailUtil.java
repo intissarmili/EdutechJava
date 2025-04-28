@@ -1,19 +1,31 @@
 package utils;
+import jakarta.mail.Session;
+import jakarta.mail.Authenticator;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 
-import javax.mail.*;
-import javax.mail.internet.*;
+
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+
 import java.util.Properties;
 
 public class EmailUtil {
+
     public static boolean sendEmail(String to, String subject, String content) {
-        final String from = "your.email@gmail.com"; // 👈 REMPLACE ICI
-        final String password = "your-app-password"; // 👈 App Password depuis Gmail settings
+        final String from = "ahmedboutrif0@gmail.com"; // ✅ Corrected email
+        final String password = "rgipwupnbjlqpryd"; // ✅ App Password (no spaces)
 
         Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true"); // TLS
 
         Session session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -22,16 +34,18 @@ public class EmailUtil {
         });
 
         try {
-            Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(from));
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-            msg.setSubject(subject);
-            msg.setText(content);
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(from));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+            message.setSubject(subject);
+            message.setText(content);
 
-            Transport.send(msg);
+            Transport.send(message);
+
+            System.out.println("✅ Email envoyé avec succès !");
             return true;
         } catch (MessagingException e) {
-            System.err.println("Erreur envoi email: " + e.getMessage());
+            System.err.println("❌ Erreur envoi email: " + e.getMessage());
             return false;
         }
     }
