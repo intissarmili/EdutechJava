@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.user.SignUpController"
+            prefWidth="500" prefHeight="600" stylesheets="@../../styles/style.css">
+    <VBox spacing="15" alignment="TOP_CENTER" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" styleClass="signup-container">
+        <padding>
+            <Insets top="30" right="40" bottom="30" left="40"/>
+        </padding>
+
+        <Label text="Inscription" styleClass="title-label">
+            <font>
+                <Font size="24"/>
+            </font>
+        </Label>
+
+        <GridPane vgap="15" hgap="15">
+            <columnConstraints>
+                <ColumnConstraints minWidth="100" prefWidth="120"/>
+                <ColumnConstraints minWidth="200" prefWidth="250"/>
+            </columnConstraints>
+
+            <Label text="Email :" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="emailField" promptText="exemple@gmail.com" styleClass="text-field"
+                       GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Mot de passe :" styleClass="field-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <PasswordField fx:id="passwordField" promptText="Minimum 5 caractères" styleClass="text-field"
+                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Téléphone :" styleClass="field-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="phoneNumberField" promptText="8 chiffres" styleClass="text-field"
+                       GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <Label text="Prénom :" styleClass="field-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <TextField fx:id="firstNameField" promptText="Votre prénom" styleClass="text-field"
+                       GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+            <Label text="Nom :" styleClass="field-label" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <TextField fx:id="lastNameField" promptText="Votre nom" styleClass="text-field"
+                       GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+            <Label text="Rôle :" styleClass="field-label" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="roleComboBox" promptText="Sélectionnez un rôle" styleClass="combo-box"
+                      GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+            <Label text="Code :" styleClass="field-label" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+            <HBox spacing="10" GridPane.rowIndex="6" GridPane.columnIndex="1">
+                <TextField fx:id="verificationCodeField" promptText="Code de vérification"
+                           styleClass="text-field" HBox.hgrow="ALWAYS"/>
+                <Button text="Envoyer" onAction="#handleSendVerificationCode" styleClass="send-button"/>
+            </HBox>
+        </GridPane>
+
+        <HBox spacing="20" alignment="CENTER">
+            <Button text="S'inscrire" onAction="#handleSignUp" styleClass="primary-button"/>
+            <Button text="Se connecter" onAction="#handleGoToLogin" styleClass="secondary-button"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

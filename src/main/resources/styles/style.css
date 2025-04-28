@@ -1,4 +1,4 @@
-/* EduTech Modern Style - Based on colors from screenshot */
+/* EduTech Modern Style - Combined from multiple files */
 
 /* Import fonts */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
@@ -75,6 +75,7 @@ Label {
 .date-picker {
     -fx-background-color: -fx-light-gray;
     -fx-background-radius: 6px;
+    -fx-pref-width: 120px;
 }
 
 .date-picker .arrow-button {
@@ -205,15 +206,19 @@ Label {
     -fx-cursor: hand;
     -fx-font-size: 13px;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 1);
+    -fx-transition: scale 0.1s ease-in-out;
+}
+
+.button:hover {
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
 }
 
 .save-button {
     -fx-background-color: -fx-primary-green;
     -fx-text-fill: white;
-
     -fx-graphic-text-gap: 8px;
 }
-
 
 .save-button:hover {
     -fx-background-color: derive(-fx-primary-green, 10%);
@@ -227,6 +232,30 @@ Label {
 
 .cancel-button:hover {
     -fx-background-color: derive(-fx-light-gray, -5%);
+}
+
+/* Button variants from second file */
+.primary-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 30;
+    -fx-background-radius: 5;
+}
+
+.secondary-button {
+    -fx-background-color: #95a5a6;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 30;
+    -fx-background-radius: 5;
+}
+
+.send-button {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
 }
 
 /* Hover and pressed states for interactive elements */
@@ -258,23 +287,14 @@ Label {
     -fx-border-width: 1px;
 }
 
-/* Add some scaling animation for buttons */
-.button {
-    -fx-transition: scale 0.1s ease-in-out;
-}
-
-.button:hover {
-    -fx-scale-x: 1.02;
-    -fx-scale-y: 1.02;
-}
-/* Add these to your existing style.css */
-
 /* Table View Styling */
 .table-view {
     -fx-background-color: -fx-primary-white;
     -fx-background-radius: 10px;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
     -fx-padding: 0;
+    -fx-fit-to-width: true;
+    -fx-fit-to-height: true;
 }
 
 .table-view .column-header {
@@ -325,20 +345,12 @@ Label {
     -fx-background-color: derive(-fx-primary-turquoise, 90%);
 }
 
-/* Make the table fit nicely in its container */
-.table-view {
-    -fx-fit-to-width: true;
-    -fx-fit-to-height: true;
-}
-
-/* Add this to your style.css file */
-
+/* Character count styling */
 .char-count-label {
     -fx-font-size: 11px;
     -fx-padding: 2 5 0 0;
 }
 
-/* Optionally, you can add these class selectors for dynamic styling via Java */
 .char-count-warning {
     -fx-text-fill: orange;
 }
@@ -351,15 +363,7 @@ Label {
     -fx-text-fill: green;
 }
 
-
-
 /* Calendar specific styles */
-.canceled-reservation {
-    -fx-background-color: #ffcccc;
-    -fx-border-color: #ff6666;
-    -fx-opacity: 0.7;
-}
-
 .calendar-entry {
     -fx-background-radius: 5px;
     -fx-padding: 5px;
@@ -384,12 +388,12 @@ Label {
     -fx-background-color: #f5f5ff;
 }
 
-
 /* Calendar entry styles */
 .pending-reservation {
-    -fx-background-color: #87CEFA;
-    -fx-border-color: #1E90FF;
-    -fx-text-fill: white;
+    -fx-background-color: #ffc107;
+    -fx-text-fill: black;
+    -fx-border-color: #fd7e14;
+    -fx-border-width: 1px;
     -fx-background-radius: 4px;
     -fx-border-radius: 4px;
     -fx-padding: 5px;
@@ -397,13 +401,20 @@ Label {
 
 .confirmed-reservation {
     -fx-background-color: #28a745;
+    -fx-text-fill: white;
     -fx-border-color: #1e7e34;
     -fx-border-width: 2px;
-    -fx-text-fill: white;
     -fx-effect: dropshadow(three-pass-box, rgba(40, 167, 69, 0.7), 10, 0, 0, 4);
     -fx-background-radius: 4px;
     -fx-border-radius: 4px;
     -fx-padding: 5px;
+}
+
+.canceled-reservation {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: white;
+    -fx-border-color: #ff6666;
+    -fx-opacity: 0.7;
 }
 
 .pending-reservation:hover, .confirmed-reservation:hover {
@@ -423,36 +434,13 @@ Label {
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 3);
     -fx-max-width: 300px;
     -fx-min-width: 200px;
-    -fx-alignment: center;
     -fx-text-alignment: center;
-}
-
-/* Calendar entry styles */
-.confirmed-reservation {
-    -fx-background-color: #28a745;
-    -fx-text-fill: white;
-    -fx-border-color: #1e7e34;
-    -fx-border-width: 2px;
-}
-
-.pending-reservation {
-    -fx-background-color: #ffc107;
-    -fx-text-fill: black;
-    -fx-border-color: #fd7e14;
-    -fx-border-width: 1px;
-}
-
-.canceled-reservation {
-    -fx-background-color: #dc3545;
-    -fx-text-fill: white;
 }
 
 /* Icon styles */
 .fontawesome-icon {
     -fx-icon-size: 16px;
 }
-
-
 
 /* Filter controls styling */
 .filter-controls {
@@ -462,12 +450,35 @@ Label {
     -fx-border-width: 0 0 1 0;
 }
 
-.date-picker {
-    -fx-pref-width: 120px;
+/* Signup styles */
+.signup-container {
+    -fx-background-color: white;
 }
 
+.title-label {
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 20 0;
+}
 
-/* API */
+.field-label {
+    -fx-text-fill: #34495e;
+    -fx-font-weight: bold;
+}
+
+.text-field, .password-field, .combo-box {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1;
+    -fx-padding: 8;
+}
+
+.text-field:focused, .password-field:focused, .combo-box:focused {
+    -fx-border-color: #3498db;
+}
+
+/* API specific styles */
 #statusLabel {
     -fx-text-fill: #666666;
     -fx-font-style: italic;

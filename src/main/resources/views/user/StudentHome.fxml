@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.user.StudentHomeController"
+            prefWidth="400" prefHeight="350">
+    <children>
+        <VBox alignment="CENTER" spacing="10" layoutX="50" layoutY="20">
+            <Label text="Bienvenue Étudiant !" style="-fx-font-size: 18px;" />
+
+            <Label fx:id="fullNameLabel" text="Nom complet : ..." />
+            <Label fx:id="emailLabel" text="Email : ..." />
+            <Label fx:id="phoneLabel" text="Téléphone : ..." />
+            <Label fx:id="roleLabel" text="Rôle : ..." />
+
+            <Button text="Déconnexion" onAction="#handleLogout" />
+        </VBox>
+    </children>
+</AnchorPane>
