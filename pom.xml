@@ -60,6 +60,13 @@
             <artifactId>infobip-api-java-client</artifactId>
             <version>6.1.0</version>
         </dependency>
+        
+        <!-- JavaMail API (switching from Jakarta Mail to javax.mail) -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
 
         <!-- Google API Client Libraries -->
         <dependency>

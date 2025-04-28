@@ -5,9 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import utils.ESpeakTTS;
 import utils.GoogleMeetService;
-import utils.InfobipSMSService;
+import utils.EmailService;
+import utils.ReservationExample;
 
 public class Home extends Application {
 
@@ -25,6 +28,13 @@ public class Home extends Application {
             // Prevent window from being resized too small
             primaryStage.setMinWidth(800);
             primaryStage.setMinHeight(600);
+
+            // Add test button for email
+            if (root instanceof VBox) {
+                Button testEmailButton = new Button("Test Reservation Email");
+                testEmailButton.setOnAction(e -> ReservationExample.sendTestReservationEmail());
+                ((VBox) root).getChildren().add(testEmailButton);
+            }
 
             primaryStage.show();
         } catch (Exception e) {
@@ -65,23 +75,20 @@ public class Home extends Application {
             e.printStackTrace();
         }
         
-        // Initialize SMS service
+        // Initialize Email service
         try {
-            System.out.println("Initializing SMS service...");
-            InfobipSMSService.initialize();
-            System.out.println("SMS Service available: " + InfobipSMSService.isAvailable());
+            System.out.println("Initializing Email service...");
+            EmailService.initialize();
+            System.out.println("Email Service available: " + EmailService.isAvailable());
             
-            // Try to send a test SMS immediately after initialization
-            if (InfobipSMSService.isAvailable()) {
-                System.out.println("Attempting to send a test SMS message...");
-                boolean testResult = InfobipSMSService.sendTestSMS();
-                System.out.println("Test SMS result: " + (testResult ? "Success" : "Failed"));
-                
-                // Also try the alternative API approach
-                InfobipSMSService.testWithDirectHttpCall();
+            // Try to send a test email
+            if (EmailService.isAvailable()) {
+                System.out.println("Attempting to send a test email...");
+                boolean testResult = EmailService.sendTestEmail();
+                System.out.println("Test email result: " + (testResult ? "Success" : "Failed"));
             }
         } catch (Exception e) {
-            System.err.println("Error during SMS service initialization:");
+            System.err.println("Error during Email service initialization:");
             e.printStackTrace();
         }
         
