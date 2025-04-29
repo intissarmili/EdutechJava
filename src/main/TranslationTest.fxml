@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.TranslationTestController"
+            prefHeight="400.0" prefWidth="600.0">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    
+    <top>
+        <VBox spacing="10">
+            <Label text="Test de Traduction Google API" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+            <Label text="Entrez du texte en français pour le traduire dans une autre langue" 
+                   style="-fx-font-style: italic;"/>
+        </VBox>
+    </top>
+    
+    <center>
+        <VBox spacing="15">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Langue cible:" style="-fx-font-weight: bold;"/>
+                <ComboBox fx:id="targetLanguageComboBox" promptText="Choisir la langue"/>
+            </HBox>
+            
+            <Label text="Texte en Français:" style="-fx-font-weight: bold;"/>
+            <TextArea fx:id="sourceTextArea" promptText="Entrez du texte en français ici..." 
+                      prefHeight="100" wrapText="true"/>
+                      
+            <Button fx:id="translateButton" text="Traduire" 
+                    style="-fx-background-color: #4285f4; -fx-text-fill: white; -fx-font-weight: bold;"
+                    prefWidth="150"/>
+                    
+            <Label text="Texte Traduit:" style="-fx-font-weight: bold;"/>
+            <TextArea fx:id="translatedTextArea" promptText="La traduction apparaîtra ici..." 
+                      prefHeight="100" wrapText="true" editable="false"/>
+        </VBox>
+    </center>
+    
+    <bottom>
+        <HBox alignment="CENTER_RIGHT">
+            <Button text="Retour" onAction="#handleBack" fx:id="backButton"
+                    style="-fx-background-color: #9e9e9e; -fx-text-fill: white;"/>
+        </HBox>
+    </bottom>
+</BorderPane> 
