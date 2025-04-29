@@ -5,7 +5,7 @@
 <?import javafx.geometry.Insets?>
 
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.user.AdminDashboardController" prefWidth="800" prefHeight="500">
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.AdminDashboardController" prefWidth="800" prefHeight="500">
 
     <top>
         <VBox spacing="10" alignment="CENTER" BorderPane.alignment="CENTER">

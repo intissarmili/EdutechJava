@@ -7,8 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import models.User;
-import services.user.UserLogService;
-import services.user.UserService;
+import service.user.UserLogService;
+import service.user.UserService;
 import utils.Session;
 
 import java.io.IOException;

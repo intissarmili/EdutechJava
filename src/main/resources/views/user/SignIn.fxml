@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.user.SignInController" prefWidth="500" prefHeight="500">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.SignInController" prefWidth="500" prefHeight="500">
     <children>
         <Label layoutX="50" layoutY="30" text="Email :" />
         <TextField fx:id="emailField" layoutX="150" layoutY="30" />

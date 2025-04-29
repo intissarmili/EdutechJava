@@ -1,4 +1,4 @@
-package controllers.user;
+package controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,7 +8,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import models.User;
-import services.user.UserService;
+import service.user.UserService;
 import utils.EmailUtil;
 
 import java.util.Random;

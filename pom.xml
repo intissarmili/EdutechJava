@@ -20,10 +20,7 @@
         <!-- ✅ MySQL Connector -->
         <dependency>
             <groupId>mysql</groupId>
-            <artifactId>mysql-
-              
-              
-   connector-java</artifactId>
+            <artifactId>mysql-connector-java</artifactId>
             <version>8.0.26</version>
         </dependency>
 
@@ -91,14 +88,9 @@ FX -->
             <artifactId>fontawesomefx</artifactId>
             <version>8.9</version>
         </dependency>
-    </dependencies>
-  <!-- java mail API intissar -->
-  <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>javax.mail</artifactId>
-            <version>1.6.2</version>
-        </dependency>
-  <!-- Google API Client Libraries -->
+        <!-- java mail API intissar -->
+
+        <!-- Google API Client Libraries -->
         <dependency>
             <groupId>com.google.api-client</groupId>
             <artifactId>google-api-client</artifactId>
@@ -114,6 +106,8 @@ FX -->
             <artifactId>google-api-services-calendar</artifactId>
             <version>v3-rev20220715-2.0.0</version>
         </dependency>
+    </dependencies>
+
 
 
     <build>

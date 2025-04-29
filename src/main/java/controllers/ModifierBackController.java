@@ -1,10 +1,10 @@
-package controllers.user;
+package controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.User;
-import services.user.UserService;
+import service.user.UserService;
 
 public class ModifierBackController {
 

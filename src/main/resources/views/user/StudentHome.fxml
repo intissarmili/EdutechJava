@@ -4,7 +4,7 @@
 <?import javafx.geometry.Insets?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.user.StudentHomeController"
+            fx:controller="controllers.StudentHomeController"
             prefWidth="400" prefHeight="350">
     <children>
         <VBox alignment="CENTER" spacing="10" layoutX="50" layoutY="20">
