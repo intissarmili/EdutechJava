@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.BlogCoursController">
+
+    <!-- Barre de navigation -->
+    <fx:include source="navbar.fxml" />
+
+    <!-- Conteneur principal des cours -->
+    <ScrollPane fitToWidth="true" layoutX="-1.6" layoutY="106.4" prefHeight="648.0" prefWidth="1182.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="106.0">
+
+        <VBox fx:id="coursContainer" alignment="TOP_CENTER" spacing="20" style="-fx-padding: 10 20 20 20;">
+
+            <!-- Template visuel pour un cours -->
+            <VBox fx:id="templateCours" spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-border-radius: 5; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 5, 0, 0);" visible="false">
+                <ImageView fx:id="templateImage" fitHeight="200" fitWidth="300" preserveRatio="true" />
+                <Label fx:id="templateCategorie" style="-fx-font-size: 14px; -fx-text-fill: #16ac63; -fx-font-weight: bold;" />
+                <Label fx:id="templateTitre" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+            </VBox>
+        </VBox>
+    </ScrollPane>
+</AnchorPane>

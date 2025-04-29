@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.back.affichierCoursController"
+            style="-fx-background-color: #f6f9ff; -fx-padding: 20px;">
+
+    <!-- En-tête -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 0 0 20px 0;">
+            <Label text="Gestion des Cours"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #4154f1;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnAddCours"
+                    text="Ajouter Cours"
+                    style="-fx-background-color: #4154f1; -fx-text-fill: white; -fx-font-weight: bold;"
+                    onAction="#naviguerVersAjoutCours" />
+        </HBox>
+    </top>
+
+    <!-- Contenu principal -->
+    <center>
+        <VBox spacing="15">
+            <!-- Tableau des cours -->
+            <TableView fx:id="TableCours" style="-fx-font-size: 14px;">
+                <columns>
+                    <TableColumn fx:id="IdcoursColum" text="ID" prefWidth="50" />
+                    <TableColumn fx:id="IdcertifColum" text="Certif ID" prefWidth="80" />
+                    <TableColumn fx:id="idTitreColum" text="Titre" prefWidth="250" />
+                    <TableColumn fx:id="idContenuColum" text="Contenu" prefWidth="300" />
+                    <TableColumn fx:id="idCategorieColum" text="Catégorie" prefWidth="150" />
+                    <TableColumn fx:id="actionsColum" text="Actions" prefWidth="150" />
+                </columns>
+            </TableView>
+
+            <!-- Boutons d'actions -->
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button fx:id="btnSupCours"
+                        text="Supprimer"
+                        style="-fx-background-color: #ff3d3d; -fx-text-fill: white; -fx-font-weight: bold;"
+                        onAction="#supprimerCours"
+                        disable="true" />
+            </HBox>
+        </VBox>
+    </center>
+
+    <!-- Pied de page optionnel -->
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10px 0 0 0;">
+            <Label text="Total cours: " style="-fx-font-weight: bold;"/>
+            <Label fx:id="lblTotalCours" text="0" style="-fx-font-weight: bold; -fx-text-fill: #4154f1;"/>
+        </HBox>
+    </bottom>
+</BorderPane>

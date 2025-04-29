@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.back.affichierQuestionController"
+            style="-fx-background-color: #f6f9ff; -fx-padding: 20px;">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 0 0 20px 0;">
+            <Label text="Gestion des Questions" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #4154f1;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnAddQuestion" text="Ajouter Question" style="-fx-background-color: #4154f1; -fx-text-fill: white;" />
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="10">
+            <TableView fx:id="tableView" style="-fx-font-size: 14px;">
+                <columns>
+                    <TableColumn fx:id="idCol" text="ID" prefWidth="50" />
+                    <TableColumn fx:id="quizIdCol" text="Quiz ID" prefWidth="80" />
+                    <TableColumn fx:id="certifIdCol" text="Certif ID" prefWidth="80" />
+                    <TableColumn fx:id="questionCol" text="Question" prefWidth="300" />
+                    <TableColumn fx:id="optionsCol" text="Options" prefWidth="350" />
+                    <TableColumn fx:id="actionsColum" text="Actions" prefWidth="150" />
+                </columns>
+            </TableView>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button fx:id="btnSupQuestion" text="Supprimer Sélection"
+                        style="-fx-background-color: #ff3d3d; -fx-text-fill: white;"
+                        disable="true" />
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
