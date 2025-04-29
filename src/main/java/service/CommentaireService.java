@@ -79,7 +79,7 @@ public class CommentaireService {
             throw new IllegalArgumentException("Le contenu du commentaire ne peut pas être vide");
         }
 
-        if (c.getContenu().length() > 10) {
+        if (c.getContenu().length() > 300) {
             throw new IllegalArgumentException("Le commentaire ne doit pas dépasser 300 caractères");
         }
 
@@ -150,5 +150,32 @@ public class CommentaireService {
         }
 
         return list;
+    }
+
+    /**
+     * Get the count of comments for a specific feed
+     * 
+     * @param feedId The ID of the feed
+     * @return The number of comments for this feed
+     * @throws SQLException If there is an error accessing the database
+     * @throws IllegalArgumentException If the feedId is invalid
+     */
+    public int getCommentCountForFeed(int feedId) throws SQLException {
+        if (feedId <= 0) {
+            throw new IllegalArgumentException("ID de publication invalide");
+        }
+
+        String sql = "SELECT COUNT(*) FROM commentaire WHERE feed_id = ?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, feedId);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+                return 0;
+            }
+        }
     }
 }

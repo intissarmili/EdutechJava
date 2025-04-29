@@ -1,8 +1,11 @@
 package models;
 
+import java.time.LocalDateTime;
+
 public class Feed {
     private int id;
     private String publication;
+    private LocalDateTime lastModified;
 
     public Feed() {
     }
@@ -10,10 +13,18 @@ public class Feed {
     public Feed(int id, String publication) {
         this.id = id;
         this.publication = publication;
+        this.lastModified = LocalDateTime.now();
+    }
+
+    public Feed(int id, String publication, LocalDateTime lastModified) {
+        this.id = id;
+        this.publication = publication;
+        this.lastModified = lastModified;
     }
 
     public Feed(String publication) {
         this.publication = publication;
+        this.lastModified = LocalDateTime.now();
     }
 
     public int getId() {
@@ -30,6 +41,14 @@ public class Feed {
 
     public void setPublication(String publication) {
         this.publication = publication;
+    }
+
+    public LocalDateTime getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(LocalDateTime lastModified) {
+        this.lastModified = lastModified;
     }
 
     @Override

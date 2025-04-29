@@ -12,6 +12,7 @@ import service.CommentaireService;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class FeedController {
@@ -165,38 +166,35 @@ public class FeedController {
 
     @FXML
     private void addFeed() {
-        String publication = newFeedTextArea.getText().trim();
-
-        if (publication.isEmpty()) {
-            showError("Veuillez saisir une publication");
+        String content = newFeedTextArea.getText().trim();
+        
+        if (content.isEmpty()) {
+            showError("Le contenu ne peut pas être vide");
             return;
         }
-
-        if (publication.length() > 14) {
-            showError("La publication ne doit pas dépasser 14 caractères");
+        
+        if (content.length() > 14) {
+            showError("Le contenu ne doit pas dépasser 14 caractères");
             return;
         }
-
-        if (containsForbiddenWords(publication)) {
-            showError("La publication contient des mots interdits");
+        
+        if (containsForbiddenWords(content)) {
+            showError("Le contenu contient des mots interdits");
             return;
         }
-
-        Feed feed = new Feed();
-        feed.setPublication(publication);
-
+        
+        Feed newFeed = new Feed();
+        newFeed.setPublication(content);
+        newFeed.setLastModified(LocalDateTime.now());
+        
         try {
-            feedService.addFeed(feed);
+            feedService.createFeed(newFeed);
             newFeedTextArea.clear();
+            feedLengthLabel.setText("0/14");
+            feedLengthLabel.setStyle("-fx-text-fill: grey;");
             loadFeeds();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ListFeed.fxml"));
-            AnchorPane listFeedRoot = loader.load();
-            newFeedTextArea.getScene().setRoot(listFeedRoot);
-
-        } catch (SQLException | IOException e) {
-            showError("Erreur: " + e.getMessage());
-            e.printStackTrace();
+        } catch (SQLException e) {
+            showError("Erreur lors de l'ajout de la publication: " + e.getMessage());
         }
     }
 
