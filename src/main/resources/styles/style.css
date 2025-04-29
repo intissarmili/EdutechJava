@@ -496,3 +496,92 @@ Label {
 #speakButton:disabled {
     -fx-background-color: #cccccc;
 }
+
+/* Icon Button Styles */
+.icon-button {
+    -fx-cursor: hand;
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-padding: 5px;
+    -fx-transition: all 0.2s ease-in-out;
+}
+
+.icon-button:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+/* Card Styles */
+.availability-card {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 2);
+    -fx-padding: 15px;
+    -fx-transition: all 0.2s ease-in-out;
+}
+
+.availability-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 10, 0, 0, 3);
+    -fx-translate-y: -2px;
+}
+
+/* Filter Section */
+.filter-section {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);
+    -fx-padding: 15px;
+}
+
+/* Date Picker */
+.date-picker {
+    -fx-background-color: white;
+    -fx-background-radius: 4px;
+    -fx-border-color: #dcdcdc;
+    -fx-border-radius: 4px;
+}
+
+.date-picker:focused {
+    -fx-border-color: #2196F3;
+}
+
+/* Label Styles */
+.title-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.info-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Scroll Pane */
+.scroll-pane {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #bdc3c7;
+    -fx-background-radius: 5em;
+}
+
+/* Details Pane */
+.details-pane {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-padding: 25px;
+}
