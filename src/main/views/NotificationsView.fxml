@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.NotificationController"
+      spacing="10"
+      style="-fx-background-color: white; -fx-padding: 15px;">
+    
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Notifications" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+        <Label fx:id="unreadCountLabel" style="-fx-font-size: 14px;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="markAllReadButton" text="Mark All as Read"/>
+    </HBox>
+    
+    <!-- Notifications Container -->
+    <ScrollPane fitToWidth="true" style="-fx-background: white; -fx-background-color: white;">
+        <VBox fx:id="notificationsContainer" spacing="5"/>
+    </ScrollPane>
+    
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+</VBox> 
