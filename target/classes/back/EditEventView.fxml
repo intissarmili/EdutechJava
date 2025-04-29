@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.EditEventController"
+      spacing="20"
+      style="-fx-background-color: #f5f7fa;"
+      alignment="TOP_CENTER"
+      prefWidth="600">
+
+    <padding>
+        <Insets top="25" right="30" bottom="25" left="30"/>
+    </padding>
+
+    <Label text="Modifier un événement" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;">
+        <font>
+            <Font name="System Bold" size="18.0" />
+        </font>
+    </Label>
+
+    <GridPane hgap="15" vgap="15" style="-fx-background-color: white; -fx-background-radius: 5; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
+        <columnConstraints>
+            <ColumnConstraints prefWidth="150" halignment="RIGHT"/>
+            <ColumnConstraints prefWidth="300" hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <!-- Titre -->
+        <Label text="Titre:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+        <TextField fx:id="tfTitle" promptText="Titre de l'événement" GridPane.rowIndex="0" GridPane.columnIndex="1" style="-fx-padding: 8;"/>
+
+        <!-- Catégorie -->
+        <Label text="Catégorie:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+        <ComboBox fx:id="cbCategory" promptText="Choisir une catégorie" GridPane.rowIndex="1" GridPane.columnIndex="1" style="-fx-padding: 8;"/>
+
+        <!-- Date -->
+        <Label text="Date:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+        <DatePicker fx:id="dpDate" promptText="Date de l'événement" GridPane.rowIndex="2" GridPane.columnIndex="1" style="-fx-padding: 8;"/>
+
+        <!-- Heure -->
+        <Label text="Heure (HH:mm):" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+        <TextField fx:id="tfTime" promptText="Ex: 14:30" GridPane.rowIndex="3" GridPane.columnIndex="1" style="-fx-padding: 8;"/>
+
+        <!-- Photo -->
+        <Label text="Photo:" GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+        <HBox spacing="10" GridPane.rowIndex="4" GridPane.columnIndex="1" alignment="CENTER_LEFT">
+            <Label fx:id="lblImagePath" style="-fx-text-fill: #7f8c8d;" HBox.hgrow="ALWAYS"/>
+            <Button fx:id="btnImage" text="Parcourir..." onAction="#handleChooseImage"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 4;"/>
+        </HBox>
+
+        <!-- Description -->
+        <Label text="Description:" GridPane.rowIndex="5" GridPane.columnIndex="0" style="-fx-font-weight: bold; -fx-text-fill: #34495e;" GridPane.valignment="TOP"/>
+        <TextArea fx:id="taDescription" promptText="Description de l'événement" wrapText="true" GridPane.rowIndex="5" GridPane.columnIndex="1" style="-fx-padding: 8;"/>
+    </GridPane>
+
+    <!-- Barre de séparation -->
+    <Separator style="-fx-padding: 10 0;"/>
+
+    <!-- Boutons d'action -->
+    <HBox spacing="15" alignment="CENTER_RIGHT">
+        <Button fx:id="btnCancel" text="Annuler" onAction="#handleCancel"
+                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 4;"/>
+        <Button fx:id="btnUpdate" text="Mettre à jour" onAction="#handleUpdate" defaultButton="true"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 4;"/>
+    </HBox>
+</VBox>
