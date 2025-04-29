@@ -28,6 +28,9 @@ public class addCertificationController {
         certificationService = new CertificationService();
     }
 
+
+
+
     @FXML
     private void handleAddCertification() {
         if (!validateInputs()) {

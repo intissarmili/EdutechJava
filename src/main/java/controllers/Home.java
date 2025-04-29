@@ -12,7 +12,7 @@ public class Home extends Application {
     public void start(Stage primaryStage) throws Exception {
         try {
             // Load the FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chat_view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/BlogCours.fxml"));
             Parent root = loader.load();
 
             // Set up the stage

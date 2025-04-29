@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class QuizView {
-    @FXML private Label noteLabel;  // Ajoutez cette ligne
     @FXML private VBox quizContainer;
     @FXML private VBox resultsContainer;
     @FXML private Label labelQuestion;
@@ -25,14 +24,15 @@ public class QuizView {
     @FXML private Label coinsLabel;
     @FXML private ProgressBar timerProgress;
     @FXML private Label timerLabel;
+    @FXML private Label noteLabel;
 
     private List<Question> questions;
     private String[] userAnswers;
     private int currentIndex = 0;
     private Quiz quiz;
     private Timeline timeline;
-    private final int TIME_LIMIT = 30;
-    private int timeRemaining = TIME_LIMIT;
+    private static final int TIME_LIMIT = 30;
+    private int timeRemaining;
 
     public void initializeQuiz(int quizId) {
         try {
@@ -41,8 +41,7 @@ public class QuizView {
             this.userAnswers = new String[questions.size()];
             this.quiz = new Quiz();
             quiz.setQuestions(questions);
-            showQuestion(currentIndex);
-            startTimer();
+            showQuestion(currentIndex); // timer démarrera dans showQuestion directement
         } catch (SQLException e) {
             showError("Erreur lors du chargement du quiz : " + e.getMessage());
         }
@@ -73,17 +72,21 @@ public class QuizView {
 
     private void updateTimerDisplay() {
         timerLabel.setText(timeRemaining + "s");
-        timerProgress.setProgress((double)timeRemaining / TIME_LIMIT);
+        timerProgress.setProgress((double) timeRemaining / TIME_LIMIT);
     }
 
     private void handleTimeExpired() {
         String correctAnswer = questions.get(currentIndex).getReponseCorrecte();
         highlightAnswer(correctAnswer, true);
-        userAnswers[currentIndex] = null;
+        userAnswers[currentIndex] = null; // Aucun choix = réponse fausse
     }
 
     private void showQuestion(int index) {
         if (index < 0 || index >= questions.size()) return;
+
+        if (timeline != null) {
+            timeline.stop();
+        }
 
         optionsBox.getChildren().clear();
         Question q = questions.get(index);
@@ -111,16 +114,17 @@ public class QuizView {
             }
         });
 
-        startTimer();
+        startTimer(); // seulement ici
     }
 
     private void highlightAnswer(String correctAnswer, boolean timeExpired) {
         for (Node node : optionsBox.getChildren()) {
-            RadioButton rb = (RadioButton) node;
-            if (rb.getText().equals(correctAnswer)) {
-                rb.setStyle("-fx-text-fill: #00cc00; -fx-font-weight: bold;");
-            } else {
-                rb.setStyle("");
+            if (node instanceof RadioButton rb) {
+                if (rb.getText().equals(correctAnswer)) {
+                    rb.setStyle("-fx-text-fill: #00cc00; -fx-font-weight: bold;");
+                } else {
+                    rb.setStyle("-fx-text-fill: black;"); // Important: reset style
+                }
             }
         }
     }
@@ -151,6 +155,7 @@ public class QuizView {
         int score = quiz.calculerNote();
         showResults(score);
     }
+    @FXML
 
     private void showResults(int score) {
         quizContainer.setVisible(false);
@@ -166,7 +171,9 @@ public class QuizView {
 
     @FXML
     private void handleFinish() {
-        noteLabel.getScene().getWindow().hide();
+        if (noteLabel.getScene() != null) {
+            noteLabel.getScene().getWindow().hide();
+        }
     }
 
     private void showError(String message) {

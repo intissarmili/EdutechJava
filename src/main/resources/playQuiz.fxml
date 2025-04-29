@@ -3,57 +3,64 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox spacing="20" alignment="TOP_CENTER"
+<VBox fx:id="quizContainer" spacing="20" alignment="TOP_CENTER"
       xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      style="-fx-padding: 30; -fx-background-color: #f7f9fc;">
+      fx:controller="controllers.QuizView"
+      style="-fx-padding: 20; -fx-background-color: #f5f5f5;">
 
-    <!-- Conteneur principal des questions -->
-    <VBox spacing="25" style="-fx-padding: 20; -fx-max-width: 600;">
+    <!-- En-tête du quiz -->
+    <HBox style="-fx-background-color: white; -fx-padding: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 2, 0, 0, 1); -fx-background-radius: 8;">
+        <Label text="Quiz" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #3c4043;" />
+    </HBox>
 
-        <!-- Première question -->
-        <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);">
-            <Label text="How are you feeling today?" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-            <Label text="2 points" style="-fx-font-size: 12px; -fx-text-fill: #5f6368;"/>
+    <!-- Timer amélioré avec changement de couleur -->
+    <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 0 20;">
+        <Label text="⏱️" style="-fx-font-size: 16px;" />
+        <Label fx:id="timerLabel" text="30s" style="-fx-font-size: 14px; -fx-text-fill: #5f6368;" />
+        <ProgressBar fx:id="timerProgress" progress="1.0"
+                     style="-fx-accent: #34a853; -fx-pref-width: 200; -fx-pref-height: 6;" />
+    </HBox>
 
-            <VBox spacing="8" style="-fx-padding: 5 0 0 0;">
-                <CheckBox text="Well"/>
-                <CheckBox text="Good"/>
-                <CheckBox text="Not too bad"/>
-                <CheckBox text="Thats none of your business"/>
-            </VBox>
+    <!-- Section des questions -->
+    <VBox fx:id="questionsContainer" spacing="25" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 2, 0, 0, 1); -fx-max-width: 800;">
+
+        <!-- Question actuelle avec points -->
+        <VBox spacing="5">
+            <Label fx:id="labelQuestion" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #202124;" />
+            <Label fx:id="pointsLabel" style="-fx-font-size: 13px; -fx-text-fill: #5f6368;" />
         </VBox>
 
-        <!-- Deuxième question -->
-        <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);">
-            <Label text="How is your online classes experience going so far?" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-            <Label text="2 points" style="-fx-font-size: 12px; -fx-text-fill: #5f6368;"/>
-
-            <VBox spacing="8" style="-fx-padding: 5 0 0 0;">
-                <CheckBox text="Very good"/>
-                <CheckBox text="Not too bad"/>
-                <CheckBox text="I prefer not to say!"/>
-                <CheckBox text="None of these"/>
-            </VBox>
-        </VBox>
-
-        <!-- Troisième question -->
-        <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);">
-            <Label text="What is the capital of Pakistan" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-            <Label text="2 points" style="-fx-font-size: 12px; -fx-text-fill: #5f6368;"/>
-
-            <VBox spacing="8" style="-fx-padding: 5 0 0 0;">
-                <CheckBox text="Islamabad"/>
-                <!-- Ajoutez d'autres options ici -->
-            </VBox>
+        <!-- Conteneur pour les options dynamiques -->
+        <VBox fx:id="optionsBox" spacing="8" style="-fx-padding: 10 0 0 20;">
+            <!-- Les RadioButtons seront ajoutés ici dynamiquement -->
         </VBox>
     </VBox>
 
     <!-- Boutons de navigation -->
-    <HBox spacing="15" alignment="CENTER">
-        <Button text="Précédent"
-                style="-fx-background-color: #f1f3f4; -fx-text-fill: #3c4043; -fx-font-weight: bold;"/>
-        <Button text="Suivant"
-                style="-fx-background-color: #1a73e8; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    <HBox spacing="15" alignment="CENTER_RIGHT" style="-fx-padding: 0 20;">
+        <Button text="PRÉCÉDENT" onAction="#handlePrevious"
+                style="-fx-background-color: transparent; -fx-text-fill: #1a73e8; -fx-font-weight: bold; -fx-border-color: #dadce0; -fx-border-radius: 4; -fx-padding: 8 16;" />
+        <Button text="SUIVANT" onAction="#handleNext"
+                style="-fx-background-color: #1a73e8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 4; -fx-padding: 8 24;" />
+        <Button text="SOUMETTRE" onAction="#handleSubmit"
+                style="-fx-background-color: #34a853; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 4; -fx-padding: 8 24;" />
     </HBox>
+
+    <!-- Résultats du Quiz amélioré -->
+    <VBox fx:id="resultsContainer" spacing="20" alignment="CENTER" visible="false"
+          style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 2, 0, 0, 1); -fx-max-width: 600;">
+
+        <Label fx:id="resultIcon" style="-fx-font-size: 48px;" />
+        <Label text="Résultats du Quiz" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #202124;" />
+
+        <VBox spacing="10" alignment="CENTER">
+            <Label fx:id="scoreLabel" style="-fx-font-size: 18px; -fx-text-fill: #5f6368;" />
+            <Label fx:id="coinsLabel" style="-fx-font-size: 16px; -fx-text-fill: #5f6368;" />
+            <Label fx:id="feedbackLabel" style="-fx-font-size: 14px; -fx-text-fill: #5f6368; -fx-font-style: italic;" />
+        </VBox>
+
+        <Button text="TERMINER" onAction="#handleFinish"
+                style="-fx-background-color: #1a73e8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 4; -fx-padding: 8 24; -fx-font-size: 14px;" />
+    </VBox>
 </VBox>
