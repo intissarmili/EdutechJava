@@ -37,13 +37,10 @@ import java.util.ResourceBundle;
 import javafx.scene.input.MouseEvent;
 import utils.ESpeakTTS;
 import utils.SimpleMeetingLinkGenerator;
-import utils.GoogleMeetService;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import utils.InfobipSMSService;
 import utils.EmailService;
 
 public class CalendarViewController implements Initializable {
@@ -253,11 +250,6 @@ public class CalendarViewController implements Initializable {
                         sendConfirmationEmailWithPrompt(res);
                     }
 
-                    // If the reservation is confirmed, offer to send SMS
-                    if ("Confirmed".equals(newStatus) && InfobipSMSService.isAvailable()) {
-                        offerSendConfirmationSMS(res);
-                    }
-
                     showAlert("Success", "Reservation status updated to " + newStatus, AlertType.INFORMATION);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -288,26 +280,20 @@ public class CalendarViewController implements Initializable {
 
     private void toggleReservationStatus(Entry<reservation> entry, reservation res) {
         try {
+            // Toggle status
             String newStatus = "Confirmed".equals(res.getStatus()) ? "Not Confirmed" : "Confirmed";
             res.setStatus(newStatus);
             reservationService.update(res);
 
-            // Update the entry appearance
-            customizeEntryAppearance(entry);
+            // Update entry appearance
+            updateEntryAppearance(entry, res);
 
             // If the reservation is confirmed, send confirmation email
             if ("Confirmed".equals(newStatus)) {
                 sendConfirmationEmailWithPrompt(res);
             }
-
-            showAlert("Success",
-                    "Reservation status changed to " + newStatus,
-                    AlertType.INFORMATION);
         } catch (SQLException e) {
-            e.printStackTrace();
-            showAlert("Error",
-                    "Failed to update reservation status: " + e.getMessage(),
-                    AlertType.ERROR);
+            showAlert("Error", "Failed to update reservation status: " + e.getMessage(), AlertType.ERROR);
         }
     }
 
@@ -465,163 +451,7 @@ public class CalendarViewController implements Initializable {
         String meetingLink = SimpleMeetingLinkGenerator.generateMeetingLink(res.getTopic());
 
         // Show dialog with the link
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Meeting Link");
-        alert.setHeaderText("Video Conference Link Generated");
-
-        // Create content with the link
-        VBox content = new VBox(10);
-        content.setPadding(new Insets(10));
-
-        Label infoLabel = new Label("Share this link with participants:");
-        Hyperlink link = new Hyperlink(meetingLink);
-        link.setOnAction(e -> {
-            try {
-                // Open the link in the default browser
-                Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start", meetingLink});
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
-
-        // Add a copy button
-        Button copyButton = new Button("Copy to Clipboard");
-        copyButton.setOnAction(e -> {
-            ClipboardContent clipboardContent = new ClipboardContent();
-            clipboardContent.putString(meetingLink);
-            Clipboard.getSystemClipboard().setContent(clipboardContent);
-            showAlert("Copied", "Link copied to clipboard", AlertType.INFORMATION);
-        });
-
-        // Add a button to send the link via email
-        Button emailButton = new Button("Send Link via Email");
-        emailButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
-        emailButton.setOnAction(e -> {
-            sendMeetingLinkViaEmail(meetingLink);
-            alert.close();
-        });
-
-        // Add a button to send the link via SMS if the service is available
-        if (InfobipSMSService.isAvailable()) {
-            Button smsButton = new Button("Send Link via SMS");
-            smsButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
-            smsButton.setOnAction(e -> {
-                sendMeetingLinkViaSMS(meetingLink);
-                alert.close();
-            });
-            content.getChildren().addAll(infoLabel, link, copyButton, emailButton, smsButton);
-        } else {
-            content.getChildren().addAll(infoLabel, link, copyButton, emailButton);
-        }
-
-        alert.getDialogPane().setContent(content);
-        alert.showAndWait();
-    }
-
-    /**
-     * Offer to send a confirmation SMS when a reservation is confirmed
-     */
-    private void offerSendConfirmationSMS(reservation res) {
-        Alert smsAlert = new Alert(AlertType.CONFIRMATION);
-        smsAlert.setTitle("Send Confirmation SMS");
-        smsAlert.setHeaderText("Would you like to send a confirmation SMS?");
-        smsAlert.setContentText("Send a confirmation SMS to the student for this reservation?");
-
-        smsAlert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                // Ask for phone number
-                TextInputDialog phoneDialog = new TextInputDialog("+33");
-                phoneDialog.setTitle("Phone Number");
-                phoneDialog.setHeaderText("Enter student's phone number");
-                phoneDialog.setContentText("Phone number (with country code):");
-
-                phoneDialog.showAndWait().ifPresent(phoneNumber -> {
-                    if (phoneNumber != null && !phoneNumber.trim().isEmpty()) {
-                        // Get student name
-                        TextInputDialog nameDialog = new TextInputDialog("");
-                        nameDialog.setTitle("Student Name");
-                        nameDialog.setHeaderText("Enter student's name");
-                        nameDialog.setContentText("Name:");
-
-                        nameDialog.showAndWait().ifPresent(studentName -> {
-                            if (studentName != null && !studentName.trim().isEmpty()) {
-                                // Format date and time
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-                                String date = dateFormat.format(res.getStart_time());
-                                String time = timeFormat.format(res.getStart_time());
-
-                                // Get tutor name (or use default)
-                                String tutorName = "your tutor";
-                                try {
-                                    if (currentAvailability != null) {
-                                        int tutorId = currentAvailability.getTutorId();
-                                        tutorName = "Tutor #" + tutorId;
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-
-                                // Send the confirmation SMS
-                                boolean sent = InfobipSMSService.sendReservationConfirmation(
-                                        phoneNumber,
-                                        studentName,
-                                        tutorName,
-                                        date,
-                                        time,
-                                        res.getTopic());
-
-                                if (sent) {
-                                    showAlert("SMS Sent", "Confirmation SMS sent to " + phoneNumber, AlertType.INFORMATION);
-
-                                    // Ask if they also want to generate a meeting link
-                                    offerGenerateMeetingLink(phoneNumber);
-                                }
-                            }
-                        });
-                    }
-                });
-            }
-        });
-    }
-
-    /**
-     * Offer to generate a meeting link after sending a confirmation SMS
-     */
-    private void offerGenerateMeetingLink(String phoneNumber) {
-        Alert meetingAlert = new Alert(AlertType.CONFIRMATION);
-        meetingAlert.setTitle("Create Meeting Link");
-        meetingAlert.setHeaderText("Would you like to create a meeting link?");
-        meetingAlert.setContentText("Generate a video conference link for this session?");
-
-        meetingAlert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                // Generate the meeting link
-                if (selectedEntry != null) {
-                    reservation res = selectedEntry.getUserObject();
-                    String meetingLink = SimpleMeetingLinkGenerator.generateMeetingLink(res.getTopic());
-
-                    // Ask if they want to send the link via SMS
-                    Alert smsLinkAlert = new Alert(AlertType.CONFIRMATION);
-                    smsLinkAlert.setTitle("Send Meeting Link");
-                    smsLinkAlert.setHeaderText("Send the meeting link via SMS?");
-                    smsLinkAlert.setContentText("Send the video conference link to the student's phone?");
-
-                    smsLinkAlert.showAndWait().ifPresent(smsResponse -> {
-                        if (smsResponse == ButtonType.OK) {
-                            // Send the meeting link via SMS
-                            boolean sent = InfobipSMSService.sendMeetingLink(phoneNumber, meetingLink);
-                            if (sent) {
-                                showAlert("Link Sent", "Meeting link sent via SMS", AlertType.INFORMATION);
-                            }
-                        }
-
-                        // Show the meeting link anyway
-                        showMeetingLinkAlert(meetingLink);
-                    });
-                }
-            }
-        });
+        showMeetingLinkAlert(meetingLink);
     }
 
     /**
@@ -629,53 +459,41 @@ public class CalendarViewController implements Initializable {
      */
     private void showMeetingLinkAlert(String meetingLink) {
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Meeting Link");
-        alert.setHeaderText("Video Conference Link Generated");
+        alert.setTitle("Meeting Link Generated");
+        alert.setHeaderText("Your meeting link is ready!");
 
-        // Create content with the link
         VBox content = new VBox(10);
         content.setPadding(new Insets(10));
 
-        Label infoLabel = new Label("Here is your meeting link:");
+        Label infoLabel = new Label("Share this link with your student:");
+        infoLabel.setStyle("-fx-font-weight: bold;");
+
         Hyperlink link = new Hyperlink(meetingLink);
         link.setOnAction(e -> {
-            try {
-                Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start", meetingLink});
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            ClipboardContent content2 = new ClipboardContent();
+            content2.putString(meetingLink);
+            Clipboard.getSystemClipboard().setContent(content2);
+            showAlert("Copied", "Link copied to clipboard!", AlertType.INFORMATION);
         });
 
-        Button copyButton = new Button("Copy to Clipboard");
+        Button copyButton = new Button("Copy Link");
+        copyButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
         copyButton.setOnAction(e -> {
-            ClipboardContent clipboardContent = new ClipboardContent();
-            clipboardContent.putString(meetingLink);
-            Clipboard.getSystemClipboard().setContent(clipboardContent);
-            showAlert("Copied", "Link copied to clipboard", AlertType.INFORMATION);
+            ClipboardContent content2 = new ClipboardContent();
+            content2.putString(meetingLink);
+            Clipboard.getSystemClipboard().setContent(content2);
+            showAlert("Copied", "Link copied to clipboard!", AlertType.INFORMATION);
         });
 
-        content.getChildren().addAll(infoLabel, link, copyButton);
+        Button emailButton = new Button("Send via Email");
+        emailButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
+        emailButton.setOnAction(e -> {
+            sendMeetingLinkViaEmail(meetingLink);
+        });
+
+        content.getChildren().addAll(infoLabel, link, copyButton, emailButton);
         alert.getDialogPane().setContent(content);
         alert.showAndWait();
-    }
-
-    /**
-     * Send a meeting link via SMS
-     */
-    private void sendMeetingLinkViaSMS(String meetingLink) {
-        TextInputDialog phoneDialog = new TextInputDialog("+33");
-        phoneDialog.setTitle("Send Meeting Link");
-        phoneDialog.setHeaderText("Enter recipient's phone number");
-        phoneDialog.setContentText("Phone number (with country code):");
-
-        phoneDialog.showAndWait().ifPresent(phoneNumber -> {
-            if (phoneNumber != null && !phoneNumber.trim().isEmpty()) {
-                boolean sent = InfobipSMSService.sendMeetingLink(phoneNumber, meetingLink);
-                if (sent) {
-                    showAlert("SMS Sent", "Meeting link sent to " + phoneNumber, AlertType.INFORMATION);
-                }
-            }
-        });
     }
 
     /**

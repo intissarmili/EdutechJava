@@ -1,4 +1,4 @@
-package controllers.user;
+package controllers;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -10,8 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.User;
-import services.user.IUserService;
-import services.user.UserService;
+import service.user.IUserService;
+import service.user.UserService;
 import utils.Session;
 
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class AdminController {
     @FXML private TableColumn<User, String> approvedColumn; // ✅ New approved status column
     @FXML private TextField searchField;
 
-    private final IUserService userService = new UserService();
+    private final IUserService userService = (IUserService) new UserService();
     private ObservableList<User> userList;
     private Timer banCheckTimer;
 
@@ -87,7 +87,7 @@ public class AdminController {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/user/ModifierBack.fxml"));
                 Parent root = loader.load();
-                ModifierBackController controller = loader.getController();
+                controllers.ModifierBackController controller = loader.getController();
                 controller.setUser(selected);
                 Stage stage = new Stage();
                 stage.setTitle("Modifier l'utilisateur");
@@ -177,7 +177,7 @@ public class AdminController {
             public void run() {
                 User currentUser = Session.getCurrentUser();
                 if (currentUser != null) {
-                    IUserService userService = new UserService();
+                    IUserService userService = (IUserService) new UserService();
                     User freshUser = userService.getUserByEmail(currentUser.getEmail());
                     if (freshUser.isBanned()) {
                         Platform.runLater(() -> {

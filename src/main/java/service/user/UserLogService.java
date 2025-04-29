@@ -1,4 +1,4 @@
-package services.user;
+package service.user;
 
 import models.UserLog;
 import utils.MaConnexion;

@@ -1,7 +1,7 @@
 package utils;
 
-import javax.mail.*;
-import javax.mail.internet.*;
+import jakarta.mail.*;
+import jakarta.mail.internet.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
@@ -22,7 +22,7 @@ public class EmailService {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    private static Session session;
+    private static jakarta.mail.Session session;
     private static boolean available = false;
 
     /**
@@ -42,10 +42,10 @@ public class EmailService {
             properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
             // Create session with authenticator
-            session = Session.getInstance(properties, new Authenticator() {
+            session = jakarta.mail.Session.getInstance(properties, new jakarta.mail.Authenticator() {
                 @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(EMAIL_USERNAME, EMAIL_PASSWORD);
+                protected jakarta.mail.PasswordAuthentication getPasswordAuthentication() {
+                    return new jakarta.mail.PasswordAuthentication(EMAIL_USERNAME, EMAIL_PASSWORD);
                 }
             });
 
@@ -115,9 +115,9 @@ public class EmailService {
             String messageWithTimestamp = message + "\n\nSent on: " + currentDate + " at " + currentTime;
 
             // Create a MimeMessage
-            Message mimeMessage = new MimeMessage(session);
-            mimeMessage.setFrom(new InternetAddress(EMAIL_FROM));
-            mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+            jakarta.mail.Message mimeMessage = new jakarta.mail.internet.MimeMessage(session);
+            mimeMessage.setFrom(new jakarta.mail.internet.InternetAddress(EMAIL_FROM));
+            mimeMessage.setRecipients(jakarta.mail.Message.RecipientType.TO, jakarta.mail.internet.InternetAddress.parse(recipient));
             mimeMessage.setSubject(subject);
             mimeMessage.setText(messageWithTimestamp);
 

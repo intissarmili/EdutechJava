@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.user.AdminController" prefWidth="850" prefHeight="500">
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.AdminController" prefWidth="850" prefHeight="500">
     <top>
         <VBox spacing="10" alignment="CENTER" BorderPane.alignment="CENTER">
             <Label text="Interface Admin - Gestion des utilisateurs" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 10px;" />

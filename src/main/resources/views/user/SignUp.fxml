@@ -4,7 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.user.SignUpController"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.SignUpController"
             prefWidth="500" prefHeight="600" stylesheets="@../../styles/style.css">
     <VBox spacing="15" alignment="TOP_CENTER" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
           AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" styleClass="signup-container">

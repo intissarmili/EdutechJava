@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.user.UserListController" prefWidth="600" prefHeight="400">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.UserListController" prefWidth="600" prefHeight="400">
     <children>
         <Label layoutX="20" layoutY="20" text="Liste des utilisateurs" style="-fx-font-size: 18px;" />
 

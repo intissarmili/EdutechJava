@@ -1,4 +1,4 @@
-package controllers.user;
+package controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,9 +10,9 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import models.User;
-import services.user.IUserService;
-import services.user.UserService;
-import services.user.UserLogService;
+import service.user.IUserService;
+import service.user.UserService;
+import service.user.UserLogService;
 import utils.Session;
 import javafx.event.ActionEvent;
 
