@@ -163,7 +163,7 @@ public class ListAvaibilityController {
         calendarButton.setPrefSize(40, 25);  // Small square button for icon
 
 
-            calendarButton.setText("📅");
+        calendarButton.setText("📅");
 
 
         calendarButton.setTooltip(new Tooltip("View Calendar"));

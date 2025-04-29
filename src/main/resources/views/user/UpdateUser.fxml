@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+
+
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.UpdateUserController" prefWidth="400" prefHeight="350">
+<children>
+    <Label layoutX="50" layoutY="20" text="Modifier mes infos" style="-fx-font-size: 18px;" />
+
+    <Label layoutX="50" layoutY="60" text="Email :" />
+    <TextField fx:id="emailField" layoutX="150" layoutY="60" />
+
+    <Label layoutX="50" layoutY="100" text="Mot de passe :" />
+    <PasswordField fx:id="passwordField" layoutX="150" layoutY="100" />
+
+    <Label layoutX="50" layoutY="140" text="Prénom :" />
+    <TextField fx:id="firstNameField" layoutX="150" layoutY="140" />
+
+    <Label layoutX="50" layoutY="180" text="Nom :" />
+    <TextField fx:id="lastNameField" layoutX="150" layoutY="180" />
+
+    <Label layoutX="50" layoutY="220" text="Téléphone :" />
+    <TextField fx:id="phoneNumberField" layoutX="150" layoutY="220" />
+
+    <Button layoutX="150" layoutY="270" text="Mettre à jour" onMouseClicked="#handleUpdate" />
+</children>
+</AnchorPane>

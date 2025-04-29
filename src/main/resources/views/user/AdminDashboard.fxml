@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.AdminDashboardController" prefWidth="800" prefHeight="500">
+
+    <top>
+        <VBox spacing="10" alignment="CENTER" BorderPane.alignment="CENTER">
+            <Label text="Dashboard Administrateur" style="-fx-font-size: 24px; -fx-padding: 20px;" />
+        </VBox>
+    </top>
+
+    <center>
+        <GridPane hgap="20" vgap="20" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Label text="👥 Utilisateurs Totals :" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-size: 16px;"/>
+            <Label fx:id="totalUsersLabel" text="0" GridPane.rowIndex="0" GridPane.columnIndex="1" style="-fx-font-size: 16px;"/>
+
+            <Label text="✅ Utilisateurs Actifs :" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-size: 16px;"/>
+            <Label fx:id="activeUsersLabel" text="0" GridPane.rowIndex="1" GridPane.columnIndex="1" style="-fx-font-size: 16px;"/>
+
+            <Label text="🚫 Utilisateurs Bannís :" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-size: 16px;"/>
+            <Label fx:id="bannedUsersLabel" text="0" GridPane.rowIndex="2" GridPane.columnIndex="1" style="-fx-font-size: 16px;"/>
+
+            <Label text="🕒 Connexions Aujourd'hui :" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-size: 16px;"/>
+            <Label fx:id="todayLoginsLabel" text="0" GridPane.rowIndex="3" GridPane.columnIndex="1" style="-fx-font-size: 16px;"/>
+
+            <Label text="🛡️ Admins en attente :" GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-font-size: 16px;"/>
+            <Label fx:id="pendingAdminsLabel" text="0" GridPane.rowIndex="4" GridPane.columnIndex="1" style="-fx-font-size: 16px;"/>
+
+        </GridPane>
+    </center>
+
+    <bottom>
+        <HBox spacing="10" alignment="CENTER" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="10" right="10" bottom="20" left="10"/>
+            </padding>
+            <Button text="Fermer" onAction="#handleCloseDashboard" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

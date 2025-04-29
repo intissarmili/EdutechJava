@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.UserListController" prefWidth="600" prefHeight="400">
+    <children>
+        <Label layoutX="20" layoutY="20" text="Liste des utilisateurs" style="-fx-font-size: 18px;" />
+
+        <TableView fx:id="userTable" layoutX="20" layoutY="60" prefWidth="560" prefHeight="300">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                <TableColumn fx:id="colEmail" text="Email" prefWidth="150"/>
+                <TableColumn fx:id="colFirstName" text="Prénom" prefWidth="100"/>
+                <TableColumn fx:id="colLastName" text="Nom" prefWidth="100"/>
+                <TableColumn fx:id="colRoles" text="Rôle" prefWidth="150"/>
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>
