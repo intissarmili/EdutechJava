@@ -1,41 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.text.Font?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controller.AjouterCategoryEventController" spacing="20" style="-fx-background-color: #f5f7fa;">
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/17"
+      fx:controller="controller.back.AjouterCategoryEventController"
+      spacing="15"
+      style="-fx-background-color: white;"
+      prefWidth="450">
+
     <padding>
-        <Insets top="25" right="30" bottom="25" left="30"/>
+        <Insets top="20" right="25" bottom="20" left="25"/>
     </padding>
 
-    <Label text="Ajouter une catégorie d'événement" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;">
+    <Label text="Ajouter une nouvelle catégorie"
+           style="-fx-text-fill: #324054; -fx-font-weight: bold;">
         <font>
-            <Font name="System Bold" size="18.0" />
+            <Font size="20"/>
         </font>
     </Label>
 
-    <GridPane vgap="15" hgap="15" style="-fx-background-color: white; -fx-background-radius: 5; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);">
-        <columnConstraints>
-            <ColumnConstraints minWidth="120" prefWidth="120" />
-            <ColumnConstraints hgrow="ALWAYS" />
-        </columnConstraints>
+    <Separator />
 
-        <Label text="Lieu:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-text-fill: #34495e; -fx-font-weight: bold;"/>
-        <TextField fx:id="tfLocation" promptText="Lieu (min. 6 caractères)" GridPane.rowIndex="0" GridPane.columnIndex="1" style="-fx-padding: 8;"/>
+    <!-- Champ LIEU avec ComboBox -->
+    <VBox spacing="5">
+        <Label text="Lieu" style="-fx-text-fill: #324054; -fx-font-weight: bold;">
+            <font>
+                <Font size="14" />
+            </font>
+        </Label>
 
-        <Label text="Type:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-text-fill: #34495e; -fx-font-weight: bold;"/>
-        <TextField fx:id="tfType" promptText="Type (min. 6 caractères)" GridPane.rowIndex="1" GridPane.columnIndex="1" style="-fx-padding: 8;"/>
+        <ComboBox fx:id="cbLocation"
+                  prefWidth="400" prefHeight="35"
+                  promptText="Sélectionner un gouvernorat" />
 
-        <Label text="Durée:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-text-fill: #34495e; -fx-font-weight: bold;"/>
-        <TextField fx:id="tfDuration" promptText="Durée (min. 60:00)" GridPane.rowIndex="2" GridPane.columnIndex="1" style="-fx-padding: 8;"/>
-    </GridPane>
+        <Label text="Le lieu doit contenir au moins 6 caractères"
+               style="-fx-text-fill: #e74c3c; -fx-font-size: 11px;" />
+    </VBox>
 
+    <!-- Champ TYPE -->
+    <VBox spacing="5">
+        <Label text="Type" style="-fx-text-fill: #324054; -fx-font-weight: bold;">
+            <font>
+                <Font size="14" />
+            </font>
+        </Label>
+
+        <TextField fx:id="tfType"
+                   prefWidth="400" prefHeight="35"
+                   promptText="Type (minimum 6 caractères)" />
+    </VBox>
+
+    <!-- Champ DURÉE -->
+    <VBox spacing="5">
+        <Label text="Durée" style="-fx-text-fill: #324054; -fx-font-weight: bold;">
+            <font>
+                <Font size="14" />
+            </font>
+        </Label>
+
+        <HBox spacing="10">
+            <TextField fx:id="tfDuration"
+                       prefWidth="400" prefHeight="35"
+                       promptText="Format: HH:MM (min. 60:00)" />
+        </HBox>
+    </VBox>
+
+    <Separator />
+
+    <!-- Boutons -->
     <HBox spacing="15" alignment="CENTER_RIGHT">
-        <Button fx:id="addButton" text="Ajouter" onAction="#handleAdd" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 4;"/>
-        <Button text="Annuler" onAction="#handleCancel" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 4;"/>
-    </HBox>
+        <Button text="Annuler"
+                onAction="#handleCancel"
+                prefWidth="100" prefHeight="35"
+                style="-fx-background-color: #95a5a6; -fx-text-fill: white;" />
 
-    <Label text="Note: Les champs en rouge indiquent une saisie invalide" style="-fx-font-style: italic; -fx-text-fill: #7f8c8d; -fx-font-size: 12px;"/>
+        <Button fx:id="addButton"
+                text="Ajouter"
+                onAction="#handleAdd"
+                prefWidth="100" prefHeight="35"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white;" />
+    </HBox>
 </VBox>

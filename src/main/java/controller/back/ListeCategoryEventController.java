@@ -3,6 +3,8 @@ package controller.back;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +20,7 @@ import service.CategoryEventService;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 
 public class ListeCategoryEventController {
 
@@ -36,21 +39,33 @@ public class ListeCategoryEventController {
     @FXML
     private TableColumn<CategoryEvent, Void> colActions;
 
+    @FXML
+    private TextField searchField;
+
     private CategoryEventService service = new CategoryEventService();
     private ObservableList<CategoryEvent> categoryList = FXCollections.observableArrayList();
+    private FilteredList<CategoryEvent> filteredData;
 
+    @FXML
     public void initialize() {
+        System.out.println("Initialisation du contrôleur...");
         setupTableColumns();
         refreshTable();
+
+        if (searchField != null) {
+            setupSearchFilter();
+        } else {
+            System.out.println("searchField est null");
+        }
     }
 
     private void setupTableColumns() {
-        // Configuration des colonnes
+        System.out.println("Configuration des colonnes...");
         colLocation.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLocation()));
         colType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType()));
         colDuration.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDuration()));
 
-        // Colonne d'actions (Modifier / Supprimer)
+        // Colonne d'actions avec gestion des erreurs
         colActions.setCellFactory(param -> new TableCell<>() {
             private final Button btnEdit = new Button("Modifier");
             private final Button btnDelete = new Button("Supprimer");
@@ -61,13 +76,37 @@ public class ListeCategoryEventController {
                 btnDelete.setStyle("-fx-base: #f44336;");
 
                 btnEdit.setOnAction(event -> {
-                    CategoryEvent category = getTableView().getItems().get(getIndex());
-                    openEditForm(category);
+                    try {
+                        int index = getIndex();
+                        if (index >= 0 && index < getTableView().getItems().size()) {
+                            CategoryEvent category = getTableView().getItems().get(index);
+                            System.out.println("Édition de la catégorie: " + category.getType());
+                            openEditForm(category);
+                        } else {
+                            System.out.println("Index hors limites: " + index);
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Erreur lors de l'édition: " + e.getMessage());
+                        e.printStackTrace();
+                        showAlert("Erreur", "Une erreur s'est produite lors de l'édition: " + e.getMessage(), Alert.AlertType.ERROR);
+                    }
                 });
 
                 btnDelete.setOnAction(event -> {
-                    CategoryEvent category = getTableView().getItems().get(getIndex());
-                    confirmAndDelete(category);
+                    try {
+                        int index = getIndex();
+                        if (index >= 0 && index < getTableView().getItems().size()) {
+                            CategoryEvent category = getTableView().getItems().get(index);
+                            System.out.println("Suppression de la catégorie: " + category.getType());
+                            confirmAndDelete(category);
+                        } else {
+                            System.out.println("Index hors limites: " + index);
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Erreur lors de la suppression: " + e.getMessage());
+                        e.printStackTrace();
+                        showAlert("Erreur", "Une erreur s'est produite lors de la suppression: " + e.getMessage(), Alert.AlertType.ERROR);
+                    }
                 });
             }
 
@@ -79,40 +118,85 @@ public class ListeCategoryEventController {
         });
     }
 
+    private void setupSearchFilter() {
+        System.out.println("Configuration du filtre de recherche...");
+        filteredData = new FilteredList<>(categoryList, p -> true);
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(category -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (category.getLocation().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (category.getType().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (category.getDuration().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+
+                return false;
+            });
+        });
+
+        SortedList<CategoryEvent> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+        tableView.setItems(sortedData);
+    }
+
     @FXML
     public void refreshTable() {
-        List<CategoryEvent> categories = service.getAll();
-        categoryList.clear();
-        categoryList.addAll(categories);
-        tableView.setItems(categoryList);
+        System.out.println("Rafraîchissement de la table...");
+        try {
+            List<CategoryEvent> categories = service.getAll();
+            System.out.println("Nombre de catégories récupérées: " + categories.size());
+            categoryList.clear();
+            categoryList.addAll(categories);
+
+            if (filteredData != null) {
+                // Le prédicat sera réappliqué automatiquement
+            } else {
+                tableView.setItems(categoryList);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur lors du rafraîchissement de la table: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Erreur", "Une erreur s'est produite lors du chargement des données: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
     public void openAddForm(ActionEvent event) {
+        System.out.println("Ouverture du formulaire d'ajout...");
         try {
-            // Essayez plusieurs chemins possibles
-            URL resourceUrl = null;
-            String[] possiblePaths = {
-                    "/resources/vue/AjouterCategoryEvent.fxml",
-                    "/vue/AjouterCategoryEvent.fxml",
-                    "../vue/AjouterCategoryEvent.fxml",
-                    "/view/AjouterCategoryEvent.fxml",
-                    "AjouterCategoryEvent.fxml"
-            };
+            // Chercher le fichier FXML
+            FXMLLoader loader = new FXMLLoader();
+            URL resourceUrl = getClass().getResource("/vue/AjouterCategoryEvent.fxml");
 
-            for (String path : possiblePaths) {
-                resourceUrl = getClass().getResource(path);
-                if (resourceUrl != null) {
-                    System.out.println("Fichier trouvé à : " + path);
-                    break;
-                }
+            if (resourceUrl == null) {
+                // Essayer d'autres chemins si le premier échoue
+                resourceUrl = getClass().getResource("../vue/AjouterCategoryEvent.fxml");
             }
 
             if (resourceUrl == null) {
-                throw new IOException("Impossible de trouver le fichier FXML 'AjouterCategoryEvent.fxml'. Vérifiez qu'il existe et qu'il est accessible.");
+                // Essayer un chemin relatif
+                resourceUrl = getClass().getResource("AjouterCategoryEvent.fxml");
             }
 
-            FXMLLoader loader = new FXMLLoader(resourceUrl);
+            if (resourceUrl == null) {
+                // Dernière tentative, chemin plus général
+                resourceUrl = getClass().getClassLoader().getResource("vue/AjouterCategoryEvent.fxml");
+            }
+
+            if (resourceUrl == null) {
+                throw new IOException("Impossible de trouver le fichier FXML 'AjouterCategoryEvent.fxml'");
+            }
+
+            System.out.println("Ressource FXML trouvée à: " + resourceUrl);
+            loader.setLocation(resourceUrl);
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -124,36 +208,40 @@ public class ListeCategoryEventController {
             // Rafraîchir la table après fermeture
             refreshTable();
         } catch (IOException e) {
-            e.printStackTrace(); // Pour voir l'erreur complète dans la console
+            System.err.println("Erreur lors de l'ouverture du formulaire d'ajout: " + e.getMessage());
+            e.printStackTrace();
             showAlert("Erreur", "Impossible d'ouvrir le formulaire d'ajout: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
     private void openEditForm(CategoryEvent category) {
+        System.out.println("Ouverture du formulaire d'édition...");
         try {
-            // Essayez plusieurs chemins possibles
-            URL resourceUrl = null;
-            String[] possiblePaths = {
-                    "/resources/vue/EditCategoryEvent.fxml",
-                    "/vue/EditCategoryEvent.fxml",
-                    "../vue/EditCategoryEvent.fxml",
-                    "/view/EditCategoryEvent.fxml",
-                    "EditCategoryEvent.fxml"
-            };
+            // Chercher le fichier FXML
+            FXMLLoader loader = new FXMLLoader();
+            URL resourceUrl = getClass().getResource("/vue/EditCategoryEvent.fxml");
 
-            for (String path : possiblePaths) {
-                resourceUrl = getClass().getResource(path);
-                if (resourceUrl != null) {
-                    System.out.println("Fichier trouvé à : " + path);
-                    break;
-                }
+            if (resourceUrl == null) {
+                // Essayer d'autres chemins si le premier échoue
+                resourceUrl = getClass().getResource("../vue/EditCategoryEvent.fxml");
             }
 
             if (resourceUrl == null) {
-                throw new IOException("Impossible de trouver le fichier FXML 'EditCategoryEvent.fxml'. Vérifiez qu'il existe et qu'il est accessible.");
+                // Essayer un chemin relatif
+                resourceUrl = getClass().getResource("EditCategoryEvent.fxml");
             }
 
-            FXMLLoader loader = new FXMLLoader(resourceUrl);
+            if (resourceUrl == null) {
+                // Dernière tentative, chemin plus général
+                resourceUrl = getClass().getClassLoader().getResource("vue/EditCategoryEvent.fxml");
+            }
+
+            if (resourceUrl == null) {
+                throw new IOException("Impossible de trouver le fichier FXML 'EditCategoryEvent.fxml'");
+            }
+
+            System.out.println("Ressource FXML trouvée à: " + resourceUrl);
+            loader.setLocation(resourceUrl);
             Parent root = loader.load();
 
             EditCategoryEventController controller = loader.getController();
@@ -168,24 +256,32 @@ public class ListeCategoryEventController {
             // Rafraîchir la table après fermeture
             refreshTable();
         } catch (IOException e) {
-            e.printStackTrace(); // Pour voir l'erreur complète dans la console
+            System.err.println("Erreur lors de l'ouverture du formulaire d'édition: " + e.getMessage());
+            e.printStackTrace();
             showAlert("Erreur", "Impossible d'ouvrir le formulaire de modification: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
     private void confirmAndDelete(CategoryEvent category) {
+        System.out.println("Confirmation de suppression...");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation de suppression");
         alert.setHeaderText("Supprimer la catégorie");
         alert.setContentText("Êtes-vous sûr de vouloir supprimer cette catégorie d'événement ?");
 
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
                 service.delete(category);
+                System.out.println("Catégorie supprimée avec succès");
                 refreshTable();
                 showAlert("Succès", "Catégorie supprimée avec succès", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                System.err.println("Erreur lors de la suppression: " + e.getMessage());
+                e.printStackTrace();
+                showAlert("Erreur", "Une erreur s'est produite lors de la suppression: " + e.getMessage(), Alert.AlertType.ERROR);
             }
-        });
+        }
     }
 
     private void showAlert(String title, String content, Alert.AlertType type) {

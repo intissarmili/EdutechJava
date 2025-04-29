@@ -4,63 +4,103 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controller.ListeEventController"
-            stylesheets="/styles/event-styles.css">
+<?import javafx.scene.image.ImageView?>
+<BorderPane prefHeight="700.0" prefWidth="900.0" stylesheets="/vue/styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ListeEventController">
     <top>
-        <VBox spacing="15" styleClass="header-container">
+        <VBox spacing="10.0" BorderPane.alignment="CENTER">
             <padding>
-                <Insets top="20" right="25" bottom="20" left="25"/>
+                <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
             </padding>
-
-            <HBox alignment="CENTER_LEFT" spacing="15">
-                <Label text="Gestion des événements" styleClass="page-title"/>
-                <Region HBox.hgrow="ALWAYS" />
-                <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="search-container">
-                    <TextField fx:id="searchField" promptText="Rechercher par titre, description..."
-                               prefWidth="250" styleClass="search-field"/>
-                    <Button text="Rechercher" onAction="#handleSearch" styleClass="search-button"/>
+            <children>
+                <Label text="Gestion des Événements" textFill="#2c3e50">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Label>
+                <!-- Section météo -->
+                <HBox fx:id="weatherContainer" spacing="10.0" alignment="CENTER_RIGHT" visible="false">
+                    <VBox alignment="CENTER" spacing="5.0">
+                        <Label text="Météo:" textFill="#2c3e50">
+                            <font>
+                                <Font name="System Bold" size="12.0" />
+                            </font>
+                        </Label>
+                        <HBox spacing="5.0" alignment="CENTER">
+                            <ImageView fx:id="weatherIcon" fitHeight="32.0" fitWidth="32.0" preserveRatio="true" />
+                            <VBox spacing="3.0">
+                                <Label fx:id="weatherCondition" text="Condition" />
+                                <Label fx:id="weatherTemperature" text="Température" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
                 </HBox>
-            </HBox>
+                <!-- Barre d'outils avec boutons d'action -->
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <Button mnemonicParsing="false" onAction="#openAddForm" styleClass="button-primary" text="Ajouter" />
+                    <Button mnemonicParsing="false" onAction="#refreshTable" styleClass="button-secondary" text="Rafraîchir" />
+                    <Button mnemonicParsing="false" onAction="#handleExport" styleClass="button-secondary" text="Exporter" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="statusLabel" textFill="#7f8c8d">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                </HBox>
 
-            <HBox alignment="CENTER_RIGHT" spacing="15">
-                <Button text="Ajouter un événement" onAction="#openAddForm" styleClass="add-button">
-                    <graphic>
-                        <Text text="+" styleClass="button-icon"/>
-                    </graphic>
-                </Button>
-                <Button text="Exporter" onAction="#handleExport" styleClass="export-button">
-                    <graphic>
-                        <Text text="↓" styleClass="button-icon"/>
-                    </graphic>
-                </Button>
-                <Button text="Rafraîchir" onAction="#refreshTable" styleClass="refresh-button">
-                    <graphic>
-                        <Text text="↻" styleClass="button-icon"/>
-                    </graphic>
-                </Button>
-            </HBox>
+                <!-- Section de recherche et filtrage -->
+                <GridPane hgap="10.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <TextField fx:id="searchField" promptText="Rechercher..." GridPane.columnIndex="0" />
+                        <ComboBox fx:id="categoryFilterComboBox" prefWidth="150.0" promptText="Catégorie" GridPane.columnIndex="1" />
+                        <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="2">
+                            <Label text="Score min:" />
+                            <TextField fx:id="scoreField" prefWidth="60.0" promptText="0" />
+                        </HBox>
+                        <Button mnemonicParsing="false" onAction="#handleFilterApply" styleClass="button-search" text="Appliquer les filtres" GridPane.columnIndex="3" />
+                    </children>
+                </GridPane>
+
+                <Separator />
+            </children>
         </VBox>
     </top>
 
     <center>
-        <ScrollPane fitToWidth="true" styleClass="content-area">
-            <FlowPane fx:id="eventsContainer" hgap="20" vgap="20" prefWrapLength="800">
-                <padding>
-                    <Insets top="20" right="25" bottom="20" left="25"/>
-                </padding>
-            </FlowPane>
+        <!-- ScrollPane pour le défilement -->
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" BorderPane.alignment="CENTER">
+            <content>
+                <!-- FlowPane pour l'affichage des cartes d'événement -->
+                <FlowPane fx:id="eventsContainer" hgap="15.0" prefWrapLength="900.0" vgap="15.0">
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                    </padding>
+                </FlowPane>
+            </content>
         </ScrollPane>
     </center>
 
     <bottom>
-        <HBox alignment="CENTER" spacing="10" styleClass="footer">
+        <HBox alignment="CENTER_RIGHT" spacing="10.0" BorderPane.alignment="CENTER">
             <padding>
-                <Insets top="10" right="25" bottom="10" left="25"/>
+                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
             </padding>
-            <Label fx:id="statusLabel" text="Prêt"/>
+            <children>
+                <Label text="Développé par Votre Équipe" textFill="#95a5a6">
+                    <font>
+                        <Font size="12.0" />
+                    </font>
+                </Label>
+            </children>
         </HBox>
     </bottom>
 </BorderPane>

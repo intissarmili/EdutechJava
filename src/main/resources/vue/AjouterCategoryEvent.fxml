@@ -5,58 +5,66 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
 <?import java.net.URL?>
 
 <StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.AjouterCategoryEventController"
-           styleClass="modal-background">
+           style="-fx-background-color: rgba(0,0,0,0.5);">
 
-    <stylesheets>
-        <URL value="@/styles/global.css" />
-    </stylesheets>
-
-    <VBox styleClass="form-container" maxWidth="500" maxHeight="450" spacing="15">
+    <VBox styleClass="form-container" maxWidth="500" maxHeight="450" spacing="15" style="-fx-background-color: #ffffff; -fx-background-radius: 10; -fx-padding: 20;">
         <effect>
-            <DropShadow color="#00000040" radius="10" />
+            <DropShadow color="#00000080" radius="15" spread="0.1" />
         </effect>
 
-        <HBox alignment="CENTER" styleClass="form-header">
-            <Label text="Ajouter une nouvelle catégorie d'événement" styleClass="form-title"/>
+        <HBox alignment="CENTER" style="-fx-padding: 0 0 10 0;">
+            <Label text="Ajouter une nouvelle catégorie" styleClass="form-title"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
         </HBox>
 
-        <Separator />
+        <Separator style="-fx-background-color: #ecf0f1;" />
 
-        <VBox spacing="18" styleClass="form-content">
+        <VBox spacing="20" style="-fx-padding: 15 0 15 0;">
             <VBox spacing="5">
-                <Label text="Lieu" styleClass="field-label" />
-                <TextField fx:id="tfLocation" promptText="Lieu (minimum 6 caractères)" styleClass="form-field" />
-                <Label fx:id="locationErrorLabel" text="Le lieu doit contenir au moins 6 caractères" styleClass="error-text" visible="false" />
+                <Label text="Lieu" style="-fx-font-size: 14px; -fx-text-fill: #34495e; -fx-font-weight: bold;" />
+                <TextField fx:id="tfLocation" promptText="Lieu (minimum 6 caractères)"
+                           style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #bdc3c7; -fx-padding: 8;" />
+                <Label fx:id="locationErrorLabel" text="Le lieu doit contenir au moins 6 caractères"
+                       style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;" visible="false" />
             </VBox>
 
             <VBox spacing="5">
-                <Label text="Type" styleClass="field-label" />
-                <TextField fx:id="tfType" promptText="Type (minimum 6 caractères)" styleClass="form-field" />
-                <Label fx:id="typeErrorLabel" text="Le type doit contenir au moins 6 caractères" styleClass="error-text" visible="false" />
+                <Label text="Type" style="-fx-font-size: 14px; -fx-text-fill: #34495e; -fx-font-weight: bold;" />
+                <TextField fx:id="tfType" promptText="Type (minimum 6 caractères)"
+                           style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #bdc3c7; -fx-padding: 8;" />
+                <Label fx:id="typeErrorLabel" text="Le type doit contenir au moins 6 caractères"
+                       style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;" visible="false" />
             </VBox>
 
             <VBox spacing="5">
-                <Label text="Durée" styleClass="field-label" />
-                <HBox spacing="10">
-                    <TextField fx:id="tfDuration" promptText="Format: HH:MM (min. 60:00)" styleClass="form-field" HBox.hgrow="ALWAYS" />
-                    <Button styleClass="icon-button">
+                <Label text="Durée" style="-fx-font-size: 14px; -fx-text-fill: #34495e; -fx-font-weight: bold;" />
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <TextField fx:id="tfDuration" promptText="Format: HH:MM (min. 60:00)"
+                               style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #bdc3c7; -fx-padding: 8; -fx-pref-width: 200;" />
+                    <Button style="-fx-background-color: transparent; -fx-padding: 5;">
                         <graphic>
-                            <Region styleClass="clock-icon" />
+                            <SVGPath content="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"
+                                     style="-fx-fill: #3498db;" />
                         </graphic>
                     </Button>
                 </HBox>
-                <Label fx:id="durationErrorLabel" text="La durée doit être au format HH:MM et d'au moins 60 minutes" styleClass="error-text" visible="false" />
+                <Label fx:id="durationErrorLabel" text="La durée doit être au format HH:MM et d'au moins 60 minutes"
+                       style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;" visible="false" />
             </VBox>
         </VBox>
 
-        <Separator />
+        <Separator style="-fx-background-color: #ecf0f1;" />
 
-        <HBox spacing="15" alignment="CENTER_RIGHT" styleClass="form-footer">
-            <Button text="Annuler" onAction="#handleCancel" styleClass="btn-cancel" />
-            <Button fx:id="addButton" text="Ajouter" onAction="#handleAdd" styleClass="btn-submit" />
+        <HBox spacing="15" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
+            <Button text="Annuler" onAction="#handleCancel"
+                    style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 15; -fx-cursor: hand;" />
+            <Button fx:id="addButton" text="Ajouter" onAction="#handleAdd"
+                    style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 15; -fx-cursor: hand;" />
         </HBox>
     </VBox>
 </StackPane>

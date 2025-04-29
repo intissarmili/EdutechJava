@@ -3,6 +3,7 @@ package service;
 import connect.MyDatabase;
 import interfaces.categoryeventinterface;
 import model.CategoryEvent;
+import model.Event;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,30 +18,30 @@ public class CategoryEventService implements categoryeventinterface {
     }
 
     @Override
-    public void add(CategoryEvent categoryEvent) {
-        String sql = "INSERT INTO categoryevent (location, type, duration) VALUES (?, ?, ?)";
+    // Méthode pour ajouter une catégorie d'événement
+    public boolean add(CategoryEvent category) {  // Changé pour retourner boolean
+        String query = "INSERT INTO categoryevent (location, type, duration) VALUES (?, ?, ?)";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, categoryEvent.getLocation());
-            ps.setString(2, categoryEvent.getType());
-            ps.setString(3, categoryEvent.getDuration());
+        try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, category.getLocation());
+            ps.setString(2, category.getType());
+            ps.setString(3, category.getDuration());
 
             int rowsAffected = ps.executeUpdate();
+
             if (rowsAffected > 0) {
-                System.out.println("✅ Catégorie d'événement ajoutée avec succès !");
-                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        categoryEvent.setId(generatedKeys.getInt(1));
-                    }
+                // Récupérer l'ID généré
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    category.setId(rs.getInt(1));
                 }
-
-
-            } else {
-                System.out.println("⚠️ Aucune ligne n'a été insérée.");
+                return true; // Retourne true si l'ajout est réussi
             }
-        } catch (SQLException ex) {
-            System.err.println("❌ Erreur lors de l'ajout : " + ex.getMessage());
-            ex.printStackTrace();
+            return false; // Retourne false si aucune ligne n'a été affectée
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de l'ajout de la catégorie: " + e.getMessage());
+            e.printStackTrace();
+            return false; // Retourne false en cas d'erreur
         }
     }
 
@@ -135,6 +136,30 @@ public class CategoryEventService implements categoryeventinterface {
             System.err.println("❌ Erreur lors de la mise à jour : " + ex.getMessage());
             ex.printStackTrace();
         }
+    }
+
+    public List<CategoryEvent> getAllCategories() {
+        List<CategoryEvent> categories = new ArrayList<>();
+        String query = "SELECT * FROM categoryevent";
+        try {
+            Connection conn = MyDatabase.getInstance().getCnx();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String type = rs.getString("type");
+                String location = rs.getString("location");
+                String duration = rs.getString("duration");  // Changé de description à duration
+
+                CategoryEvent category = new CategoryEvent(id, location, type, duration);
+                categories.add(category);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération des catégories: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return categories;
     }
 
     // Méthode utilitaire pour récupérer une catégorie par son ID

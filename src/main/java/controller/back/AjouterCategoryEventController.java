@@ -1,15 +1,21 @@
 package controller.back;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.CategoryEvent;
 import service.CategoryEventService;
 
-public class AjouterCategoryEventController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class AjouterCategoryEventController implements Initializable {
 
     @FXML
-    private TextField tfLocation;
+    private ComboBox<String> cbLocation;
 
     @FXML
     private TextField tfType;
@@ -22,99 +28,134 @@ public class AjouterCategoryEventController {
 
     private final CategoryEventService service = new CategoryEventService();
 
-    @FXML
-    public void initialize() {
-        setupValidators();
-        addButton.setDisable(true);
+    // Liste des gouvernorats tunisiens
+    private final ObservableList<String> gouvernorats = FXCollections.observableArrayList(
+            "Tunis", "Ariana", "Ben Arous", "Manouba", "Nabeul", "Zaghouan", "Bizerte",
+            "Béja", "Jendouba", "Le Kef", "Siliana", "Sousse", "Monastir", "Mahdia",
+            "Sfax", "Kairouan", "Kasserine", "Sidi Bouzid", "Gabès", "Médenine",
+            "Tataouine", "Gafsa", "Tozeur", "Kébili"
+    );
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        System.out.println("Initialisation du contrôleur AjouterCategoryEventController");
+
+        // Vérifier que la ComboBox est correctement injectée
+        if (cbLocation == null) {
+            System.err.println("ERREUR: ComboBox cbLocation est null!");
+            return;
+        }
+
+        try {
+            // Initialisation de la ComboBox avec les gouvernorats
+            cbLocation.setItems(gouvernorats);
+
+            // Sélectionner le premier élément par défaut
+            cbLocation.getSelectionModel().selectFirst();
+
+            System.out.println("ComboBox initialisée avec " + gouvernorats.size() + " gouvernorats");
+            System.out.println("Valeur sélectionnée: " + cbLocation.getValue());
+
+            // Configuration des validateurs
+            setupValidators();
+            validateAllFields();
+        } catch (Exception e) {
+            System.err.println("Erreur lors de l'initialisation: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void setupValidators() {
-        // Validation pour le champ Location (minimum 6 caractères)
-        tfLocation.textProperty().addListener((observable, oldValue, newValue) -> {
-            validateField(tfLocation, newValue.length() >= 6);
+        // Validation pour la ComboBox
+        cbLocation.valueProperty().addListener((obs, oldVal, newVal) -> {
+            System.out.println("Valeur de la ComboBox changée: " + newVal);
             validateAllFields();
         });
 
-        // Validation pour le champ Type (minimum 6 caractères)
-        tfType.textProperty().addListener((observable, oldValue, newValue) -> {
-            validateField(tfType, newValue.length() >= 6);
+        // Validation pour le champ Type
+        tfType.textProperty().addListener((obs, oldVal, newVal) -> {
+            validateField(tfType, newVal.length() >= 6);
             validateAllFields();
         });
 
-        // Validation pour le champ Duration (minimum 60:00)
-        tfDuration.textProperty().addListener((observable, oldValue, newValue) -> {
-            boolean isValid = isValidDuration(newValue);
-            validateField(tfDuration, isValid);
+        // Validation pour la durée
+        tfDuration.textProperty().addListener((obs, oldVal, newVal) -> {
+            validateField(tfDuration, isValidDuration(newVal));
             validateAllFields();
         });
     }
 
     private boolean isValidDuration(String duration) {
-        // Vérifie si la durée est au format HH:MM et est d'au moins "60:00"
-        if (duration == null || !duration.matches("\\d{2}:\\d{2}")) {
-            return false;
-        }
-
         try {
             String[] parts = duration.split(":");
+
+            // Vérifier le format HH:MM
+            if (parts.length != 2) {
+                return false;
+            }
+
             int hours = Integer.parseInt(parts[0]);
             int minutes = Integer.parseInt(parts[1]);
 
-            // Convertir en minutes totales pour comparer
-            int totalMinutes = hours * 60 + minutes;
-            return totalMinutes >= 60; // Au moins 60 minutes (1 heure)
+            // Vérifier que les minutes sont entre 0-59
+            if (minutes < 0 || minutes > 59) {
+                return false;
+            }
+
+            // Vérifier que les heures sont positives
+            if (hours < 0) {
+                return false;
+            }
+
+            int total = hours * 60 + minutes;
+            return total >= 60; // Au moins 1 heure
         } catch (Exception e) {
             return false;
         }
     }
 
-    private void validateField(TextField field, boolean isValid) {
-        if (isValid) {
-            field.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
-        } else {
-            field.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-        }
+    private void validateField(TextField field, boolean valid) {
+        field.setStyle(valid ?
+                "-fx-border-color: #2ecc71; -fx-border-width: 2px;" :
+                "-fx-border-color: #e74c3c; -fx-border-width: 2px;");
     }
 
     private void validateAllFields() {
-        boolean locationValid = tfLocation.getText().length() >= 6;
-        boolean typeValid = tfType.getText().length() >= 6;
-        boolean durationValid = isValidDuration(tfDuration.getText());
+        boolean locationValid = cbLocation.getValue() != null && !cbLocation.getValue().isEmpty();
+        boolean typeValid = tfType.getText() != null && tfType.getText().length() >= 6;
+        boolean durationValid = tfDuration.getText() != null && isValidDuration(tfDuration.getText());
 
-        // Activer/désactiver le bouton en fonction de la validité de tous les champs
-        addButton.setDisable(!(locationValid && typeValid && durationValid));
+        boolean allValid = locationValid && typeValid && durationValid;
+
+        addButton.setDisable(!allValid);
     }
 
     @FXML
     private void handleAdd() {
         try {
-            // Validation finale avant ajout
-            if (tfLocation.getText().length() < 6) {
-                showAlert("Erreur", "Le lieu doit contenir au moins 6 caractères.", Alert.AlertType.ERROR);
-                return;
+            System.out.println("Ajout d'une catégorie d'événement:");
+            System.out.println("- Location: " + cbLocation.getValue());
+            System.out.println("- Type: " + tfType.getText());
+            System.out.println("- Duration: " + tfDuration.getText());
+
+            CategoryEvent event = new CategoryEvent(
+                    cbLocation.getValue(),
+                    tfType.getText(),
+                    tfDuration.getText()
+            );
+
+            boolean success = service.add(event);
+
+            if(success) {
+                showAlert("Succès", "Catégorie d'événement ajoutée avec succès!", Alert.AlertType.INFORMATION);
+                closeWindow();
+            } else {
+                showAlert("Erreur", "Échec de l'ajout de la catégorie", Alert.AlertType.ERROR);
             }
-
-            if (tfType.getText().length() < 6) {
-                showAlert("Erreur", "Le type doit contenir au moins 6 caractères.", Alert.AlertType.ERROR);
-                return;
-            }
-
-            if (!isValidDuration(tfDuration.getText())) {
-                showAlert("Erreur", "La durée doit être au format HH:MM et d'au moins 60 minutes.", Alert.AlertType.ERROR);
-                return;
-            }
-
-            String location = tfLocation.getText();
-            String type = tfType.getText();
-            String duration = tfDuration.getText();
-
-            CategoryEvent category = new CategoryEvent(location, type, duration);
-            service.add(category);
-
-            showAlert("Succès", "Catégorie d'événement ajoutée avec succès !", Alert.AlertType.INFORMATION);
-            closeWindow();
-        } catch (Exception ex) {
-            showAlert("Erreur", "Veuillez vérifier les données saisies.\n" + ex.getMessage(), Alert.AlertType.ERROR);
+        } catch (Exception e) {
+            System.err.println("Exception lors de l'ajout: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Erreur", "Une erreur est survenue: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
@@ -124,15 +165,14 @@ public class AjouterCategoryEventController {
     }
 
     private void closeWindow() {
-        Stage stage = (Stage) tfLocation.getScene().getWindow();
-        stage.close();
+        ((Stage) cbLocation.getScene().getWindow()).close();
     }
 
-    private void showAlert(String title, String content, Alert.AlertType type) {
+    private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
-        alert.setContentText(content);
+        alert.setContentText(message);
         alert.showAndWait();
     }
 }

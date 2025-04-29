@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/vue/HomeAdmin.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/back/ListeEvents.fxml"));
         Parent root = loader.load();
 
         primaryStage.setTitle("Gestion des Événements");
@@ -18,7 +18,8 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+
     public static void main(String[] args) {
-        launch(args);
+       launch(args);
     }
 }

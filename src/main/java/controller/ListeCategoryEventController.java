@@ -3,6 +3,8 @@ package controller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,49 +18,50 @@ import model.CategoryEvent;
 import service.CategoryEventService;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class ListeCategoryEventController {
 
-    @FXML
-    private TableView<CategoryEvent> tableView;
+    @FXML private TableView<CategoryEvent> tableView;
+    @FXML private TableColumn<CategoryEvent, String> colLocation;
+    @FXML private TableColumn<CategoryEvent, String> colType;
+    @FXML private TableColumn<CategoryEvent, String> colDuration;
+    @FXML private TableColumn<CategoryEvent, Void> colActions;
+    @FXML private Label totalCategoriesLabel;
+    @FXML private Pagination tablePagination;
+    @FXML private TextField searchField;
+    @FXML private ComboBox<String> filterComboBox;
+
+    private final CategoryEventService service = new CategoryEventService();
+    private final ObservableList<CategoryEvent> categoryList = FXCollections.observableArrayList();
+    private final FilteredList<CategoryEvent> filteredData = new FilteredList<>(categoryList, p -> true);
 
     @FXML
-    private TableColumn<CategoryEvent, String> colLocation;
-
-    @FXML
-    private TableColumn<CategoryEvent, String> colType;
-
-    @FXML
-    private TableColumn<CategoryEvent, String> colDuration;
-
-    @FXML
-    private TableColumn<CategoryEvent, Void> colActions;
-
-    private CategoryEventService service = new CategoryEventService();
-    private ObservableList<CategoryEvent> categoryList = FXCollections.observableArrayList();
-
     public void initialize() {
         setupTableColumns();
+        setupSearchFilter();
+        setupTypeFilter();
         refreshTable();
     }
 
     private void setupTableColumns() {
-        // Configuration des colonnes
-        colLocation.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLocation()));
-        colType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType()));
-        colDuration.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDuration()));
+        colLocation.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getLocation()));
+        colType.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getType()));
+        colDuration.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getDuration()));
 
-        // Colonne d'actions (Modifier / Supprimer)
         colActions.setCellFactory(param -> new TableCell<>() {
             private final Button btnEdit = new Button("Modifier");
             private final Button btnDelete = new Button("Supprimer");
-            private final HBox pane = new HBox(5, btnEdit, btnDelete);
+            private final HBox pane = new HBox(10, btnEdit, btnDelete);
 
             {
-                btnEdit.setStyle("-fx-base: #4CAF50;");
-                btnDelete.setStyle("-fx-base: #f44336;");
+                // Style des boutons
+                btnEdit.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 4; -fx-padding: 5 10; -fx-cursor: hand;");
+                btnDelete.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 4; -fx-padding: 5 10; -fx-cursor: hand;");
 
                 btnEdit.setOnAction(event -> {
                     CategoryEvent category = getTableView().getItems().get(getIndex());
@@ -79,81 +82,82 @@ public class ListeCategoryEventController {
         });
     }
 
-    @FXML
-    public void refreshTable() {
-        List<CategoryEvent> categories = service.getAll();
-        categoryList.clear();
-        categoryList.addAll(categories);
-        tableView.setItems(categoryList);
+    private void setupSearchFilter() {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(createPredicate(newValue));
+            updateTotalCount();
+        });
+
+        // Lier les données filtrées à la table
+        SortedList<CategoryEvent> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableView.comparatorProperty());
+        tableView.setItems(sortedData);
+    }
+
+    private void setupTypeFilter() {
+        filterComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            filteredData.setPredicate(createPredicate(searchField.getText()));
+            updateTotalCount();
+        });
+    }
+
+    private Predicate<CategoryEvent> createPredicate(String searchText) {
+        return category -> {
+            if (searchText == null || searchText.isEmpty()) {
+                return applyTypeFilter(category);
+            }
+
+            String lowerCaseFilter = searchText.toLowerCase();
+            return (category.getLocation().toLowerCase().contains(lowerCaseFilter) ||
+                    category.getType().toLowerCase().contains(lowerCaseFilter)) &&
+                    applyTypeFilter(category);
+        };
+    }
+
+    private boolean applyTypeFilter(CategoryEvent category) {
+        String selectedType = filterComboBox.getSelectionModel().getSelectedItem();
+        return selectedType == null || selectedType.isEmpty() || selectedType.equals("Tous les types") ||
+                category.getType().equalsIgnoreCase(selectedType);
     }
 
     @FXML
-    public void openAddForm(ActionEvent event) {
+    public void refreshTable() {
         try {
-            // Essayez plusieurs chemins possibles
-            URL resourceUrl = null;
-            String[] possiblePaths = {
-                    "/resources/vue/AjouterCategoryEvent.fxml",
-                    "/vue/AjouterCategoryEvent.fxml",
-                    "../vue/AjouterCategoryEvent.fxml",
-                    "/view/AjouterCategoryEvent.fxml",
-                    "AjouterCategoryEvent.fxml"
-            };
+            List<CategoryEvent> categories = service.getAll();
+            categoryList.setAll(categories);
 
-            for (String path : possiblePaths) {
-                resourceUrl = getClass().getResource(path);
-                if (resourceUrl != null) {
-                    System.out.println("Fichier trouvé à : " + path);
-                    break;
-                }
-            }
+            // Mettre à jour le filtre des types
+            updateTypeFilter(categories);
 
-            if (resourceUrl == null) {
-                throw new IOException("Impossible de trouver le fichier FXML 'AjouterCategoryEvent.fxml'. Vérifiez qu'il existe et qu'il est accessible.");
-            }
-
-            FXMLLoader loader = new FXMLLoader(resourceUrl);
-            Parent root = loader.load();
-
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Ajouter une catégorie d'événement");
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
-
-            // Rafraîchir la table après fermeture
-            refreshTable();
-        } catch (IOException e) {
-            e.printStackTrace(); // Pour voir l'erreur complète dans la console
-            showAlert("Erreur", "Impossible d'ouvrir le formulaire d'ajout: " + e.getMessage(), Alert.AlertType.ERROR);
+            updateTotalCount();
+        } catch (Exception e) {
+            showAlert("Erreur", "Erreur lors du chargement des catégories", Alert.AlertType.ERROR);
         }
+    }
+
+    private void updateTypeFilter(List<CategoryEvent> categories) {
+        ObservableList<String> types = FXCollections.observableArrayList("Tous les types");
+        categories.stream()
+                .map(CategoryEvent::getType)
+                .distinct()
+                .sorted()
+                .forEach(types::add);
+
+        filterComboBox.setItems(types);
+    }
+
+    private void updateTotalCount() {
+        totalCategoriesLabel.setText(String.valueOf(filteredData.size()));
+    }
+
+    @FXML
+    private void openAddForm(ActionEvent event) {
+        loadFormWindow("/vue/AjouterCategoryEvent.fxml", "Ajouter une catégorie");
     }
 
     private void openEditForm(CategoryEvent category) {
         try {
-            // Essayez plusieurs chemins possibles
-            URL resourceUrl = null;
-            String[] possiblePaths = {
-                    "/resources/vue/EditCategoryEvent.fxml",
-                    "/vue/EditCategoryEvent.fxml",
-                    "../vue/EditCategoryEvent.fxml",
-                    "/view/EditCategoryEvent.fxml",
-                    "EditCategoryEvent.fxml"
-            };
-
-            for (String path : possiblePaths) {
-                resourceUrl = getClass().getResource(path);
-                if (resourceUrl != null) {
-                    System.out.println("Fichier trouvé à : " + path);
-                    break;
-                }
-            }
-
-            if (resourceUrl == null) {
-                throw new IOException("Impossible de trouver le fichier FXML 'EditCategoryEvent.fxml'. Vérifiez qu'il existe et qu'il est accessible.");
-            }
-
-            FXMLLoader loader = new FXMLLoader(resourceUrl);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vue/EditCategoryEvent.fxml"));
             Parent root = loader.load();
 
             EditCategoryEventController controller = loader.getController();
@@ -161,29 +165,48 @@ public class ListeCategoryEventController {
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Modifier une catégorie d'événement");
+            stage.setTitle("Modifier une catégorie");
             stage.setScene(new Scene(root));
             stage.showAndWait();
 
-            // Rafraîchir la table après fermeture
             refreshTable();
         } catch (IOException e) {
-            e.printStackTrace(); // Pour voir l'erreur complète dans la console
-            showAlert("Erreur", "Impossible d'ouvrir le formulaire de modification: " + e.getMessage(), Alert.AlertType.ERROR);
+            showAlert("Erreur", "Impossible d'ouvrir le formulaire de modification", Alert.AlertType.ERROR);
+        }
+    }
+
+    private void loadFormWindow(String fxmlPath, String title) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle(title);
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            refreshTable();
+        } catch (IOException e) {
+            showAlert("Erreur", "Impossible d'ouvrir le formulaire", Alert.AlertType.ERROR);
         }
     }
 
     private void confirmAndDelete(CategoryEvent category) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation de suppression");
-        alert.setHeaderText("Supprimer la catégorie");
-        alert.setContentText("Êtes-vous sûr de vouloir supprimer cette catégorie d'événement ?");
+        alert.setHeaderText("Supprimer la catégorie: " + category.getType());
+        alert.setContentText("Êtes-vous sûr de vouloir supprimer cette catégorie ? Cette action est irréversible.");
 
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                service.delete(category);
-                refreshTable();
-                showAlert("Succès", "Catégorie supprimée avec succès", Alert.AlertType.INFORMATION);
+                try {
+                    service.delete(category);
+                    refreshTable();
+                    showAlert("Succès", "Catégorie supprimée avec succès", Alert.AlertType.INFORMATION);
+                } catch (Exception e) {
+                    showAlert("Erreur", "Échec de la suppression: " + e.getMessage(), Alert.AlertType.ERROR);
+                }
             }
         });
     }

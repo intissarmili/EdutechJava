@@ -22,6 +22,8 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -43,6 +45,8 @@ public class EditEventController implements Initializable {
     private Label lblImagePath;
     @FXML
     private Button btnUpdate;
+    @FXML
+    private Label validationMessageLabel;
 
     private Eventservice eventService;
     private CategoryEventService categoryService;
@@ -55,6 +59,10 @@ public class EditEventController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         eventService = new Eventservice();
         categoryService = new CategoryEventService();
+
+        // Initialiser le label de validation
+        validationMessageLabel = new Label();
+        validationMessageLabel.setText("");
 
         // Charger tous les événements pour vérifier les titres dupliqués
         existingEvents = eventService.getAll();
@@ -80,13 +88,14 @@ public class EditEventController implements Initializable {
         });
 
         // Configurer le StringConverter pour afficher uniquement l'ID de la catégorie dans le ComboBox
+        // Configurer le StringConverter pour afficher le type de la catégorie dans le ComboBox
         cbCategory.setConverter(new StringConverter<CategoryEvent>() {
             @Override
             public String toString(CategoryEvent category) {
                 if (category == null) {
                     return null;
                 }
-                return "ID: " + category.getId();
+                return category.getType(); // Afficher le type de catégorie au lieu de l'ID
             }
 
             @Override
@@ -101,9 +110,19 @@ public class EditEventController implements Initializable {
             validateTitle(newValue);
         });
 
+        // Validation de la description en temps réel
+        taDescription.textProperty().addListener((observable, oldValue, newValue) -> {
+            validateDescription(newValue);
+        });
+
         // Validation de l'heure en temps réel
         tfTime.textProperty().addListener((observable, oldValue, newValue) -> {
             validateTime(newValue);
+        });
+
+        // Validation de la date en temps réel
+        dpDate.valueProperty().addListener((observable, oldValue, newValue) -> {
+            validateDate(newValue);
         });
     }
 
@@ -130,6 +149,12 @@ public class EditEventController implements Initializable {
             File file = new File(imagePath);
             lblImagePath.setText(file.getName());
         }
+
+        // Valider tous les champs initiaux
+        validateTitle(event.getTitle());
+        validateDescription(event.getDescription());
+        validateDate(event.getDateTime().toLocalDate());
+        validateTime(event.getDateTime().toLocalTime().toString());
     }
 
     private void selectCategory(int categoryId) {
@@ -156,6 +181,14 @@ public class EditEventController implements Initializable {
     private void validateTitle(String title) {
         if (title == null || title.trim().isEmpty()) {
             tfTitle.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            validationMessageLabel.setText("Le titre est obligatoire");
+            return;
+        }
+
+        // Vérification de la longueur minimale (6 caractères)
+        if (title.trim().length() < 6) {
+            tfTitle.setStyle("-fx-border-color: orange; -fx-border-width: 2px;");
+            validationMessageLabel.setText("Le titre doit contenir au moins 6 caractères");
             return;
         }
 
@@ -165,11 +198,31 @@ public class EditEventController implements Initializable {
 
         if (isDuplicate) {
             tfTitle.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-            showAlert(Alert.AlertType.WARNING, "Titre en double", "Ce titre existe déjà",
-                    "Veuillez choisir un titre unique pour votre événement.");
+            validationMessageLabel.setText("Ce titre existe déjà. Veuillez choisir un titre unique.");
         } else {
             tfTitle.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+            validationMessageLabel.setText("");
         }
+
+        validateAllFields();
+    }
+
+    private void validateDescription(String description) {
+        if (description == null || description.trim().isEmpty()) {
+            taDescription.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            validationMessageLabel.setText("La description est obligatoire");
+            return;
+        }
+
+        // Vérification de la longueur minimale (10 caractères)
+        if (description.trim().length() < 10) {
+            taDescription.setStyle("-fx-border-color: orange; -fx-border-width: 2px;");
+            validationMessageLabel.setText("La description doit contenir au moins 10 caractères");
+            return;
+        }
+
+        taDescription.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+        validationMessageLabel.setText("");
 
         validateAllFields();
     }
@@ -178,14 +231,38 @@ public class EditEventController implements Initializable {
         try {
             if (timeStr == null || timeStr.trim().isEmpty()) {
                 tfTime.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                validationMessageLabel.setText("L'heure est obligatoire");
                 return;
             }
 
-            // Essayer de parser l'heure
-            LocalTime.parse(timeStr.trim());
+            // Essayer de parser l'heure (format HH:mm)
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            LocalTime.parse(timeStr.trim(), formatter);
             tfTime.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
-        } catch (Exception e) {
+            validationMessageLabel.setText("");
+        } catch (DateTimeParseException e) {
             tfTime.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            validationMessageLabel.setText("Format d'heure invalide. Utilisez le format HH:mm (ex: 14:30)");
+        }
+
+        validateAllFields();
+    }
+
+    private void validateDate(LocalDate date) {
+        if (date == null) {
+            dpDate.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            validationMessageLabel.setText("La date est obligatoire");
+            return;
+        }
+
+        // Vérifier si la date est dans le futur
+        LocalDate today = LocalDate.now();
+        if (date.isBefore(today) || date.isEqual(today)) {
+            dpDate.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            validationMessageLabel.setText("La date doit être dans le futur");
+        } else {
+            dpDate.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+            validationMessageLabel.setText("");
         }
 
         validateAllFields();
@@ -292,6 +369,14 @@ public class EditEventController implements Initializable {
 
         if (tfTitle.getText().trim().isEmpty()) {
             errors.append("Le titre est obligatoire.\n");
+        } else if (tfTitle.getText().trim().length() < 6) {
+            errors.append("Le titre doit contenir au moins 6 caractères.\n");
+        }
+
+        if (taDescription.getText().trim().isEmpty()) {
+            errors.append("La description est obligatoire.\n");
+        } else if (taDescription.getText().trim().length() < 10) {
+            errors.append("La description doit contenir au moins 10 caractères.\n");
         }
 
         if (cbCategory.getValue() == null) {
@@ -306,7 +391,8 @@ public class EditEventController implements Initializable {
 
         try {
             if (!tfTime.getText().trim().isEmpty()) {
-                LocalTime.parse(tfTime.getText().trim());
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+                LocalTime.parse(tfTime.getText().trim(), formatter);
             } else {
                 errors.append("L'heure est obligatoire.\n");
             }
@@ -324,6 +410,7 @@ public class EditEventController implements Initializable {
         }
 
         if (errors.length() > 0) {
+            validationMessageLabel.setText(errors.toString());
             showAlert(Alert.AlertType.ERROR, "Erreur de validation", "Veuillez corriger les erreurs suivantes:",
                     errors.toString());
             return false;
@@ -333,13 +420,25 @@ public class EditEventController implements Initializable {
     }
 
     private void validateAllFields() {
-        boolean titleValid = !tfTitle.getText().trim().isEmpty() && tfTitle.getStyle().contains("green");
+        boolean titleValid = !tfTitle.getText().trim().isEmpty() &&
+                tfTitle.getText().trim().length() >= 6 &&
+                tfTitle.getStyle().contains("green");
+
+        boolean descriptionValid = !taDescription.getText().trim().isEmpty() &&
+                taDescription.getText().trim().length() >= 10 &&
+                taDescription.getStyle().contains("green");
+
         boolean categoryValid = cbCategory.getValue() != null;
-        boolean dateValid = dpDate.getValue() != null && dpDate.getValue().compareTo(LocalDate.now()) > 0;
-        boolean timeValid = tfTime.getStyle().contains("green");
+
+        boolean dateValid = dpDate.getValue() != null &&
+                dpDate.getValue().compareTo(LocalDate.now()) > 0 &&
+                dpDate.getStyle().contains("green");
+
+        boolean timeValid = !tfTime.getText().trim().isEmpty() &&
+                tfTime.getStyle().contains("green");
 
         // Activer/désactiver le bouton de mise à jour
-        btnUpdate.setDisable(!(titleValid && categoryValid && dateValid && timeValid));
+        btnUpdate.setDisable(!(titleValid && descriptionValid && categoryValid && dateValid && timeValid));
     }
 
     private void showAlert(Alert.AlertType type, String title, String header, String content) {

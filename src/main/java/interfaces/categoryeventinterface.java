@@ -1,10 +1,10 @@
 package interfaces;
 
-import java.util.List;
 import model.CategoryEvent;
+import java.util.List;
 
 public interface categoryeventinterface {
-    void add(CategoryEvent categoryEvent);
+    boolean add(CategoryEvent category);  // Changé de void à boolean
     void delete(CategoryEvent categoryEvent);
     List<CategoryEvent> getAll();
     void update(CategoryEvent categoryEvent);

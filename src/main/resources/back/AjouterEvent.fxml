@@ -1,69 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
-<VBox xmlns="http://javafx.com/javafx/17"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controller.AjouterEventController"
-      spacing="15"
-      style="-fx-padding: 20;"
-      alignment="TOP_CENTER"
-      prefWidth="600"
-      prefHeight="650">
+<AnchorPane xmlns="http://javafx.com/javafx/16"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.back.AjouterEventController" stylesheets="@/vue/application.css">
+    <children>
+        <ScrollPane fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <content>
+                <VBox spacing="20.0" styleClass="form-container">
+                    <padding>
+                        <Insets top="25" right="30" bottom="25" left="30"/>
+                    </padding>
 
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <!-- Image ajoutée avant le titre -->
+                        <ImageView fitHeight="64" fitWidth="64" preserveRatio="true">
+                            <Image url="@/images/add_event_icon.png"/>
+                        </ImageView>
+                        <!-- Titre à gauche -->
+                        <Label text="Ajouter un nouvel événement" styleClass="form-title">
+                            <font>
+                                <Font name="System Bold" size="22.0" />
+                            </font>
+                        </Label>
 
-    <Label text="Ajouter un nouvel événement" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+                        <!-- Ajout de l'espacement automatique -->
+                        <Region HBox.hgrow="ALWAYS" />
 
-    <GridPane hgap="15" vgap="15">
-        <columnConstraints>
-            <ColumnConstraints prefWidth="150" halignment="RIGHT"/>
-            <ColumnConstraints prefWidth="300" hgrow="ALWAYS"/>
-        </columnConstraints>
+                        <!-- Météo à droite dans la ligne de titre -->
+                        <HBox spacing="5" alignment="CENTER_RIGHT">
+                            <ImageView fx:id="weatherIconView" fitHeight="24" fitWidth="24" preserveRatio="true" />
+                            <Label fx:id="weatherLabel" styleClass="weather-info" />
+                        </HBox>
+                    </HBox>
 
-        <!-- Titre -->
-        <Label text="Titre:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="titleField" promptText="Titre de l'événement" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <Separator/>
 
-        <!-- Description -->
-        <Label text="Description:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
-        <TextArea fx:id="descriptionArea" promptText="Description de l'événement" GridPane.rowIndex="1" GridPane.columnIndex="1" prefHeight="100" wrapText="true"/>
+                    <GridPane hgap="20.0" vgap="15.0" styleClass="form-grid">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" halignment="RIGHT" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="350.0" />
+                        </columnConstraints>
 
-        <!-- Catégorie -->
-        <Label text="Catégorie:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
-        <ComboBox fx:id="categoryField" promptText="Sélectionnez une catégorie" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                        <!-- Titre -->
+                        <Label text="Titre:" styleClass="form-label" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                        <VBox spacing="3" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                            <TextField fx:id="titleField" promptText="Titre de l'événement" styleClass="form-field" maxWidth="Infinity" />
+                        </VBox>
 
-        <!-- Date -->
-        <Label text="Date:" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
-        <DatePicker fx:id="datePicker" promptText="Sélectionnez une date" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                        <!-- Catégorie -->
+                        <Label text="Catégorie:" styleClass="form-label" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                        <VBox spacing="3" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                            <ComboBox fx:id="categoryField" promptText="Choisir une catégorie" styleClass="form-field" maxWidth="Infinity" />
+                        </VBox>
 
-        <!-- Heure -->
-        <Label text="Heure (HH:mm):" GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="timeField" promptText="Ex: 14:30" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                        <!-- Date -->
+                        <Label text="Date:" styleClass="form-label" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                        <VBox spacing="3" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                            <DatePicker fx:id="datePicker" promptText="Date de l'événement" styleClass="form-field" maxWidth="Infinity" />
+                        </VBox>
 
-        <!-- Image/Photo -->
-        <Label text="Image:" GridPane.rowIndex="5" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
-        <HBox spacing="10" GridPane.rowIndex="5" GridPane.columnIndex="1" alignment="CENTER_LEFT">
-            <Button fx:id="photoButton" text="Choisir une image" onAction="#handleChoosePhoto"/>
-            <Label fx:id="photoPathLabel" text="Aucune image sélectionnée"/>
-        </HBox>
-    </GridPane>
+                        <!-- Suppression de la ligne Météo qui était ici -->
+                        <!-- Location - Ajouté pour afficher la localisation séparément si nécessaire -->
+                        <Label fx:id="locationLabel" visible="false" />
 
-    <!-- Messages de validation -->
-    <Label fx:id="validationMessageLabel" style="-fx-text-fill: red;" wrapText="true"/>
+                        <!-- Heure -->
+                        <Label text="Heure (HH:mm):" styleClass="form-label" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                        <VBox spacing="3" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                            <TextField fx:id="timeField" promptText="Ex: 14:30" styleClass="form-field" />
+                        </VBox>
 
-    <!-- Barre de séparation -->
-    <Separator/>
+                        <!-- Photo -->
+                        <Label text="Photo:" styleClass="form-label" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                        <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4" alignment="CENTER_LEFT">
+                            <Button fx:id="photoButton" text="Parcourir..." onAction="#handleChoosePhoto" styleClass="button-browse" />
+                            <Label fx:id="photoPathLabel" text="Aucune image sélectionnée" styleClass="file-path-label" HBox.hgrow="ALWAYS" />
+                        </HBox>
 
-    <!-- Boutons d'action -->
-    <HBox spacing="15" alignment="CENTER_RIGHT">
-        <Button fx:id="cancelButton" text="Annuler" onAction="#handleCancel"
-                style="-fx-background-color: #f0f0f0; -fx-padding: 8 15 8 15;"/>
-        <Button fx:id="saveButton" text="Enregistrer" onAction="#handleSave" defaultButton="true"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 8 15 8 15;"/>
-    </HBox>
-</VBox>
+                        <!-- Description -->
+                        <Label text="Description:" styleClass="form-label" GridPane.rowIndex="5" GridPane.columnIndex="0" GridPane.valignment="TOP">
+                            <GridPane.margin>
+                                <Insets top="8.0" />
+                            </GridPane.margin>
+                        </Label>
+                        <VBox spacing="3" GridPane.rowIndex="5" GridPane.columnIndex="1">
+                            <TextArea fx:id="descriptionArea" promptText="Description de l'événement" wrapText="true" styleClass="form-field" prefHeight="120" />
+                        </VBox>
+                    </GridPane>
+
+
+                    <!-- Message de validation -->
+                    <HBox alignment="CENTER">
+                        <Label fx:id="validationMessageLabel" styleClass="validation-message" textFill="RED" wrapText="true" />
+                    </HBox>
+
+                    <Separator />
+
+                    <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                        <Button fx:id="cancelButton" onAction="#handleCancel" text="Annuler" styleClass="button-cancel" />
+                        <Button fx:id="saveButton" defaultButton="true" onAction="#handleSave" text="Enregistrer" styleClass="button-primary" />
+                    </HBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>

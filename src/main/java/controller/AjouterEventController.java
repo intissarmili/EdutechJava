@@ -11,6 +11,7 @@ import model.CategoryEvent;
 import model.Event;
 import service.CategoryEventService;
 import service.Eventservice;
+import service.WeatherService;
 
 import java.io.File;
 import java.net.URL;
@@ -28,15 +29,17 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 
 public class AjouterEventController implements Initializable {
+    @FXML private DatePicker datePicker;
+    @FXML private Label weatherLabel;
     @FXML
     private TextField titleField;
     @FXML
     private TextArea descriptionArea;
+    private static final String API_KEY = "votre_clé_api";
+    private static final String API_URL = "http://api.openweathermap.org/data/2.5/forecast";
     @FXML
     private ComboBox<CategoryEvent> categoryField;
-    @FXML
-    private DatePicker datePicker;
-    @FXML
+     @FXML
     private TextField timeField;
     @FXML
     private Button photoButton;
@@ -54,12 +57,15 @@ public class AjouterEventController implements Initializable {
     private String photoPath = null;
     private final String UPLOAD_DIR = "uploads/";
     private List<Event> existingEvents;
-
+    @FXML
+    private Button applyFilterButton;
+    private WeatherService weatherService;
+    private static final String DEFAULT_CITY = "Tunis";
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         eventService = new Eventservice();
         categoryService = new CategoryEventService();
-
+        weatherService = new WeatherService();
         // Réinitialiser le message de validation
         validationMessageLabel.setText("");
 
@@ -86,6 +92,10 @@ public class AjouterEventController implements Initializable {
             }
         });
 
+        descriptionArea.textProperty().addListener((observable, oldValue, newValue) -> {
+            validateDescription(newValue);
+        });
+
         // Configurer l'affichage des catégories dans le ComboBox
         categoryField.setCellFactory(lv -> new ListCell<CategoryEvent>() {
             @Override
@@ -94,7 +104,7 @@ public class AjouterEventController implements Initializable {
                 if (empty || category == null) {
                     setText(null);
                 } else {
-                    setText("ID: " + category.getId());
+                    setText(category.getType()); // Afficher le type de catégorie
                 }
             }
         });
@@ -106,7 +116,7 @@ public class AjouterEventController implements Initializable {
                 if (empty || category == null) {
                     setText(null);
                 } else {
-                    setText("ID: " + category.getId());
+                    setText(category.getType()); // Afficher le type de catégorie
                 }
             }
         });
@@ -151,6 +161,13 @@ public class AjouterEventController implements Initializable {
             return;
         }
 
+        // Vérification de la longueur minimale (6 caractères)
+        if (title.trim().length() < 6) {
+            titleField.setStyle("-fx-border-color: orange; -fx-border-width: 2px;");
+            validationMessageLabel.setText("Le titre doit contenir au moins 6 caractères");
+            return;
+        }
+
         // Vérifier si le titre existe déjà
         boolean isDuplicate = existingEvents.stream()
                 .anyMatch(e -> e.getTitle().equalsIgnoreCase(title.trim()));
@@ -162,6 +179,26 @@ public class AjouterEventController implements Initializable {
             titleField.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
             validationMessageLabel.setText("");
         }
+
+        validateAllFields();
+    }
+
+    private void validateDescription(String description) {
+        if (description == null || description.trim().isEmpty()) {
+            descriptionArea.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            validationMessageLabel.setText("La description est obligatoire");
+            return;
+        }
+
+        // Vérification de la longueur minimale (10 caractères)
+        if (description.trim().length() < 10) {
+            descriptionArea.setStyle("-fx-border-color: orange; -fx-border-width: 2px;");
+            validationMessageLabel.setText("La description doit contenir au moins 10 caractères");
+            return;
+        }
+
+        descriptionArea.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+        validationMessageLabel.setText("");
 
         validateAllFields();
     }
@@ -208,19 +245,27 @@ public class AjouterEventController implements Initializable {
     }
 
     private void validateAllFields() {
-        boolean titleValid = titleField.getText() != null && !titleField.getText().trim().isEmpty() &&
+        boolean titleValid = titleField.getText() != null &&
+                !titleField.getText().trim().isEmpty() &&
+                titleField.getText().trim().length() >= 6 &&
                 titleField.getStyle().contains("green");
-        boolean descriptionValid = descriptionArea.getText() != null && !descriptionArea.getText().trim().isEmpty();
+
+        boolean descriptionValid = descriptionArea.getText() != null &&
+                !descriptionArea.getText().trim().isEmpty() &&
+                descriptionArea.getText().trim().length() >= 10 &&
+                descriptionArea.getStyle().contains("green");
+
         boolean categoryValid = categoryField.getValue() != null;
         boolean dateValid = datePicker.getValue() != null &&
-                datePicker.getValue().isAfter(LocalDate.now());
+                datePicker.getValue().isAfter(LocalDate.now()) &&
+                datePicker.getStyle().contains("green");
 
         boolean timeValid = false;
         try {
             if (timeField.getText() != null && !timeField.getText().trim().isEmpty()) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
                 LocalTime.parse(timeField.getText().trim(), formatter);
-                timeValid = true;
+                timeValid = timeField.getStyle().contains("green");
             }
         } catch (Exception e) {
             timeValid = false;
@@ -360,6 +405,7 @@ public class AjouterEventController implements Initializable {
         titleField.clear();
         titleField.setStyle("");
         descriptionArea.clear();
+        descriptionArea.setStyle("");
         datePicker.setValue(null);
         datePicker.setStyle("");
         timeField.clear();
