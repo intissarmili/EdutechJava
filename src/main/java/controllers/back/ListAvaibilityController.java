@@ -17,11 +17,14 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import models.avaibility;
 import service.AvaibilityService;
-
+import service.ReservationService;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+
+import service.ReservationService;
+
 
 public class ListAvaibilityController {
 
@@ -171,4 +174,29 @@ public class ListAvaibilityController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
+    @FXML
+    public void handleListReservation() {
+        try {
+            // Load the reservation list FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/back/reservation/list.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and load all reservations
+            ReservationListController controller = loader.getController();
+            controller.loadReservations(); // This will load all reservations
+
+            // Get current stage and set new scene
+            Stage stage = (Stage) availabilityTable.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("All Reservations");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Navigation Error", "Could not load reservations page: " + e.getMessage());
+        }
+    }
+
+
 }

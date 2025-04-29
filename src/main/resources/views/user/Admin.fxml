@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.AdminController" prefWidth="850" prefHeight="500">
+    <top>
+        <VBox spacing="10" alignment="CENTER" BorderPane.alignment="CENTER">
+            <Label text="Interface Admin - Gestion des utilisateurs" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 10px;" />
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Recherche par nom :" style="-fx-font-size: 14px;" />
+                <TextField fx:id="searchField" promptText="Tapez un prénom ou nom" />
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <TableView fx:id="userTable" prefHeight="300">
+            <columns>
+                <TableColumn fx:id="idColumn" text="ID" prefWidth="40"/>
+                <TableColumn fx:id="emailColumn" text="Email" prefWidth="150"/>
+                <TableColumn fx:id="firstNameColumn" text="Prénom" prefWidth="100"/>
+                <TableColumn fx:id="lastNameColumn" text="Nom" prefWidth="100"/>
+                <TableColumn fx:id="roleColumn" text="Rôle" prefWidth="100"/>
+                <TableColumn fx:id="phoneColumn" text="Téléphone" prefWidth="100"/>
+                <TableColumn fx:id="bannedColumn" text="Statut" prefWidth="80"/>
+                <TableColumn fx:id="approvedColumn" text="Validation" prefWidth="100"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <HBox spacing="15" alignment="CENTER">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button text="Ajouter" onAction="#handleAdd"/>
+            <Button text="Modifier" onAction="#handleEdit"/>
+            <Button text="Supprimer" onAction="#handleDelete"/>
+            <Button text="Bannir" onAction="#handleBan"/>
+            <Button text="Débannir" onAction="#handleUnban"/>
+            <Button text="Approuver" onAction="#handleApprove"/>
+            <Button text="Voir Historique" onAction="#handleOpenLogs"/>
+            <Button text="Voir Dashboard" onAction="#handleOpenDashboard"/>
+        </HBox>
+    </bottom>
+</BorderPane>

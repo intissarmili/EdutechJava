@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.back.affichierCertificationController"
+            style="-fx-background-color: #f6f9ff; -fx-padding: 20px;">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 0 0 20px 0;">
+            <Label text="Gestion des Certifications" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #4154f1;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="addBtn" text="Ajouter Certification"
+                    style="-fx-background-color: #4154f1; -fx-text-fill: white; -fx-font-weight: bold;" />
+        </HBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.8">
+            <items>
+                <TableView fx:id="certificationTable" style="-fx-font-size: 14px;">
+                    <columns>
+                        <TableColumn fx:id="idCol" text="ID" prefWidth="60">
+                            <cellValueFactory><PropertyValueFactory property="id"/></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="nomCol" text="Nom" prefWidth="150">
+                            <cellValueFactory><PropertyValueFactory property="nom"/></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="descriptionCol" text="Description" prefWidth="300">
+                            <cellValueFactory><PropertyValueFactory property="description"/></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="prixCol" text="Prix" prefWidth="80">
+                            <cellValueFactory><PropertyValueFactory property="prix"/></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="prixPieceCol" text="Prix Pièce" prefWidth="80">
+                            <cellValueFactory><PropertyValueFactory property="prixPiece"/></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="noteCol" text="Note" prefWidth="60">
+                            <cellValueFactory><PropertyValueFactory property="note"/></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="actionsCol" text="Actions" prefWidth="120">
+                            <!-- La cellule sera gérée dans le contrôleur -->
+                        </TableColumn>
+                    </columns>
+                </TableView>
+
+                <VBox spacing="10" style="-fx-padding: 10px;">
+                    <Label text="Détails de la certification:" style="-fx-font-weight: bold;" />
+                    <TextArea fx:id="certificationDetails" editable="false" wrapText="true"
+                              style="-fx-font-size: 14px; -fx-min-height: 200;"/>
+                    <HBox spacing="20" alignment="CENTER_RIGHT">
+                        <Button fx:id="backBtn" text="Retour"
+                                style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                        <Button fx:id="deleteBtn" text="Supprimer"
+                                style="-fx-background-color: #ff3d3d; -fx-text-fill: white; -fx-font-weight: bold;"
+                                disable="true" />
+                    </HBox>
+                </VBox>
+            </items>
+        </SplitPane>
+    </center>
+</BorderPane>

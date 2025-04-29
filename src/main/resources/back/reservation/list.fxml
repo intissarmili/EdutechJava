@@ -1,29 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.back.ReservationListController">
-    <!--
-        Backend Note: This table binds to 'reservationTable' in the controller.
-        Columns map to backend fields: id, topic, start_time, status, duration.
-    -->
-    <TableView fx:id="reservationTable" prefWidth="600" prefHeight="400" layoutX="14" layoutY="14">
-        <columns>
-            <!-- Unique identifier (matches backend PK) -->
-            <TableColumn fx:id="idColumn" prefWidth="50" text="ID" />
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.back.ReservationListController"
+            style="-fx-background-color: #f8f9fa;">
+    <VBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10">
+        <!-- Header -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Reservations List" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+           <!-- <Button text="Refresh" onAction="#loadReservations" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>-->
+            <Button text="Back" onAction="#handleBack" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+        </HBox>
+<HBox spacing="10" alignment="CENTER_LEFT">
+    <Label text="Rechercher :" style="-fx-font-size: 14px;"/>
+    <TextField fx:id="searchField" promptText="Entrez un topic..." onKeyReleased="#handleSearch"/>
+    <Button text="Effacer" onAction="#clearSearch" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+</HBox>
+        <!-- Table View -->
+        <TableView fx:id="reservationTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
+                <TableColumn fx:id="topicColumn" text="Topic" prefWidth="150"/>
+                <TableColumn fx:id="dateColumn" text="Date" prefWidth="100"/>
+                <TableColumn fx:id="startTimeColumn" text="Start Time" prefWidth="100"/>
+                <TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/>
+                <TableColumn fx:id="durationColumn" text="Duration (min)" prefWidth="80"/>
 
-            <!-- Topic/description of reservation -->
-            <TableColumn fx:id="topicColumn" prefWidth="100" text="Topic" />
+                <!-- Action Column
+                <TableColumn text="Actions" prefWidth="150">
+                    <cellValueFactory>
+                        <PropertyValueFactory fx:value="dummy"/>
+                    </cellValueFactory>
+                    <cellFactory>
+                        <TableColumn fx:factory="create" />
+                    </cellFactory>
+                </TableColumn> -->
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+        </TableView>
 
-            <!-- ISO-8601 datetime (backend-friendly format) -->
-            <TableColumn fx:id="startTimeColumn" prefWidth="150" text="Start Time" />
-
-            <!-- Status: PENDING, CONFIRMED, CANCELLED -->
-            <TableColumn fx:id="statusColumn" prefWidth="100" text="Status" />
-
-            <!-- Duration in minutes (integer) -->
-            <TableColumn fx:id="durationColumn" prefWidth="100" text="Duration (min)" />
-        </columns>
-    </TableView>
+        <!-- Status Bar -->
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Label fx:id="statusLabel" text="Total reservations: 0" style="-fx-font-style: italic;"/>
+        </HBox>
+    </VBox>
 </AnchorPane>

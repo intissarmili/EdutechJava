@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1204.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.back.addQuestionController" style="-fx-background-color: #f5f5f5;">
+    <VBox alignment="CENTER" spacing="30.0" AnchorPane.topAnchor="50.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+        <VBox style="-fx-background-color: #1cacd2; -fx-background-radius: 15; -fx-padding: 30;" spacing="20.0">
+            <Label text="Ajouter une Question"
+                   style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white; -fx-alignment: center;" />
+
+            <GridPane hgap="15.0" vgap="20.0" alignment="CENTER">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="150.0" halignment="RIGHT"/>
+                    <ColumnConstraints minWidth="400.0" halignment="LEFT"/>
+                </columnConstraints>
+
+                <Label text="Question :" style="-fx-text-fill: white; -fx-font-size: 16px;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="questionField" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <Label text="Option 1 :" style="-fx-text-fill: white; -fx-font-size: 16px;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="option1Field" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                <Label text="Option 2 :" style="-fx-text-fill: white; -fx-font-size: 16px;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <TextField fx:id="option2Field" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                <Label text="Option 3 :" style="-fx-text-fill: white; -fx-font-size: 16px;" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <TextField fx:id="option3Field" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                <Label text="Réponse Correcte :" style="-fx-text-fill: white; -fx-font-size: 16px;" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                <ComboBox fx:id="correctAnswerCombo" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+                <Label text="Quiz ID :" style="-fx-text-fill: white; -fx-font-size: 16px;" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                <ComboBox fx:id="quizIdCombo" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+                <Label text="Certification ID :" style="-fx-text-fill: white; -fx-font-size: 16px;" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                <ComboBox fx:id="certifIdCombo" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+            </GridPane>
+
+            <HBox spacing="20.0" alignment="CENTER">
+                <Button text="Annuler"
+                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 10 20; -fx-background-radius: 5;" />
+
+                <Button text="Enregistrer"
+                        onAction="#handleSave"
+                        style="-fx-background-color: #16ac63; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 10 20; -fx-background-radius: 5;" />
+            </HBox>
+        </VBox>
+    </VBox>
+</AnchorPane>

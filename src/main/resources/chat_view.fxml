@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ProgressIndicator?>
+
+<VBox spacing="15" alignment="CENTER" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.ChatController"
+      style="-fx-padding: 30; -fx-background-color: #f4f4f9;">
+
+    <Label text="ChatOpen AI" style="-fx-font-size: 26px; -fx-text-fill: #2c3e50; -fx-font-weight: bold;" />
+
+    <!-- Spinner de chargement au-dessus du champ de texte -->
+    <ProgressIndicator fx:id="loadingSpinner" visible="false" maxWidth="35" maxHeight="35" />
+
+    <TextField fx:id="messageField" promptText="Entrez un message..."
+               style="-fx-font-size: 14px; -fx-padding: 10; -fx-background-radius: 5;"
+               maxWidth="400" />
+
+    <Button text="Envoyer" onAction="#handleSend"
+            style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 5;"
+            maxWidth="150" />
+
+    <Label fx:id="errorLabel" style="-fx-text-fill: red; -fx-font-size: 12px;" />
+
+    <TextArea fx:id="responseArea" editable="false" wrapText="true"
+              maxWidth="500" prefHeight="300"
+              style="-fx-background-color: #e9f9ee; -fx-padding: 10; -fx-border-color: #c3e6cb; -fx-border-radius: 5;" />
+</VBox>
