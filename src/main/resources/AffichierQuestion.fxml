@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.affichierQuestionController" style="-fx-background-color: #f5f5f5;">
+
+    <!-- Barre de navigation -->
+    <VBox AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" prefHeight="80" style="-fx-background-color: #1cacd2;">
+    </VBox>
+
+    <!-- Contenu principal avec ScrollPane -->
+    <ScrollPane fitToWidth="true" fitToHeight="true" AnchorPane.topAnchor="80" AnchorPane.bottomAnchor="80" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <VBox style="-fx-padding: 20;">
+            <!-- TableView avec colonnes -->
+            <TableView fx:id="tableView" style="-fx-font-size: 14px;">
+                <columns>
+                    <TableColumn fx:id="idCol" text="ID" prefWidth="60"/>
+                    <TableColumn fx:id="quizIdCol" text="Quiz ID" prefWidth="60"/>
+                    <TableColumn fx:id="certifIdCol" text="Certif ID" prefWidth="60"/>
+                    <TableColumn fx:id="questionCol" text="Question" prefWidth="300"/>
+                    <TableColumn fx:id="optionsCol" text="Options" prefWidth="350"/>
+                    <TableColumn fx:id="actionsColum" text="Modifier" prefWidth="100"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </ScrollPane>
+
+    <!-- Barre d'actions fixe en bas -->
+    <HBox alignment="CENTER" spacing="25" style="-fx-background-color: #fff; -fx-padding: 15;"
+          AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <Button fx:id="btnAddQuestion" text="➕ Ajouter"
+                style="-fx-background-color: #16ac63; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-font-size: 14px; -fx-background-radius: 3;"
+                onAction="#BouttonAddQuestion"/>
+
+        <Button fx:id="btnSupQuestion" text="🗑️ Supprimer"
+                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-font-size: 14px; -fx-background-radius: 3;"
+                onAction="#BouttonSupQuestion"/>
+    </HBox>
+</AnchorPane>

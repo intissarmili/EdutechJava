@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1204.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.modifierCertificationController" style="-fx-background-color: #f5f5f5;">
+    <!-- Cadre bleu autour du formulaire -->
+    <VBox alignment="CENTER" spacing="30.0" AnchorPane.topAnchor="50.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+        <VBox style="-fx-background-color: #1cacd2; -fx-background-radius: 15; -fx-padding: 30;" spacing="20.0">
+            <!-- Titre du formulaire -->
+            <Label text="Modifier la Certification"
+                   style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white; -fx-alignment: center;" />
+
+            <!-- Contenu du formulaire -->
+            <GridPane hgap="15.0" vgap="20.0" alignment="CENTER">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="150.0" halignment="RIGHT"/>
+                    <ColumnConstraints minWidth="400.0" halignment="LEFT"/>
+                </columnConstraints>
+
+                <!-- Champ Nom -->
+                <Label text="Nom :" style="-fx-text-fill: white; -fx-font-size: 16px;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="nomField" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <!-- Champ Description -->
+                <Label text="Description :" style="-fx-text-fill: white; -fx-font-size: 16px;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextArea fx:id="descriptionField" prefHeight="100.0" wrapText="true" prefWidth="300.0"
+                          GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                <!-- Champ Prix -->
+                <Label text="Prix (DT) :" style="-fx-text-fill: white; -fx-font-size: 16px;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <TextField fx:id="prixField" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                <!-- Champ Image URL -->
+                <Label text="Image URL :" style="-fx-text-fill: white; -fx-font-size: 16px;" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <TextField fx:id="imgField" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            </GridPane>
+
+            <!-- Boutons d'action -->
+            <HBox spacing="20.0" alignment="CENTER">
+                <Button text="Annuler"
+                        fx:id="cancelBtn"
+                        onAction="#handleCancel"
+                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 10 20; -fx-background-radius: 5;" />
+
+                <Button text="Modifier"
+                        fx:id="updateBtn"
+                        onAction="#handleUpdateCertification"
+                        style="-fx-background-color: #16ac63; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 10 20; -fx-background-radius: 5;" />
+            </HBox>
+        </VBox>
+    </VBox>
+</AnchorPane>

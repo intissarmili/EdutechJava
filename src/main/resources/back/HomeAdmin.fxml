@@ -8,7 +8,7 @@
 <BorderPane fx:id="mainBorderPane" style="-fx-background-color: #f6f9ff;"
             xmlns="http://javafx.com/javafx/21.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.Back.HomeBController">
+            fx:controller="controllers.back.HomeBController">
 
     <!-- Top Header -->
     <top>
@@ -34,7 +34,46 @@
                 </graphic>
             </Button>
 
-
+            <!-- Gestion des Cours -->
+            <TitledPane expanded="false" style="-fx-background-color: white; -fx-text-fill: #4154f1; -fx-border-width: 0;" text=" Gestion des Cours">
+                <graphic>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label style="-fx-font-size: 16px;" text="📚" />
+                    </HBox>
+                </graphic>
+                <content>
+                    <VBox style="-fx-padding: 5px 0 5px 20px; -fx-spacing: 0;">
+                        <Button fx:id="btnListeCours" style="-fx-background-color: white; -fx-text-fill: #4154f1; -fx-alignment: CENTER_LEFT; -fx-padding: 8px 15px;" text="Liste des cours">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" spacing="8">
+                                    <Label style="-fx-font-size: 10px;" text="●" />
+                                </HBox>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="btnListeCertificats" style="-fx-background-color: white; -fx-text-fill: #4154f1; -fx-alignment: CENTER_LEFT; -fx-padding: 8px 15px;" text="Liste des Certificats">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" spacing="8">
+                                    <Label style="-fx-font-size: 10px;" text="●" />
+                                </HBox>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="btnListeQuestions" style="-fx-background-color: white; -fx-text-fill: #4154f1; -fx-alignment: CENTER_LEFT; -fx-padding: 8px 15px;" text="Liste des Questions">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" spacing="8">
+                                    <Label style="-fx-font-size: 10px;" text="●" />
+                                </HBox>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="btnListeQuiz" style="-fx-background-color: white; -fx-text-fill: #4154f1; -fx-alignment: CENTER_LEFT; -fx-padding: 8px 15px;" text="Liste des Quiz">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" spacing="8">
+                                    <Label style="-fx-font-size: 10px;" text="●" />
+                                </HBox>
+                            </graphic>
+                        </Button>
+                    </VBox>
+                </content>
+            </TitledPane>
 
             <!-- Panier -->
             <TitledPane expanded="false" style="-fx-background-color: white; -fx-text-fill: #4154f1; -fx-border-width: 0;" text=" Panier">
@@ -86,13 +125,6 @@
                 <content>
                     <VBox style="-fx-padding: 5px 0 5px 20px; -fx-spacing: 0;">
                         <Button style="-fx-background-color: white; -fx-text-fill: #4154f1; -fx-alignment: CENTER_LEFT; -fx-padding: 8px 15px;" text="Notifications">
-                            <graphic>
-                                <HBox alignment="CENTER_LEFT" spacing="8">
-                                    <Label style="-fx-font-size: 10px;" text="●" />
-                                </HBox>
-                            </graphic>
-                        </Button>
-                        <Button fx:id="btnListeFeed" style="-fx-background-color: white; -fx-text-fill: #4154f1; -fx-alignment: CENTER_LEFT; -fx-padding: 8px 15px;" text="Liste des publications">
                             <graphic>
                                 <HBox alignment="CENTER_LEFT" spacing="8">
                                     <Label style="-fx-font-size: 10px;" text="●" />
