@@ -27,6 +27,7 @@ import java.util.List;
 public class AfficherCertificationsController {
 
 
+
     @FXML
     private FlowPane certifContainer;
 
