@@ -40,7 +40,7 @@ public class Main {
 
         try {
             // 1. Ajouter un nouveau feed
-            fs.addFeed(new Feed("saluuuuuuuuuuuuuuut tous le monde"));
+            //fs.addFeed(new Feed("saluuuuuuuuuuuuuuut tous le monde"));
 
             // 2. Récupérer ce feed pour avoir son ID
             Feed lastFeed = fs.getLastFeed();
