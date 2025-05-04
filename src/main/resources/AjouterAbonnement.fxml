@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.AjouterAbonnementController"
+      spacing="20"
+      alignment="CENTER"
+      style="-fx-background-color: #f4f6f8; -fx-padding: 40px;">
+
+    <Label text="Ajouter un Abonnement"
+           style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #03A9F4;" />
+
+    <!-- Champs alignés et propres -->
+    <VBox spacing="15" alignment="CENTER">
+        <HBox spacing="10" alignment="CENTER">
+            <Label text="Nom:" minWidth="100" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="nomField" promptText="Entrez le nom de l'abonnement" />
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER">
+            <Label text="Prix:" minWidth="100" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="prixField" promptText="Entrez le prix en TND" />
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER">
+            <Label text="Durée (mois):" minWidth="100" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="dureeField" promptText="Entrez la durée en mois" />
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER">
+            <Label text="Description:" minWidth="100" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="descriptionField" promptText="Entrez la description" />
+        </HBox>
+    </VBox>
+
+    <!-- Bouton stylé directement -->
+    <Button text="Ajouter"
+            onAction="#handleAjouterAbonnement"
+            style="-fx-background-color: #03A9F4; -fx-text-fill: white;
+                   -fx-font-weight: bold; -fx-background-radius: 30px;
+                   -fx-padding: 10 30; -fx-font-size: 16px;" />
+</VBox>

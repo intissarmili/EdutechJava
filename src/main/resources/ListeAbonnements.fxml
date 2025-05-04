@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableCell?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ListeAbonnementsController">
+    <TableView fx:id="abonnementTable" prefHeight="200" prefWidth="300">
+        <columns>
+            <TableColumn fx:id="idColumn" text="ID" />
+            <TableColumn fx:id="nomColumn" text="Nom" />
+            <TableColumn fx:id="dureeColumn" text="Durée" />
+            <TableColumn fx:id="prixColumn" text="Prix" />
+            <TableColumn fx:id="descriptionColumn" text="Description" />
+        </columns>
+    </TableView>
+
+
+    <Button text="Retour" onAction="#handleRetour"/>
+</VBox>
+
