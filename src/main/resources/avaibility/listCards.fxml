@@ -9,6 +9,8 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.ListAvaibilityController"
             style="-fx-background-color: #f4f4f4;">
+    <!-- Navbar -->
+    <fx:include source="/navbar.fxml" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
 
 
     <!-- Header with Add Button -->
