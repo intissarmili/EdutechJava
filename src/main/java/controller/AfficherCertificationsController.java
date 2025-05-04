@@ -29,6 +29,7 @@ public class AfficherCertificationsController {
     @FXML
     private FlowPane certifContainer;
 
+
     @FXML
     private Label soldeLabel; // Label pour afficher le solde
 
