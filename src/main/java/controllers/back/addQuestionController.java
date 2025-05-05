@@ -46,20 +46,15 @@ public class addQuestionController {
     private void loadComboBoxData() {
         // Chargement des quiz dans un thread séparé
         new Thread(() -> {
-            try {
-                List<Integer> quizIds = quizService.readAll().stream()
-                        .map(quiz -> quiz.getId())
-                        .collect(Collectors.toList());
+            List<Integer> quizIds = quizService.readAll().stream()
+                    .map(quiz -> quiz.getId())
+                    .collect(Collectors.toList());
 
-                Platform.runLater(() -> {
-                    quizIdCombo.getItems().clear();
-                    quizIdCombo.getItems().add(null);
-                    quizIdCombo.getItems().addAll(quizIds);
-                });
-            } catch (SQLException e) {
-                Platform.runLater(() ->
-                        showAlert("Erreur", "Échec du chargement des quiz: " + e.getMessage()));
-            }
+            Platform.runLater(() -> {
+                quizIdCombo.getItems().clear();
+                quizIdCombo.getItems().add(null);
+                quizIdCombo.getItems().addAll(quizIds);
+            });
         }).start();
 
         // Chargement des certifications dans un thread séparé

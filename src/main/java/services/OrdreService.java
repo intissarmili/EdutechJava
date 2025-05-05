@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrdreService {
-    Connection cnx = MaConnexion.getInstance().getConn();
+    Connection cnx = MaConnexion.getInstance().getConnection();
 
     // Récupérer les certifications du panier d'un utilisateur
     public List<Certification> getCertificationsInPanier(int userId) {

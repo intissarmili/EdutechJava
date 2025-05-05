@@ -15,7 +15,7 @@ public class AbonnementService {
     private final Connection connection;
 
     public AbonnementService() {
-        this.connection = MaConnexion.getInstance().getConn();
+        this.connection = MaConnexion.getInstance().getConnection();
     }
 
     public void addAbonnement(Abonnement abonnement) {

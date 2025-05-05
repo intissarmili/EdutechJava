@@ -1,6 +1,6 @@
 package service;
 
-import interfaces.IService;
+import service.IServicee;
 import models.Question;
 import utils.MaConnexion;
 
@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionService implements IService<Question> {
+public class QuestionService implements IServicee<Question> {
 
     private Connection cnx;
 

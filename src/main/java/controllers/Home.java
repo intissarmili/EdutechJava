@@ -20,7 +20,7 @@ public class Home extends Application {
 
 
             // Load the FXML file (you can change the path if needed)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/avaibility/listCards.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chat_view.fxml"));
             Parent root = loader.load();
 
             // Set up the stage

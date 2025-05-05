@@ -33,7 +33,7 @@ public class CertificationItemCell extends ListCell<Certification> {
         // Services
         // No need to pass the connection since it's handled inside the service class
         FavoriteService favoriteService = new FavoriteService();
-        panierService = new PanierService(MaConnexion.getInstance().getConn());
+        panierService = new PanierService(MaConnexion.getInstance().getConnection());
 
         imageView = new ImageView();
         imageView.setFitHeight(80);

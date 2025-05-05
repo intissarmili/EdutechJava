@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import models.Certification;
-import services.CertificationService;
+import service.CertificationService;
 import services.PanierService;
 import services.FavoriteService;
 import services.PointsService; // Important à ajouter
@@ -26,11 +26,8 @@ import java.util.List;
 
 public class AfficherCertificationsController {
 
-
-
     @FXML
     private FlowPane certifContainer;
-
 
     @FXML
     private Label soldeLabel; // Label pour afficher le solde
@@ -100,25 +97,29 @@ public class AfficherCertificationsController {
         descriptionLabel.setWrapText(true);
         descriptionLabel.setStyle("-fx-font-size: 12px;");
 
-        Label prixLabel = new Label(certif.getPrix() + " points"); // Afficher en points
+        // Format prix (DOUBLE) to display with two decimal places
+        String formattedPrix = String.format("%.2f", certif.getPrix());
+        Label prixLabel = new Label(formattedPrix + " points");
 
         prixLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #4CAF50;");
 
         Button btnAjouter = new Button("Ajouter au panier");
         btnAjouter.setStyle("-fx-background-color: #03A9F4; -fx-text-fill: white;");
         btnAjouter.setOnAction(event -> {
-            if (soldePoints >= certif.getPrix()) {  // Comparer aux POINTS RESTANTS !!!
+            // Ensure the comparison handles DOUBLE values correctly
+            if (soldePoints >= certif.getPrix()) {  // Compare soldePoints with certif.getPrix() as DOUBLE
                 panierService.ajouterCertification(certif);
                 pointsService.deduirePoints(userId, certif.getPrix());
-                soldePoints -= certif.getPrix(); // Mettre à jour le solde local !
+                soldePoints -= certif.getPrix(); // Update the local balance
+
+                // Update soldeLabel with the updated soldePoints, casting to int if necessary
                 updateSoldeLabel((int) soldePoints);
 
-                afficherPanier(event); // Aller direct au panier
+                afficherPanier(event); // Go directly to the cart
             } else {
                 showAlert("Points insuffisants", "Vous n'avez pas assez de points restants pour acheter cette certification !");
             }
         });
-
 
         Button heartBtn = new Button();
         heartBtn.setText(favoriteService.isFavorite(userId, certif.getId()) ? "♥" : "♡");
@@ -140,6 +141,7 @@ public class AfficherCertificationsController {
         card.getChildren().addAll(imageView, nomLabel, descriptionLabel, prixLabel, btnAjouter, heartBtn);
         return card;
     }
+
 
     private void updateHeartColor(Button heartBtn) {
         if ("♥".equals(heartBtn.getText())) {

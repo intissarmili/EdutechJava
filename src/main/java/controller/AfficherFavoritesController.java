@@ -9,9 +9,10 @@ import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 import models.Certification;
 import models.Favorite;
-import services.CertificationService;
+import service.CertificationService;
 import services.FavoriteService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class AfficherFavoritesController {
@@ -25,7 +26,7 @@ public class AfficherFavoritesController {
     private final int userId = 1; // ID de l'utilisateur actuel, à ajuster
 
     @FXML
-    public void initialize() {
+    public void initialize() throws SQLException {
         // Récupérer tous les favoris de l'utilisateur
         List<Favorite> favorites = favoriteService.getFavoritesByUserId(userId);
 

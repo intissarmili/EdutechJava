@@ -39,6 +39,8 @@ public class addCertificationController {
                     Double.parseDouble(prixField.getText()),
                     imgField.getText(),
                     Integer.parseInt(prixPieceField.getText())
+
+
             );
 
             certificationService.create(certification);
