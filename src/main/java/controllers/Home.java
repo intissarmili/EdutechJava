@@ -19,6 +19,7 @@ public class Home extends Application {
         try {
 
 
+
             // Load the FXML file (you can change the path if needed)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/chat_view.fxml"));
             Parent root = loader.load();
