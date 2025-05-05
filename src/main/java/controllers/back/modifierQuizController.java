@@ -51,8 +51,6 @@ public class modifierQuizController {
             quizService.update(quiz);
             showAlert("Succès", "Modification réussie", "Le quiz a été modifié avec succès.", Alert.AlertType.INFORMATION);
             closeWindow();
-        } catch (SQLException e) {
-            showAlert("Erreur", "Erreur lors de la modification", e.getMessage(), Alert.AlertType.ERROR);
         } catch (NumberFormatException e) {
             showAlert("Erreur", "Format invalide", "Veuillez entrer une valeur numérique valide pour le prix pièce.", Alert.AlertType.ERROR);
         }

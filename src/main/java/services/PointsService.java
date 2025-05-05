@@ -17,7 +17,7 @@ public class PointsService {
     }
 
     // Méthode pour déduire des points
-    public boolean deduirePoints(int userId, int points) {
+    public boolean deduirePoints(int userId, double points) {
         if (userPoints >= points) {
             userPoints -= points;
             System.out.println("✅ Points déduits. Nouveau solde : " + userPoints);
@@ -30,7 +30,7 @@ public class PointsService {
     }
 
     // Méthode pour ajouter des points
-    public void ajouterPoints(int userId, int points) {
+    public void ajouterPoints(int userId, double points) {
         userPoints += points;
         System.out.println("✅ Points ajoutés. Nouveau solde : " + userPoints);
         // Ici aussi normalement : UPDATE en base de données

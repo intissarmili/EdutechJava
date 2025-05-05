@@ -71,13 +71,9 @@ public class affichierCoursController {
     }
 
     private void loadCoursData() {
-        try {
-            coursList.setAll(coursService.readAll());
-            TableCours.setItems(coursList);
-            lblTotalCours.setText(String.valueOf(coursList.size()));
-        } catch (SQLException e) {
-            showAlert("Erreur", "Impossible de charger les cours: " + e.getMessage(), Alert.AlertType.ERROR);
-        }
+        coursList.setAll(coursService.readAll());
+        TableCours.setItems(coursList);
+        lblTotalCours.setText(String.valueOf(coursList.size()));
     }
 
     private void setupSelectionListener() {
@@ -123,14 +119,10 @@ public class affichierCoursController {
 
         Optional<ButtonType> result = confirmation.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            try {
-                coursService.delete(selectedCours);
-                coursList.remove(selectedCours);
-                lblTotalCours.setText(String.valueOf(coursList.size()));
-                showAlert("Succès", "Le cours a été supprimé avec succès", Alert.AlertType.INFORMATION);
-            } catch (SQLException ex) {
-                showAlert("Erreur", "Erreur lors de la suppression: " + ex.getMessage(), Alert.AlertType.ERROR);
-            }
+            coursService.delete(selectedCours);
+            coursList.remove(selectedCours);
+            lblTotalCours.setText(String.valueOf(coursList.size()));
+            showAlert("Succès", "Le cours a été supprimé avec succès", Alert.AlertType.INFORMATION);
         }
     }
 

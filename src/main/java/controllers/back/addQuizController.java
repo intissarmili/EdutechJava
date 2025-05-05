@@ -87,8 +87,6 @@ public class addQuizController {
             quizService.create(nouveauQuiz);
             afficherConfirmation();
             redirigerVersListeQuiz();
-        } catch (SQLException e) {
-            gererErreurBD(e);
         } catch (NumberFormatException e) {
             afficherAlerte("Format invalide", "Erreur de saisie",
                     "Le prix doit être un nombre valide",

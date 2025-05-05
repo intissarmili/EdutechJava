@@ -91,13 +91,8 @@ public class affichierQuizController {
     }
 
     public void refreshQuizData() {
-        try {
-            quizzesList.setAll(quizService.readAll());
-            quizTable.setItems(quizzesList);
-        } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur de base de données",
-                    "Échec du chargement des quizzes: " + e.getMessage());
-        }
+        quizzesList.setAll(quizService.readAll());
+        quizTable.setItems(quizzesList);
     }
 
     private void openAddWindow() {
@@ -146,14 +141,9 @@ public class affichierQuizController {
 
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                try {
-                    quizService.delete(selected);
-                    quizzesList.remove(selected);
-                    showAlert(Alert.AlertType.INFORMATION, "Succès", "Quiz supprimé avec succès");
-                } catch (SQLException e) {
-                    showAlert(Alert.AlertType.ERROR, "Erreur de base de données",
-                            "Échec de la suppression du quiz: " + e.getMessage());
-                }
+                quizService.delete(selected);
+                quizzesList.remove(selected);
+                showAlert(Alert.AlertType.INFORMATION, "Succès", "Quiz supprimé avec succès");
             }
         });
     }

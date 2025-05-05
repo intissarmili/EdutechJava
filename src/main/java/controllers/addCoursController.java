@@ -81,8 +81,7 @@ public class addCoursController {
             coursService.create(cours);
             showAlert("Succès", "Cours ajouté avec succès", Alert.AlertType.INFORMATION);
             redirectToCoursList();
-        } catch (SQLException e) {
-            showAlert("Erreur", "Échec de l'ajout du cours: " + e.getMessage(), Alert.AlertType.ERROR);
+
         } catch (IOException e) {
             showAlert("Erreur", "Erreur lors de la redirection: " + e.getMessage(), Alert.AlertType.ERROR);
         }

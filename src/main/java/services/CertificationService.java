@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CertificationService implements ICertifService {
-    Connection cnx = MaConnexion.getInstance().getConn();
+    Connection cnx = MaConnexion.getInstance().getConnection();
 
     @Override
     public List<Certification> getAll() {
@@ -57,8 +57,11 @@ public class CertificationService implements ICertifService {
                 rs.getInt("id"),
                 rs.getString("nom"),
                 rs.getString("description"),
-                rs.getInt("prix"),
-                rs.getString("img")
+                rs.getDouble("prix"),
+                rs.getString("img"),
+                rs.getInt("prix_piece")
+
         );
     }
-}
+
+    }

@@ -35,18 +35,13 @@ public class QuizView {
     private int timeRemaining;
 
     public void initializeQuiz(int quizId) {
-        try {
-            QuizService quizService = new QuizService();
-            this.questions = quizService.getQuestionsForQuiz(quizId);
-            this.userAnswers = new String[questions.size()];
-            this.quiz = new Quiz();
-            quiz.setQuestions(questions);
-            showQuestion(currentIndex); // timer démarrera dans showQuestion directement
-        } catch (SQLException e) {
-            showError("Erreur lors du chargement du quiz : " + e.getMessage());
-        }
+        QuizService quizService = new QuizService();
+        this.questions = quizService.getQuestionsForQuiz(quizId);
+        this.userAnswers = new String[questions.size()];
+        this.quiz = new Quiz();
+        quiz.setQuestions(questions);
+        showQuestion(currentIndex); // timer démarrera dans showQuestion directement
     }
-
     private void startTimer() {
         timeRemaining = TIME_LIMIT;
         updateTimerDisplay();
