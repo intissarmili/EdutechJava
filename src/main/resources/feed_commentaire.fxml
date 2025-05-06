@@ -3,40 +3,48 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
 
-<ScrollPane xmlns="http://javafx.com/javafx/20.0.2"
+<ScrollPane xmlns="http://javafx.com/javafx/24.0.0"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.FeedController">
-    <!-- Navbar -->
-  <!--  <fx:include source="/navbar.fxml" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>  -->
-
+            fx:controller="controllers.FeedController"
+            styleClass="root"
+            stylesheets="@styles/modern.css">
     <content>
-        <VBox fx:id="mainVBox" spacing="15" style="-fx-padding: 15;">
-
+        <VBox fx:id="mainVBox" spacing="20">
             <!-- Formulaire de nouvelle publication -->
-            <VBox spacing="10" style="-fx-border-color: lightgrey; -fx-border-radius: 5; -fx-padding: 15;">
-                <Label text="Nouvelle publication" style="-fx-font-weight: bold; -fx-font-size: 14;"/>
+            <VBox styleClass="pro-card">
+                <HBox styleClass="feed-header">
+                    <Region styleClass="profile-picture" prefWidth="50" prefHeight="50"/>
+                    <VBox>
+                        <Label text="Nouvelle publication" styleClass="pro-header"/>
+                        <Label text="Partagez vos pensées..." styleClass="pro-subtext"/>
+                    </VBox>
+                </HBox>
 
                 <TextArea fx:id="newFeedTextArea"
                           promptText="Écris ta publication ici..."
-                          prefHeight="100"
+                          prefHeight="120"
                           wrapText="true"
-                          style="-fx-control-inner-background: #f9f9f9;"
+                          styleClass="modern-text-area"
                           onKeyReleased="#checkFeedLength"/>
 
-                <Label fx:id="feedLengthLabel" text="0/14" style="-fx-text-fill: grey; -fx-font-size: 12;"/>
+                <Label fx:id="feedLengthLabel" text="0/14" styleClass="timestamp"/>
 
-                <!-- Boutons côte à côte voir liste -->
-                <HBox spacing="10">
-                    <Button fx:id="ajouterFeedBtn"
-                            text="Publier"
-                            onAction="#addFeed"
-                            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <HBox styleClass="action-buttons" alignment="CENTER_RIGHT">
+                    <Button styleClass="uiverse-btn">
+                        <graphic>
+                            <Label text="★" styleClass="uiverse-sparkle"/>
+                        </graphic>
+                        <text>Publier</text>
+                    </Button>
 
                     <Button fx:id="btnVoirListe"
                             text="Voir liste"
                             onAction="#goToList"
-                            style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                            styleClass="pro-btn"/>
                 </HBox>
             </VBox>
 

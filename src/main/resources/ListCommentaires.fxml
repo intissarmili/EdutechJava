@@ -16,6 +16,13 @@
                 <Insets top="15" right="15" bottom="15" left="15"/>
             </padding>
             <Label fx:id="feedLabel" wrapText="true" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+            
+            <!-- Global language selector -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Langue globale:" style="-fx-font-weight: bold;"/>
+                <ComboBox fx:id="globalLanguageComboBox" />
+                <Label text="(Changer cette langue affectera tous les commentaires)" style="-fx-font-style: italic; -fx-text-fill: #666;"/>
+            </HBox>
         </VBox>
     </top>
 

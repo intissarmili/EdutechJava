@@ -199,30 +199,82 @@ public class FeedItemController {
 
     @FXML
     private void handleEdit() {
-        // TODO: Implement edit functionality
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Edit Feed");
-        alert.setHeaderText(null);
-        alert.setContentText("Edit functionality will be implemented soon!");
-        alert.showAndWait();
+        TextInputDialog dialog = new TextInputDialog(feed.getPublication());
+        dialog.setTitle("Modifier la publication");
+        dialog.setHeaderText("Modifiez votre publication :");
+        dialog.setContentText("Contenu :");
+
+        dialog.showAndWait().ifPresent(content -> {
+            if (!content.trim().isEmpty()) {
+                feed.setPublication(content);
+                feed.setLastModified(java.time.LocalDateTime.now());
+                try {
+                    feedService.updateFeed(feed);
+                    // Notify parent to refresh the list if needed
+                    if (refreshCallback != null) {
+                        refreshCallback.run();
+                    }
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Succès");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Publication modifiée avec succès !");
+                    alert.showAndWait();
+                } catch (Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erreur");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Impossible de modifier la publication : " + e.getMessage());
+                    alert.showAndWait();
+                }
+            }
+        });
     }
 
-    @FXML
-    private void handleDelete() {
-        try {
-            feedService.deleteFeed(feed.getId());
-            // Notify parent to refresh the list
-            if (refreshCallback != null) {
-                refreshCallback.run();
-            }
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Failed to delete feed: " + e.getMessage());
-            alert.showAndWait();
+   @FXML
+public void handleDelete() {
+    try {
+        // 1. Delete all comments for this feed
+        commentaireService.getCommentairesByFeedId(feed.getId())
+            .forEach(comment -> {
+                try {
+                    commentaireService.deleteCommentaire(comment.getId());
+                } catch (Exception ex) {
+                    // Optionally log or show error for individual comment deletion
+                }
+            });
+
+        // 2. Set feed_id to NULL in feed_history for this feed
+        setFeedIdNullInHistory(feed.getId());
+
+        // 3. Now delete the feed
+        feedService.deleteFeed(feed.getId());
+
+        // Notify parent to refresh the list
+        if (refreshCallback != null) {
+            refreshCallback.run();
         }
+    } catch (Exception e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText("Failed to delete feed: " + e.getMessage());
+        alert.showAndWait();
     }
+}
+
+private void setFeedIdNullInHistory(int feedId) {
+    try {
+        // You need a connection to your DB here
+        java.sql.Connection conn = utils.MaConnexion.getInstance().getConnection();
+        String sql = "UPDATE feed_history SET feed_id = NULL WHERE feed_id = ?";
+        try (java.sql.PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, feedId);
+            stmt.executeUpdate();
+        }
+    } catch (Exception e) {
+        // Optionally log or show error
+    }
+}
 
     @FXML
     private void handleAddComment() {
