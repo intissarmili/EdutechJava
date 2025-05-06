@@ -2,25 +2,69 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/23.0.1"
+<AnchorPane prefHeight="400.0" prefWidth="700.0"
+            xmlns="http://javafx.com/javafx/24.0.0"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.ListFeedController">
+            fx:controller="controllers.ListFeedController"
+            styleClass="root"
+            stylesheets="@styles/modern.css">
 
     <children>
-        <Button fx:id="btnRetour"
-                layoutX="20.0" layoutY="20.0"
-                text="Créer une publication"
-                onAction="#goToCreateFeed"/>
+        <VBox styleClass="pro-card" layoutX="20.0" layoutY="20.0">
+            <HBox styleClass="feed-header">
+                <Region styleClass="profile-picture" prefWidth="50" prefHeight="50"/>
+                <VBox>
+                    <Label styleClass="pro-header" text="Gestion des publications"/>
+                    <Label styleClass="pro-subtext" text="Gérez vos publications et consultez les statistiques"/>
+                </VBox>
+            </HBox>
 
-        <TableView fx:id="tableFeeds"
-                   layoutX="100.0" layoutY="70.0"
-                   prefHeight="300.0" prefWidth="400.0">
-            <columns>
-                <TableColumn fx:id="colFeedText" prefWidth="200.0" text="Publication"/>
-                <TableColumn fx:id="colActions" prefWidth="180.0" text="Actions"/>
-            </columns>
-        </TableView>
+            <HBox styleClass="action-buttons">
+                <Button fx:id="btnCreate"
+                        text="Créer une publication"
+                        onAction="#goToCreateFeed"
+                        styleClass="pro-btn"/>
+                        
+                <Button fx:id="btnHistory"
+                        text="Historique des publications"
+                        onAction="#showAllFeedHistory"
+                        styleClass="pro-btn"/>
+                        
+                <Button fx:id="btnStatistics"
+                        text="Statistiques"
+                        onAction="#showStatistics"
+                        styleClass="pro-btn"/>
+                        
+                <Button fx:id="btnTranslationTest"
+                        text="Test Traduction API"
+                        onAction="#showTranslationTest"
+                        styleClass="pro-btn"/>
+            </HBox>
+
+            <TableView fx:id="tableFeeds"
+                       layoutX="20.0" layoutY="70.0"
+                       prefHeight="300.0" prefWidth="660.0"
+                       styleClass="table-view">
+                <columns>
+                    <TableColumn fx:id="colFeedText" 
+                               prefWidth="250.0" 
+                               text="Publication"/>
+                    <TableColumn fx:id="colLastModified" 
+                               prefWidth="150.0" 
+                               text="Dernière modification"/>
+                    <TableColumn fx:id="colActions" 
+                               prefWidth="180.0" 
+                               text="Actions"/>
+                </columns>
+            </TableView>
+        </VBox>
     </children>
-</AnchorPane>
+</AnchorPane> 

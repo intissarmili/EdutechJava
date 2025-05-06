@@ -10,12 +10,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.Feed;
 import service.FeedService;
+import service.CommentaireService;
+import service.FeedHistoryService;
+import models.FeedHistory;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import javafx.collections.FXCollections;
 
 public class ListFeedController {
     @FXML
@@ -31,6 +35,8 @@ public class ListFeedController {
     private TableColumn<Feed, Void> colActions;
     
     private FeedService feedService;
+    private CommentaireService commentaireService = new CommentaireService();
+    private FeedHistoryService feedHistoryService = new FeedHistoryService();
 
     @FXML
     public void initialize() {
@@ -99,12 +105,21 @@ public class ListFeedController {
 
         dialog.showAndWait().ifPresent(content -> {
             if (!content.trim().isEmpty()) {
+                String oldContent = feed.getPublication();
                 feed.setPublication(content);
                 feed.setLastModified(LocalDateTime.now());
                 try {
                     feedService.updateFeed(feed);
                     loadFeeds();
                     showInfoAlert("Succès", "Publication modifiée avec succès !");
+
+                    FeedHistory history = new FeedHistory(
+                        feed.getId(),
+                        oldContent,
+                        content,
+                        "UPDATE"
+                    );
+                    feedHistoryService.addHistory(history);
                 } catch (SQLException e) {
                     showErrorAlert("Erreur", "Impossible de modifier la publication : " + e.getMessage());
                 }
@@ -113,22 +128,24 @@ public class ListFeedController {
     }
     
     private void deleteFeed(Feed feed) {
-        Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmDialog.setTitle("Confirmation de suppression");
-        confirmDialog.setHeaderText("Êtes-vous sûr de vouloir supprimer cette publication ?");
-        confirmDialog.setContentText("Cette action est irréversible.");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Feed_Item.fxml"));
+            Parent root = loader.load();
+            FeedItemController controller = loader.getController();
+            controller.setFeed(feed);
+            controller.setRefreshCallback(this::loadFeeds); // Optional: refresh list after delete
 
-        confirmDialog.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                try {
-                    feedService.deleteFeed(feed.getId());
-                    loadFeeds();
-                    showInfoAlert("Succès", "Publication supprimée avec succès !");
-                } catch (SQLException e) {
-                    showErrorAlert("Erreur", "Impossible de supprimer la publication : " + e.getMessage());
-                }
-            }
-        });
+            // Call the delete method
+            controller.handleDelete();
+
+            // Optionally, show the FeedItem view in a new window or dialog if you want
+            // Stage stage = new Stage();
+            // stage.setScene(new Scene(root));
+            // stage.show();
+
+        } catch (Exception e) {
+            showErrorAlert("Erreur", "Impossible de supprimer la publication : " + e.getMessage());
+        }
     }
 
     @FXML
@@ -217,5 +234,18 @@ public class ListFeedController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    private void setFeedIdNullInHistory(int feedId) {
+        try {
+            java.sql.Connection conn = utils.MaConnexion.getInstance().getConnection();
+            String sql = "UPDATE feed_history SET feed_id = NULL WHERE feed_id = ?";
+            try (java.sql.PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, feedId);
+                stmt.executeUpdate();
+            }
+        } catch (Exception e) {
+            // Optionally log or show error
+        }
     }
 }
