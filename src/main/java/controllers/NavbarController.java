@@ -29,21 +29,21 @@ public class NavbarController {
         chargerPage("/AffichierCertification.fxml", event);
     }
 
+
+
     @FXML
-
-
-    private void naviguerVersAffichierQuiz(ActionEvent event) {
+    public void naviguerVersAffichierQuiz(ActionEvent event) {
         try {
+            // Chemin relatif depuis la racine des ressources
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AffichierQuiz.fxml"));
             Parent root = loader.load();
 
             // Obtenir la scène actuelle
             Scene currentScene = ((Node)event.getSource()).getScene();
             currentScene.setRoot(root);
-
         } catch (IOException e) {
-            showAlert("Erreur", "Impossible d'ouvrir la page Quiz");
             e.printStackTrace();
+            showAlert("Erreur", "Impossible de charger la page Quiz: " + e.getMessage());
         }
     }
     @FXML

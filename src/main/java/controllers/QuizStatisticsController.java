@@ -43,36 +43,31 @@ public class QuizStatisticsController {
     }
 
     private void loadStatistics() {
-        try {
-            List<Quiz> quizzes = quizService.readAll();
+        List<Quiz> quizzes = quizService.readAll();
 
-            if (quizzes == null || quizzes.isEmpty()) {
-                showAlert("Aucune donnée", "Aucun quiz disponible pour les statistiques");
-                return;
-            }
-
-            // Déclarer les variables comme final
-            final int totalQuiz = quizzes.size();
-            int quizReussis = 0;
-
-            for (Quiz quiz : quizzes) {
-                if (quiz.estReussi()) {
-                    quizReussis++;
-                }
-            }
-
-            final double tauxReussite = (totalQuiz > 0) ? ((double) quizReussis / totalQuiz) * 100 : 0;
-            final double tauxEchec = 100 - tauxReussite;
-            final int finalQuizReussis = quizReussis; // Variable effectivement finale
-
-            Platform.runLater(() -> {
-                updateUI(tauxReussite, tauxEchec, totalQuiz, finalQuizReussis);
-            });
-
-        } catch (SQLException e) {
-            showAlert("Erreur SQL", "Échec de la lecture des quizzes: " + e.getMessage());
-            e.printStackTrace();
+        if (quizzes == null || quizzes.isEmpty()) {
+            showAlert("Aucune donnée", "Aucun quiz disponible pour les statistiques");
+            return;
         }
+
+        // Déclarer les variables comme final
+        final int totalQuiz = quizzes.size();
+        int quizReussis = 0;
+
+        for (Quiz quiz : quizzes) {
+            if (quiz.estReussi()) {
+                quizReussis++;
+            }
+        }
+
+        final double tauxReussite = (totalQuiz > 0) ? ((double) quizReussis / totalQuiz) * 100 : 0;
+        final double tauxEchec = 100 - tauxReussite;
+        final int finalQuizReussis = quizReussis; // 9a3ed ytallaliii fi erreuret fi khedmet maissa
+
+        Platform.runLater(() -> {
+            updateUI(tauxReussite, tauxEchec, totalQuiz, finalQuizReussis);
+        });
+
     }
 
     private void updateUI(double tauxReussite, double tauxEchec, int totalQuiz, int quizReussis) {

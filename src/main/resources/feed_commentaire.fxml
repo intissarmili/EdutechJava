@@ -7,6 +7,9 @@
 <ScrollPane xmlns="http://javafx.com/javafx/20.0.2"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.FeedController">
+    <!-- Navbar -->
+  <!--  <fx:include source="/navbar.fxml" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>  -->
+
     <content>
         <VBox fx:id="mainVBox" spacing="15" style="-fx-padding: 15;">
 

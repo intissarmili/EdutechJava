@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.ListCommentairesController"
+            prefHeight="400.0" prefWidth="600.0"
+            styleClass="root-pane">
+
+    <top>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
+            <Label fx:id="feedLabel" wrapText="true" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+        </VBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox fx:id="commentsContainer" spacing="10">
+                <padding>
+                    <Insets top="10" right="15" bottom="10" left="15"/>
+                </padding>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="15" bottom="15" left="15"/>
+            </padding>
+            <HBox spacing="10" alignment="CENTER">
+                <TextField fx:id="commentField" promptText="Ajouter un commentaire..." HBox.hgrow="ALWAYS"/>
+                <Button text="Ajouter" onAction="#handleAddComment"/>
+            </HBox>
+            <Button text="Retour à la liste" onAction="#handleBack" styleClass="back-button"/>
+        </VBox>
+    </bottom>
+
+</BorderPane>

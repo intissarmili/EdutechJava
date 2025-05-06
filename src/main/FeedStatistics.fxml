@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FeedStatisticsController">
+   <children>
+      <VBox prefHeight="700.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label text="Statistiques des Publications" textFill="#3f51b5">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#refreshData" style="-fx-background-color: #4caf50;" text="Actualiser" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #9e9e9e;" text="Retour" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            
+            <!-- Statistics Summary -->
+            <GridPane hgap="10" vgap="5">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <children>
+                  <Label text="Total des publications:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="totalFeedsLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  
+                  <Label text="Moyenne des commentaires:" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="averageCommentsLabel" text="0.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  
+                  <Label text="Publication la plus commentée:" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="mostCommentedFeedLabel" text="Aucune" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <columnConstraints>
+                  <javafx.scene.layout.ColumnConstraints hgrow="NEVER" />
+                  <javafx.scene.layout.ColumnConstraints hgrow="ALWAYS" />
+               </columnConstraints>
+               <rowConstraints>
+                  <javafx.scene.layout.RowConstraints />
+                  <javafx.scene.layout.RowConstraints />
+                  <javafx.scene.layout.RowConstraints />
+               </rowConstraints>
+            </GridPane>
+            
+            <!-- Charts Section -->
+            <HBox spacing="10.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox spacing="5.0" HBox.hgrow="SOMETIMES">
+                     <children>
+                        <Label text="Nombre de commentaires par publication">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <BarChart fx:id="commentCountChart" legendVisible="false">
+                           <xAxis>
+                              <CategoryAxis side="BOTTOM" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis label="Commentaires" side="LEFT" />
+                           </yAxis>
+                        </BarChart>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+                  <VBox spacing="5.0" HBox.hgrow="SOMETIMES">
+                     <children>
+                        <Label text="Distribution par longueur de contenu">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <PieChart fx:id="contentLengthPieChart" labelsVisible="true" legendVisible="true" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            
+            <!-- Table View -->
+            <Label text="Détails des statistiques" textFill="#3f51b5">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            <TableView fx:id="statsTableView" prefHeight="200.0" prefWidth="880.0" VBox.vgrow="ALWAYS">
+               <columns>
+                  <TableColumn fx:id="colFeedId" prefWidth="75.0" text="ID" />
+                  <TableColumn fx:id="colPublication" prefWidth="250.0" text="Publication" />
+                  <TableColumn fx:id="colCommentCount" prefWidth="150.0" text="Nombre de Commentaires" />
+                  <TableColumn fx:id="colLikes" prefWidth="100.0" text="Likes" />
+                  <TableColumn fx:id="colDislikes" prefWidth="100.0" text="Dislikes" />
+                  <TableColumn fx:id="colActions" prefWidth="100.0" text="Actions" />
+               </columns>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+               </VBox.margin>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane> 

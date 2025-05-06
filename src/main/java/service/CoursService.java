@@ -1,6 +1,7 @@
 package service;
 
-import interfaces.IService;
+
+import service.IServicee;
 import models.Cours;
 import utils.MaConnexion;
 
@@ -8,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoursService implements IService<Cours> {
+public class CoursService implements IServicee<Cours> {
     private final Connection cnx;
 
     public CoursService() {
@@ -39,29 +40,33 @@ public class CoursService implements IService<Cours> {
     }
 
     @Override
-    public void create(Cours cours) throws SQLException {
-        if (isCertificationUsed(cours.getCertificationId())) {
-            throw new SQLException("La certification ID " + cours.getCertificationId() + " est déjà utilisée");
-        }
+    public void create(Cours cours) {
+        try {
+            if (isCertificationUsed(cours.getCertificationId())) {
+                throw new SQLException("La certification ID " + cours.getCertificationId() + " est déjà utilisée");
+            }
 
-        String query = "INSERT INTO cours(titre, contenu, categorie, certification_id) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement ps = cnx.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, cours.getTitre());
-            ps.setString(2, cours.getContenu());
-            ps.setString(3, cours.getCategorie());
-            ps.setInt(4, cours.getCertificationId());
-            ps.executeUpdate();
+            String query = "INSERT INTO cours(titre, contenu, categorie, certification_id) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement ps = cnx.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setString(1, cours.getTitre());
+                ps.setString(2, cours.getContenu());
+                ps.setString(3, cours.getCategorie());
+                ps.setInt(4, cours.getCertificationId());
+                ps.executeUpdate();
 
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                if (rs.next()) {
-                    cours.setId(rs.getInt(1));
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        cours.setId(rs.getInt(1));
+                    }
                 }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void update(Cours cours) throws SQLException {
+    public void update(Cours cours) {
         String query = "UPDATE cours SET titre = ?, contenu = ?, categorie = ?, certification_id = ? WHERE id = ?";
         try (PreparedStatement ps = cnx.prepareStatement(query)) {
             ps.setString(1, cours.getTitre());
@@ -70,20 +75,24 @@ public class CoursService implements IService<Cours> {
             ps.setInt(4, cours.getCertificationId());
             ps.setInt(5, cours.getId());
             ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void delete(Cours cours) throws SQLException {
+    public void delete(Cours cours) {
         String query = "DELETE FROM cours WHERE id = ?";
         try (PreparedStatement ps = cnx.prepareStatement(query)) {
             ps.setInt(1, cours.getId());
             ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public List<Cours> readAll() throws SQLException {
+    public List<Cours> readAll() {
         List<Cours> coursList = new ArrayList<>();
         String query = "SELECT * FROM cours";
 
@@ -99,6 +108,8 @@ public class CoursService implements IService<Cours> {
                 );
                 coursList.add(c);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return coursList;
     }

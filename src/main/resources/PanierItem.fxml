@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.PanierItemController"
+      spacing="10"
+      alignment="CENTER_LEFT"
+      style="-fx-padding: 10; -fx-background-color: #f8f8f8;">
+    <Label fx:id="itemLabel" />
+    <Button fx:id="deleteButton" style="-fx-background-color: transparent;">
+        <graphic>
+            <ImageView fitHeight="20" fitWidth="20">
+                <image>
+                    <Image url="@/images/img.png" />
+                </image>
+            </ImageView>
+        </graphic>
+    </Button>
+</HBox>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="15" alignment="CENTER" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml" fx:controller="controller.AjouterAbonnementController">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Ajouter un Abonnement" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="10" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints halignment="RIGHT"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <rowConstraints>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+        </rowConstraints>
+
+        <Label text="Nom :" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="nomField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Durée :" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="dureeField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Prix :" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="prixField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Description :" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextArea fx:id="descriptionField" prefRowCount="3" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <Button text="Ajouter" fx:id="ajouterButton"/>
+</VBox>

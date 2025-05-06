@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.ListeAbonnementController"
+      spacing="20"
+      alignment="TOP_CENTER"
+      style="-fx-background-color: #f4f6f8; -fx-padding: 30px;">
+
+    <!-- Header stylé -->
+    <HBox spacing="50" style="-fx-background-color: #03A9F4; -fx-padding: 15px;" alignment="CENTER_LEFT">
+        <Label text="EduTech" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: white;" />
+
+        <HBox spacing="20" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+            <Button text="Accueil"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;" />
+            <MenuButton text="Réservation"
+                        style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;">
+                <MenuItem text="Option 1" />
+                <MenuItem text="Option 2" />
+            </MenuButton>
+            <Button text="Portfolio"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;" />
+            <Button text="Abonnements"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;" />
+            <Button text="Team"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;" />
+            <Button text="Cours"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;" />
+            <Button text="Feed"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;" />
+        </HBox>
+    </HBox>
+
+    <!-- TableView joliment intégrée -->
+    <TableView fx:id="tableAbonnements" prefWidth="700" prefHeight="450"
+               style="-fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: #cccccc; -fx-padding: 10px;">
+        <columns>
+            <TableColumn fx:id="colNom" text="Nom" prefWidth="200"/>
+            <TableColumn fx:id="colDuree" text="Durée (mois)" prefWidth="220"/>
+            <TableColumn fx:id="colPrix" text="Prix (TND)" prefWidth="220"/>
+            <TableColumn fx:id="colDescription" text="Description" prefWidth="480"/>
+            <TableColumn fx:id="colActions" text="Actions" prefWidth="350"/>
+        </columns>
+    </TableView>
+
+</VBox>

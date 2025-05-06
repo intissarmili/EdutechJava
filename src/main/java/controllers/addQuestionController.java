@@ -8,6 +8,7 @@ import service.QuestionService;
 import service.QuizService;
 import service.CertificationService;
 
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.function.Consumer;
@@ -44,20 +45,16 @@ public class addQuestionController {
     private void loadComboBoxData() {
         // Chargement des quiz dans un thread séparé
         new Thread(() -> {
-            try {
-                List<Integer> quizIds = quizService.readAll().stream()
-                        .map(quiz -> quiz.getId())
-                        .collect(Collectors.toList());
+            List<Integer> quizIds = quizService.readAll().stream()
+                    .map(quiz -> quiz.getId())
+                    .collect(Collectors.toList());
 
-                Platform.runLater(() -> {
-                    quizIdCombo.getItems().clear();
-                    quizIdCombo.getItems().add(null);
-                    quizIdCombo.getItems().addAll(quizIds);
-                });
-            } catch (SQLException e) {
-                Platform.runLater(() ->
-                        showAlert("Erreur", "Échec du chargement des quiz: " + e.getMessage()));
-            }
+            Platform.runLater(() -> {
+                quizIdCombo.getItems().clear();
+                quizIdCombo.getItems().add(null);
+                quizIdCombo.getItems().addAll(quizIds);
+            });
+
         }).start();
 
         // Chargement des certifications dans un thread séparé
@@ -76,6 +73,7 @@ public class addQuestionController {
                 Platform.runLater(() ->
                         showAlert("Erreur", "Échec du chargement des certifications: " + e.getMessage()));
             }
+
         }).start();
     }
 

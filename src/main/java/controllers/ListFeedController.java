@@ -1,184 +1,221 @@
 package controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import models.Feed;
 import service.FeedService;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 public class ListFeedController {
-
     @FXML
     private TableView<Feed> tableFeeds;
+    
     @FXML
     private TableColumn<Feed, String> colFeedText;
+    
+    @FXML
+    private TableColumn<Feed, String> colLastModified;
+    
     @FXML
     private TableColumn<Feed, Void> colActions;
-
-    private final FeedService feedService = new FeedService();
+    
+    private FeedService feedService;
 
     @FXML
     public void initialize() {
-        try {
-            List<Feed> feeds = feedService.getAllFeeds();
-            ObservableList<Feed> observableFeeds = FXCollections.observableArrayList(feeds);
-            tableFeeds.setItems(observableFeeds);
-
-            colFeedText.setCellValueFactory(new PropertyValueFactory<>("publication"));
-            addActionButtonsToTable();
-
-        } catch (SQLException e) {
-            System.err.println("Erreur lors du chargement des publications : " + e.getMessage());
-        }
+        feedService = new FeedService();
+        setupTableColumns();
+        loadFeeds();
     }
-
-    private void addActionButtonsToTable() {
-        colActions.setCellFactory(param -> new TableCell<>() {
-            private final Button btnEdit = new Button("✏️");
-            private final Button btnDelete = new Button("🗑️");
-            private final HBox pane = new HBox(btnEdit, btnDelete);
-
+    
+    private void setupTableColumns() {
+        // Configuration de la colonne de texte
+        colFeedText.setCellValueFactory(cellData -> 
+            new javafx.beans.property.SimpleStringProperty(cellData.getValue().getPublication()));
+        
+        // Configuration de la colonne de date
+        colLastModified.setCellValueFactory(cellData -> {
+            LocalDateTime lastModified = cellData.getValue().getLastModified();
+            String formattedDate = lastModified != null ? 
+                lastModified.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) : "N/A";
+            return new javafx.beans.property.SimpleStringProperty(formattedDate);
+        });
+        
+        // Configuration de la colonne d'actions
+        colActions.setCellFactory(column -> new TableCell<Feed, Void>() {
+            private final Button editButton = new Button("Modifier");
+            private final Button deleteButton = new Button("Supprimer");
+            private final HBox buttons = new HBox(5, editButton, deleteButton);
+            
             {
-                pane.setSpacing(10);
-
-                btnEdit.setOnAction(event -> {
-                    Feed selectedFeed = getTableView().getItems().get(getIndex());
-                    showEditDialog(selectedFeed);
+                editButton.setOnAction(event -> {
+                    Feed feed = getTableView().getItems().get(getIndex());
+                    editFeed(feed);
                 });
-
-                btnDelete.setOnAction(event -> {
-                    Feed selectedFeed = getTableView().getItems().get(getIndex());
-                    System.out.println("Tentative de suppression de la publication ID: " + selectedFeed.getId());
-                    deleteFeed(selectedFeed);
+                
+                deleteButton.setOnAction(event -> {
+                    Feed feed = getTableView().getItems().get(getIndex());
+                    deleteFeed(feed);
                 });
             }
-
+            
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    setGraphic(pane);
+                    setGraphic(buttons);
                 }
             }
         });
     }
 
-    private void showEditDialog(Feed feed) {
-        TextInputDialog dialog = new TextInputDialog(feed.getPublication());
-        dialog.setTitle("Modifier la publication");
-        dialog.setHeaderText("Éditez la publication :");
-
-        dialog.showAndWait().ifPresent(newText -> {
-            feed.setPublication(newText);
-            try {
-                feedService.updateFeed(feed);
-                refreshTable();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    private void deleteFeed(Feed feed) {
-        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmationAlert.setTitle("Confirmation de suppression");
-        confirmationAlert.setHeaderText("Voulez-vous vraiment supprimer cette publication ?");
-        confirmationAlert.setContentText("Attention : Tous les commentaires associés seront également supprimés !");
-
-        Optional<ButtonType> result = confirmationAlert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            try {
-                boolean deleted = feedService.deleteFeed(feed.getId());
-                if (deleted) {
-                    refreshTable();
-
-                    // Afficher un message de succès (optionnel)
-                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-                    successAlert.setTitle("Succès");
-                    successAlert.setHeaderText(null);
-                    successAlert.setContentText("Publication supprimée avec succès !");
-                    successAlert.showAndWait();
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Avertissement");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Aucune publication n'a été trouvée avec cet identifiant.");
-                    alert.showAndWait();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur de base de données");
-                alert.setHeaderText(null);
-                alert.setContentText("Erreur lors de la suppression : " + e.getMessage());
-                alert.showAndWait();
-            }
+    private void loadFeeds() {
+        try {
+            List<Feed> feeds = feedService.getAllFeeds();
+            tableFeeds.getItems().setAll(feeds);
+        } catch (SQLException e) {
+            showErrorAlert("Erreur", "Impossible de charger les publications : " + e.getMessage());
         }
     }
-    private void showErrorAlert(String title, String message) {
+    
+    private void editFeed(Feed feed) {
+        TextInputDialog dialog = new TextInputDialog(feed.getPublication());
+        dialog.setTitle("Modifier la publication");
+        dialog.setHeaderText("Modifiez votre publication :");
+        dialog.setContentText("Contenu :");
+
+        dialog.showAndWait().ifPresent(content -> {
+            if (!content.trim().isEmpty()) {
+                feed.setPublication(content);
+                feed.setLastModified(LocalDateTime.now());
+                try {
+                    feedService.updateFeed(feed);
+                    loadFeeds();
+                    showInfoAlert("Succès", "Publication modifiée avec succès !");
+                } catch (SQLException e) {
+                    showErrorAlert("Erreur", "Impossible de modifier la publication : " + e.getMessage());
+                }
+            }
+        });
+    }
+    
+    private void deleteFeed(Feed feed) {
+        Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmDialog.setTitle("Confirmation de suppression");
+        confirmDialog.setHeaderText("Êtes-vous sûr de vouloir supprimer cette publication ?");
+        confirmDialog.setContentText("Cette action est irréversible.");
+
+        confirmDialog.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                try {
+                    feedService.deleteFeed(feed.getId());
+                    loadFeeds();
+                    showInfoAlert("Succès", "Publication supprimée avec succès !");
+                } catch (SQLException e) {
+                    showErrorAlert("Erreur", "Impossible de supprimer la publication : " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    @FXML
+    public void goToCreateFeed() {
+        try {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Nouvelle publication");
+            dialog.setHeaderText("Écrivez votre publication :");
+            dialog.setContentText("Contenu :");
+
+            dialog.showAndWait().ifPresent(content -> {
+                if (!content.trim().isEmpty()) {
+                    Feed newFeed = new Feed();
+                    newFeed.setPublication(content);
+                    newFeed.setLastModified(LocalDateTime.now());
+                    try {
+                        feedService.createFeed(newFeed);
+                        loadFeeds();
+                        showInfoAlert("Succès", "Publication créée avec succès !");
+                    } catch (SQLException e) {
+                        showErrorAlert("Erreur", "Impossible de créer la publication : " + e.getMessage());
+                    }
+                }
+            });
+        } catch (Exception e) {
+            showErrorAlert("Erreur", "Une erreur est survenue : " + e.getMessage());
+        }
+    }
+    
+    @FXML
+    public void showAllFeedHistory() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FeedHistory.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Historique des publications");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            showErrorAlert("Erreur", "Impossible d'ouvrir l'historique : " + e.getMessage());
+        }
+    }
+    
+    @FXML
+    public void showStatistics() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FeedStatistics.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Statistiques des publications");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            showErrorAlert("Erreur", "Impossible d'ouvrir les statistiques : " + e.getMessage());
+        }
+    }
+    
+    @FXML
+    public void showTranslationTest() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/TranslationTest.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Test de traduction");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            showErrorAlert("Erreur", "Impossible d'ouvrir le test de traduction : " + e.getMessage());
+        }
+    }
+
+    private void showErrorAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
-        alert.setContentText(message);
+        alert.setContentText(content);
         alert.showAndWait();
     }
 
-    private void showInfoAlert(String title, String message) {
+    private void showInfoAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
-        alert.setContentText(message);
+        alert.setContentText(content);
         alert.showAndWait();
     }
-
-
-    private void refreshTable() {
-        try {
-            List<Feed> feeds = feedService.getAllFeeds();
-            if (feeds != null) {
-                tableFeeds.getItems().clear(); // Assurez-vous de vider la table avant de la recharger
-                tableFeeds.setItems(FXCollections.observableArrayList(feeds));
-                System.out.println("Table rechargée avec " + feeds.size() + " publications");
-            } else {
-                System.out.println("Aucune publication trouvée ou liste null");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            showErrorAlert("Erreur", "Impossible de rafraîchir la liste : " + e.getMessage());
-        }
-    }
-
-
-
-    @FXML
-    private void goToCreateFeed() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/feed_commentaire.fxml")); // Remplace par le nom correct de ton fichier FXML
-            ScrollPane feedRoot = loader.load();
-
-            // Récupère la scène actuelle et remplace le root
-            tableFeeds.getScene().setRoot(feedRoot);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Optionnel : afficher une alerte d’erreur
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Impossible de charger la page de création.");
-            alert.showAndWait();
-        }
-    }
-
 }

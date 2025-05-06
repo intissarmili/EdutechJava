@@ -1,0 +1,32 @@
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controller.FavoriteListController"
+      spacing="20" alignment="TOP_CENTER" style="-fx-padding: 20;">
+
+    <!-- Navbar -->
+    <HBox spacing="50" style="-fx-background-color: #03A9F4;" alignment="CENTER_LEFT">
+        <!-- Logo EduTech -->
+        <Label text="EduTech" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;" />
+
+        <!-- Menu navigation -->
+        <HBox spacing="20" alignment="CENTER_RIGHT">
+            <Button text="Accueil" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <MenuButton text="Réservation" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;">
+                <MenuItem text="Option 1" />
+                <MenuItem text="Option 2" />
+            </MenuButton>
+            <Button text="Portfolio" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <Button text="Abonnements" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <Button text="Team" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <Button text="Cours" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <Button text="Feed" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;" />
+        </HBox>
+    </HBox>
+
+    <Label text="Vos Favoris" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    <FlowPane fx:id="favoriteContainer" hgap="20" vgap="20" />
+
+</VBox>

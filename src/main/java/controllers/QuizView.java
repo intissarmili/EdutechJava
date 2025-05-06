@@ -26,16 +26,12 @@ public class QuizView {
     private Quiz quiz;
 
     public void initializeQuiz(int quizId) {
-        try {
-            QuizService quizService = new QuizService();
-            this.questions = quizService.getQuestionsForQuiz(quizId);
-            this.userAnswers = new String[questions.size()];
-            this.quiz = new Quiz();
-            quiz.setQuestions(questions);
-            showQuestion(currentIndex);
-        } catch (SQLException e) {
-            showAlert("Erreur", "Erreur lors du chargement du quiz: " + e.getMessage());
-        }
+        QuizService quizService = new QuizService();
+        this.questions = quizService.getQuestionsForQuiz(quizId);
+        this.userAnswers = new String[questions.size()];
+        this.quiz = new Quiz();
+        quiz.setQuestions(questions);
+        showQuestion(currentIndex);
     }
 
     private void showQuestion(int index) {
