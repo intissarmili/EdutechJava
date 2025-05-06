@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.back.AjouterAvaibilityController"
+            stylesheets="@../../styles/style.css"
+            prefHeight="550.0" prefWidth="680.0">
+
+    <VBox spacing="25" AnchorPane.topAnchor="25.0" AnchorPane.leftAnchor="35.0"
+          AnchorPane.rightAnchor="35.0" AnchorPane.bottomAnchor="25.0"
+          styleClass="form-container" style="-fx-background-color: #f8f9fa; -fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 8;">
+
+        <Label text="Nouvelle Disponibilité"
+               styleClass="form-title"
+               style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+        <GridPane hgap="15" vgap="20">
+            <padding>
+                <Insets top="15" bottom="10" />
+            </padding>
+
+            <columnConstraints>
+                <ColumnConstraints minWidth="140" />
+                <ColumnConstraints prefWidth="420" hgrow="ALWAYS" />
+            </columnConstraints>
+
+            <!-- Date -->
+            <Label text="Date :" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                   style="-fx-font-weight: medium; -fx-text-fill: #34495e;" />
+            <VBox spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <DatePicker fx:id="datePicker" promptText="Choisir une date" styleClass="input-field"
+                            style="-fx-background-radius: 5; -fx-border-radius: 5;"/>
+                <Label fx:id="dateErrorLabel" textFill="red" styleClass="error-label" />
+            </VBox>
+
+            <!-- Heure de début -->
+            <Label text="Heure de début :" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                   style="-fx-font-weight: medium; -fx-text-fill: #34495e;" />
+            <VBox spacing="5" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <ComboBox fx:id="startHourComboBox" prefWidth="100" promptText="Heure" styleClass="time-input"
+                              style="-fx-background-radius: 5; -fx-border-radius: 5;"/>
+                    <Label text=":" style="-fx-font-weight: bold;"/>
+                    <ComboBox fx:id="startMinuteComboBox" prefWidth="100" promptText="Min" styleClass="time-input"
+                              style="-fx-background-radius: 5; -fx-border-radius: 5;"/>
+                </HBox>
+                <Label fx:id="startTimeErrorLabel" textFill="red" styleClass="error-label" />
+            </VBox>
+
+            <!-- Heure de fin -->
+            <Label text="Heure de fin :" GridPane.rowIndex="2" GridPane.columnIndex="0"
+                   style="-fx-font-weight: medium; -fx-text-fill: #34495e;" />
+            <VBox spacing="5" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <ComboBox fx:id="endHourComboBox" prefWidth="100" promptText="Heure" styleClass="time-input"
+                              style="-fx-background-radius: 5; -fx-border-radius: 5;"/>
+                    <Label text=":" style="-fx-font-weight: bold;"/>
+                    <ComboBox fx:id="endMinuteComboBox" prefWidth="100" promptText="Min" styleClass="time-input"
+                              style="-fx-background-radius: 5; -fx-border-radius: 5;"/>
+                </HBox>
+                <Label fx:id="endTimeErrorLabel" textFill="red" styleClass="error-label" />
+            </VBox>
+        </GridPane>
+
+        <HBox spacing="20" alignment="CENTER_RIGHT" style="-fx-padding: 15 0 5 0;">
+            <Button text="Annuler" fx:id="cancelButton" onAction="#cancelAction" styleClass="cancel-button"
+                    style="-fx-background-color: #e0e0e0; -fx-text-fill: #444; -fx-background-radius: 5; -fx-padding: 10 20;" />
+            <Button text="Enregistrer" fx:id="saveButton" onAction="#saveavaibilityAction" styleClass="save-button"
+                    style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 10 20;" />
+            <Button text="Back to List" fx:id="BackButton" onAction="#handleCancelOrBack"
+                    style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10 20;" />
+        </HBox>
+    </VBox>
+</AnchorPane>

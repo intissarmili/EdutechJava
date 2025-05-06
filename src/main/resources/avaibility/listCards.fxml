@@ -4,68 +4,108 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.*?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.ListAvaibilityController"
-            style="-fx-background-color: #f4f4f4;">
-    <!-- Navbar -->
-    <fx:include source="/navbar.fxml" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+            stylesheets="@../styles/style.css"
+            style="-fx-background-color: #ffffff;">
 
+    <!-- Header with Shadow Effect -->
+    <VBox spacing="25" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30" AnchorPane.topAnchor="30">
+        <!-- Title with modern font -->
+        <HBox spacing="20" alignment="CENTER_LEFT">
+            <Label text="Disponibilité des Tuteurs"
+                   style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #333333; -fx-font-family: 'Montserrat';">
+                <effect>
+                    <DropShadow color="#00000022" radius="1.0" spread="0.0" offsetX="0" offsetY="1"/>
+                </effect>
+            </Label>
 
-    <!-- Header with Add Button -->
-    <HBox spacing="20" layoutX="20" layoutY="60"
-          AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
-        <Label text="Tutor Availability"
-               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333;"
-               HBox.hgrow="ALWAYS"/>
+            <Region HBox.hgrow="ALWAYS" />
 
-        <Button text="Add Availability"
-                fx:id="addButton"
-                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15;"
-                onAction="#handleAddAvaibility"/>
-    </HBox>
-    <!-- Replace the filter HBox in your FXML with this: -->
-    <!-- Replace the filter section with this: -->
-    <HBox spacing="10" style="-fx-padding: 10px;"
-          AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
-        <Label text="Filter by date:"/>
-        <DatePicker fx:id="dateFilter">
-            <tooltip>
-                <Tooltip text="Select date to filter availabilities"/>
-            </tooltip>
-        </DatePicker>
-        <Button fx:id="filterButton" text="Apply Filter"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-        <Button fx:id="clearFilterButton" text="Show All"
-                style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
-    </HBox>
+            <!-- Modern Add Button with Icon -->
+            <Button text="Ajouter Disponibilité"
+                    fx:id="addButton"
+                    onAction="#handleAddAvaibility"
+                    style="-fx-background-color: #1CACD2; -fx-text-fill: white; -fx-font-weight: bold; 
+                           -fx-background-radius: 30px; -fx-padding: 12 25; 
+                           -fx-effect: dropshadow(three-pass-box, rgba(28,172,210,0.3), 10, 0, 0, 4);">
+                <graphic>
+                    <Text text="+" style="-fx-font-size: 18px; -fx-fill: white;"/>
+                </graphic>
+            </Button>
+        </HBox>
 
+        <!-- Filter Section - Modern with clean design -->
+        <HBox spacing="15" alignment="CENTER_LEFT" 
+              style="-fx-padding: 20 25; -fx-background-color: white; 
+                     -fx-background-radius: 15px; -fx-border-radius: 15px; 
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 15, 0, 0, 2);">
+            <Label text="Filtrer par date:" 
+                   style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #444444;"/>
+            <DatePicker fx:id="dateFilter" 
+                        style="-fx-background-color: #f8f9fa; -fx-background-radius: 8px; -fx-border-radius: 8px;">
+                <tooltip>
+                    <Tooltip text="Sélectionner une date pour filtrer les disponibilités"/>
+                </tooltip>
+            </DatePicker>
+            <Button fx:id="filterButton" text="Appliquer" 
+                    style="-fx-background-color: #1CACD2; -fx-text-fill: white; 
+                           -fx-background-radius: 8px; -fx-font-weight: bold;"/>
+            <Button fx:id="clearFilterButton" text="Tout Afficher" 
+                    style="-fx-background-color: transparent; -fx-text-fill: #1CACD2; 
+                           -fx-border-color: #1CACD2; -fx-border-width: 1px; 
+                           -fx-background-radius: 8px; -fx-border-radius: 8px;"/>
+        </HBox>
+    </VBox>
 
-    <!-- Main Content Area -->
+    <!-- Main Content Area - Modern Card Display -->
     <StackPane fx:id="contentPane"
-               layoutX="20" layoutY="100"
-               AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20"
-               AnchorPane.topAnchor="100" AnchorPane.bottomAnchor="20">
+               AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30"
+               AnchorPane.topAnchor="170" AnchorPane.bottomAnchor="30">
 
-        <!-- Default view (list of cards) -->
-        <ScrollPane fitToWidth="true">
-            <VBox fx:id="cardsContainer" spacing="15" style="-fx-padding: 10;"/>
+        <!-- Default view - Cards with Modern Scrolling -->
+        <ScrollPane fitToWidth="true" 
+                    style="-fx-background: transparent; -fx-background-color: transparent; 
+                           -fx-padding: 10px; -fx-border-color: transparent;">
+            <FlowPane fx:id="cardsContainer" hgap="25" vgap="25" style="-fx-padding: 20;">
+                <!-- Cards will be added here dynamically -->
+            </FlowPane>
         </ScrollPane>
 
-        <!-- Details View (initially hidden) -->
-        <AnchorPane fx:id="detailsPane" visible="false">
-            <Label text="Availability Details"
-                   style="-fx-font-size: 20; -fx-font-weight: bold;"
-                   layoutX="20" layoutY="20"/>
+        <!-- Details View - Modern Panel Design -->
+        <AnchorPane fx:id="detailsPane" visible="false" 
+                    style="-fx-background-color: white; -fx-background-radius: 20; 
+                           -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0, 0, 5);">
+            <VBox spacing="25" AnchorPane.leftAnchor="40" AnchorPane.rightAnchor="40"
+                  AnchorPane.topAnchor="40" AnchorPane.bottomAnchor="40">
+                <Label text="Détails de Disponibilité"
+                       style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #333333; -fx-font-family: 'Montserrat';">
+                    <effect>
+                        <DropShadow color="#00000011" radius="1.0" spread="0.0" offsetX="0" offsetY="1"/>
+                    </effect>
+                </Label>
 
-            <VBox spacing="10" layoutX="20" layoutY="60">
-                <Label fx:id="detailsDate" style="-fx-font-size: 14;"/>
-                <Label fx:id="detailsTime" style="-fx-font-size: 14;"/>
-                <Label fx:id="detailsTutor" style="-fx-font-size: 14;"/>
+                <VBox spacing="20" style="-fx-padding: 20 0;">
+                    <HBox style="-fx-background-color: #f8f9fa; -fx-background-radius: 10px; -fx-padding: 15;">
+                        <Label fx:id="detailsDate" style="-fx-font-size: 16px; -fx-font-weight: 500;"/>
+                    </HBox>
+                    <HBox style="-fx-background-color: #f8f9fa; -fx-background-radius: 10px; -fx-padding: 15;">
+                        <Label fx:id="detailsTime" style="-fx-font-size: 16px; -fx-font-weight: 500;"/>
+                    </HBox>
+                    <HBox style="-fx-background-color: #f8f9fa; -fx-background-radius: 10px; -fx-padding: 15;">
+                        <Label fx:id="detailsTutor" style="-fx-font-size: 16px; -fx-font-weight: 500;"/>
+                    </HBox>
+                </VBox>
 
-                <Button text="Back" onAction="#handleBackToList"
-                        style="-fx-background-color: #607D8B; -fx-text-fill: white; -fx-padding: 5 10;"/>
+                <HBox alignment="CENTER_LEFT" spacing="15">
+                    <Button text="Retour" onAction="#handleBackToList"
+                            style="-fx-background-color: #1CACD2; -fx-text-fill: white; 
+                                   -fx-padding: 12 25; -fx-background-radius: 8px; -fx-font-weight: bold;
+                                   -fx-effect: dropshadow(three-pass-box, rgba(28,172,210,0.3), 5, 0, 0, 2);"/>
+                </HBox>
             </VBox>
         </AnchorPane>
     </StackPane>

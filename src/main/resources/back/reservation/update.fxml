@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.back.ModifierReservationController"
+            stylesheets="@../../styles/style.css"
+            prefHeight="500.0" prefWidth="600.0">
+
+    <!--
+        Backend Note:
+        - Form submits to 'updateReservationAction' in the controller.
+        - Fields map to backend model: topic (String), datetime (LocalDateTime), duration (int).
+    -->
+    <VBox spacing="20" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20"
+          AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20"
+          styleClass="form-container">
+
+        <!-- Title -->
+        <Label text="Modifier la réservation" styleClass="form-title"/>
+
+        <GridPane hgap="10" vgap="15">
+            <padding><Insets top="10"/></padding>
+
+            <columnConstraints>
+                <!-- Label column (fixed width) -->
+                <ColumnConstraints minWidth="100" prefWidth="150"/>
+                <!-- Input column (flexible) -->
+                <ColumnConstraints prefWidth="350" hgrow="ALWAYS"/>
+            </columnConstraints>
+
+            <!-- Topic Field (maps to 'topic' in backend) -->
+            <Label text="Sujet :" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="topicField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <!-- DateTime Fields (backend expects ISO-8601 format) -->
+            <Label text="Date et heure :" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <HBox spacing="10" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <DatePicker fx:id="datePicker" prefWidth="150"/>  <!-- Date part -->
+                <ComboBox fx:id="hourComboBox" prefWidth="80"/>   <!-- Hour (24h format) -->
+                <ComboBox fx:id="minuteComboBox" prefWidth="80"/> <!-- Minute (00-59) -->
+            </HBox>
+
+            <!-- Duration Field (integer, in minutes) -->
+            <Label text="Durée (min) :" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="durationComboBox" prefWidth="150" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        </GridPane>
+
+        <!-- Action Buttons (bind to controller methods) -->
+        <HBox spacing="15" alignment="CENTER_RIGHT">
+            <Button text="Annuler" onAction="#cancelAction" styleClass="cancel-button"/>
+            <Button text="Enregistrer les modifications"
+                    onAction="#updateReservationAction"
+                    styleClass="save-button"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

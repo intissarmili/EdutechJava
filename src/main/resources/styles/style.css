@@ -585,3 +585,152 @@ Label {
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
     -fx-padding: 25px;
 }
+
+/* Stylish Card Design with glass effect */
+.card {
+    -fx-background-color: rgba(28, 172, 210, 0.15);  /* Very light blue based on #1CACD2FF */
+    -fx-cursor: hand;
+    -fx-transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: rgba(28, 172, 210, 0.3);
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(three-pass-box, rgba(28, 172, 210, 0.2), 10, 0, 0, 4);
+    -fx-background-insets: 0;
+    /* Glass effect */
+    -fx-background: rgba(255, 255, 255, 0.25);
+    -fx-backdrop-filter: blur(10px);
+}
+
+.card:hover {
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+    -fx-effect: dropshadow(three-pass-box, rgba(28, 172, 210, 0.4), 15, 0, 0, 6);
+    -fx-background-color: rgba(28, 172, 210, 0.25);  /* Slightly more visible on hover */
+    -fx-border-color: rgba(28, 172, 210, 0.5);
+}
+
+.card-content {
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-background-radius: 20px;
+}
+
+.card-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1CACD2;
+    -fx-opacity: 0.9;
+}
+
+.card-para {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-opacity: 0.8;
+}
+
+.card-button {
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-padding: 8px 12px;
+    -fx-font-weight: bold;
+}
+
+.details-button {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-text-fill: white;
+}
+
+.details-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+}
+
+.reserve-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+
+.reserve-button:hover {
+    -fx-background-color: #45a049;
+}
+
+/* Additional styles for other buttons that might be needed */
+.calendar-button {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+}
+
+.calendar-button:hover {
+    -fx-background-color: #0b7dda;
+}
+
+.view-reservations-button {
+    -fx-background-color: #999893;
+    -fx-text-fill: white;
+}
+
+.view-reservations-button:hover {
+    -fx-background-color: #827e79;
+}
+
+.delete-button {
+    -fx-background-color: #F44336;
+    -fx-text-fill: white;
+}
+
+.delete-button:hover {
+    -fx-background-color: #d32f2f;
+}
+
+/* Input field styling similar to the screenshot */
+.text-field, .password-field {
+    -fx-background-color: white;
+    -fx-background-radius: 30px;
+    -fx-border-radius: 30px;
+    -fx-border-width: 0;
+    -fx-padding: 12px 20px;
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-effect: dropshadow(three-pass-box, rgba(3,169,244,0.2), 10, 0, 0, 3);
+    -fx-background-color: white;
+}
+
+/* Button styling based on screenshot */
+.blue-button {
+    -fx-background-color: linear-gradient(to right, #0288d1, #29b6f6);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-background-radius: 30px;
+    -fx-padding: 12px 25px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(3,169,244,0.3), 10, 0, 0, 4);
+}
+
+.blue-button:hover {
+    -fx-background-color: linear-gradient(to right, #0277bd, #03a9f4);
+    -fx-effect: dropshadow(three-pass-box, rgba(3,169,244,0.5), 12, 0, 0, 6);
+}
+
+/* Circle button styling for the red circle positions */
+.circle-button {
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-padding: 0;
+    -fx-content-display: graphic-only;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+
+.circle-button:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 8, 0, 0, 3);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}

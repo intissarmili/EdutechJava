@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="520.0" prefWidth="650.0" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.back.ModifierAvaibilityController">
+    <children>
+        <VBox alignment="TOP_CENTER" layoutX="50.0" layoutY="30.0" prefHeight="460.0" prefWidth="550.0" spacing="25.0" style="-fx-background-color: #ffffff; -fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 8; -fx-padding: 25;">
+            <children>
+                <Label text="Modifier une disponibilité" textAlignment="CENTER" style="-fx-text-fill: #2c3e50;">
+                    <font>
+                        <Font name="System Bold" size="22.0" />
+                    </font>
+                </Label>
+                <VBox spacing="8.0">
+                    <children>
+                        <Label text="Date" style="-fx-font-weight: medium; -fx-text-fill: #34495e;" />
+                        <DatePicker fx:id="datePicker" prefHeight="35.0" prefWidth="500.0" style="-fx-background-radius: 5; -fx-border-radius: 5;" />
+                        <Label fx:id="dateErrorLabel" textFill="#e74c3c" />
+                    </children>
+                </VBox>
+                <VBox spacing="8.0">
+                    <children>
+                        <Label text="Heure de début" style="-fx-font-weight: medium; -fx-text-fill: #34495e;" />
+                        <HBox spacing="15.0" alignment="CENTER_LEFT">
+                            <children>
+                                <ComboBox fx:id="startHourComboBox" prefHeight="35.0" prefWidth="160.0" promptText="Heure" style="-fx-background-radius: 5; -fx-border-radius: 5;" />
+                                <Label alignment="CENTER" prefHeight="35.0" text=":" style="-fx-font-weight: bold;">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Label>
+                                <ComboBox fx:id="startMinuteComboBox" prefHeight="35.0" prefWidth="160.0" promptText="Minute" style="-fx-background-radius: 5; -fx-border-radius: 5;" />
+                            </children>
+                        </HBox>
+                        <Label fx:id="startTimeErrorLabel" textFill="#e74c3c" />
+                    </children>
+                </VBox>
+                <VBox spacing="8.0">
+                    <children>
+                        <Label text="Heure de fin" style="-fx-font-weight: medium; -fx-text-fill: #34495e;" />
+                        <HBox spacing="15.0" alignment="CENTER_LEFT">
+                            <children>
+                                <ComboBox fx:id="endHourComboBox" prefHeight="35.0" prefWidth="160.0" promptText="Heure" style="-fx-background-radius: 5; -fx-border-radius: 5;" />
+                                <Label alignment="CENTER" prefHeight="35.0" text=":" style="-fx-font-weight: bold;">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Label>
+                                <ComboBox fx:id="endMinuteComboBox" prefHeight="35.0" prefWidth="160.0" promptText="Minute" style="-fx-background-radius: 5; -fx-border-radius: 5;" />
+                            </children>
+                        </HBox>
+                        <Label fx:id="endTimeErrorLabel" textFill="#e74c3c" />
+                    </children>
+                </VBox>
+                <HBox alignment="CENTER_RIGHT" spacing="20.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#cancelAction" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: #e0e0e0; -fx-text-fill: #444; -fx-background-radius: 5;" text="Annuler" />
+                        <Button mnemonicParsing="false" onAction="#updateAvaibilityAction" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" text="Enregistrer" />
+                    </children>
+                    <VBox.margin>
+                        <Insets top="25.0" />
+                    </VBox.margin>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
