@@ -1,4 +1,4 @@
-package controllers;
+package controllers.user;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -6,8 +6,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import models.User;
-import service.user.IUserService;
-import service.user.UserService;
+import services.user.IUserService;
+import services.user.UserService;
 import utils.Session;
 
 public class UpdateUserController {

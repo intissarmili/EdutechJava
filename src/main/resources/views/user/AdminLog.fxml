@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.AdminLogController" prefWidth="700" prefHeight="500">
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.user.AdminLogController" prefWidth="700" prefHeight="500">
     <top>
         <Label text="Historique de connexion" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 10px;" BorderPane.alignment="CENTER"/>
     </top>

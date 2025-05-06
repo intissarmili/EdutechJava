@@ -734,3 +734,141 @@ Label {
     -fx-scale-x: 1.1;
     -fx-scale-y: 1.1;
 }
+.primary-button {
+    -fx-background-color: linear-gradient(to right, #8e2de2, #4a00e0);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-padding: 12px 40px;
+    -fx-font-size: 14px;
+}
+
+.text-field, .combo-box, .password-field {
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-background-color: #ecf0f1;
+    -fx-border-color: transparent;
+    -fx-padding: 10px;
+}
+
+.text-field:focused, .combo-box:focused, .password-field:focused {
+    -fx-border-color: #8e2de2;
+}
+
+.send-button {
+    -fx-background-color: #16ac63;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+}
+
+.sidebar-button {
+    -fx-background-color: #8e2de2;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-min-width: 160px;
+    -fx-max-width: 160px;
+    -fx-padding: 10px;
+    -fx-background-radius: 4;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: derive(#8e2de2, 20%);
+}
+
+.sidebar-button-red {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-min-width: 160px;
+    -fx-max-width: 160px;
+    -fx-padding: 10px;
+    -fx-background-radius: 4;
+}
+
+.sidebar-button-red:hover {
+    -fx-background-color: derive(#e74c3c, 20%);
+}
+
+.sidebar-button-green {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-min-width: 160px;
+    -fx-max-width: 160px;
+    -fx-padding: 10px;
+    -fx-background-radius: 4;
+}
+
+.sidebar-button-green:hover {
+    -fx-background-color: derive(#2ecc71, 20%);
+}
+
+.sidebar-button-blue {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-min-width: 160px;
+    -fx-max-width: 160px;
+    -fx-padding: 10px;
+    -fx-background-radius: 4;
+}
+
+.sidebar-button-blue:hover {
+    -fx-background-color: derive(#3498db, 20%);
+}
+
+.sidebar-button-gray {
+    -fx-background-color: #95a5a6;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-min-width: 160px;
+    -fx-max-width: 160px;
+    -fx-padding: 10px;
+    -fx-background-radius: 4;
+}
+
+.sidebar-button-gray:hover {
+    -fx-background-color: derive(#95a5a6, 20%);
+}
+
+/* 🌟 New Expand-on-Hover Animated Button Style */
+.sidebar-button-expand {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #2c3e50;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-pref-width: 60;
+    -fx-min-width: 60;
+    -fx-max-width: 60;
+    -fx-padding: 8px 10px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-content-display: LEFT;
+    -fx-graphic-text-gap: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0.2, 0, 2);
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-transition: all 0.3s ease-in-out; /* For documentation clarity only */
+}
+
+.sidebar-button-expand:hover {
+    -fx-pref-width: 140;
+    -fx-max-width: 140;
+    -fx-background-color: #eeeeee;
+}
+.sidebar-button {
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI Emoji";
+    -fx-padding: 10 15;
+    -fx-background-radius: 8;
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #2c3e50;
+    -fx-cursor: hand;
+    -fx-wrap-text: true;
+    -fx-text-overrun: clip;
+}

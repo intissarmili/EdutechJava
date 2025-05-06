@@ -1,4 +1,4 @@
-package controllers;
+package controllers.user;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,8 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import models.User;
-import service.user.UserLogService;
-import service.user.UserService;
+import services.user.UserLogService;
+import services.user.UserService;
 import utils.Session;
 
 import java.io.IOException;
@@ -23,6 +23,7 @@ public class AdminDashboardController {
     @FXML private Label todayLoginsLabel;
     @FXML private Label pendingAdminsLabel;
 
+
     private final UserService userService = new UserService();
     private final UserLogService userLogService = new UserLogService();
 
@@ -30,6 +31,7 @@ public class AdminDashboardController {
     public void initialize() {
         loadDashboardData();
     }
+
 
     private void loadDashboardData() {
         List<User> allUsers = userService.getAllUsers();

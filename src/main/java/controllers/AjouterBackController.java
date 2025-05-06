@@ -1,10 +1,10 @@
-package controllers;
+package controllers.user;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.User;
-import service.user.UserService;
+import services.user.UserService;
 
 public class AjouterBackController {
 

@@ -1,4 +1,4 @@
-package controllers;
+package controllers.user;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,7 +8,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import models.UserLog;
-import service.user.UserLogService;
+import services.user.UserLogService;
 
 import java.util.List;
 

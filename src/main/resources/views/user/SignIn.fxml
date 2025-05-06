@@ -1,22 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.web.WebView?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
+<?import javafx.scene.effect.DropShadow?>
 
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.user.SignInController"
+            prefWidth="500" prefHeight="600" stylesheets="@/styles/style.css"
+            style="-fx-background-color: linear-gradient(to bottom right, #8e2de2, #4a00e0);">
 
-    <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="service.user.SignInController" prefWidth="500" prefHeight="500">
-    <children>
-        <Label layoutX="50" layoutY="30" text="Email :" />
-        <TextField fx:id="emailField" layoutX="150" layoutY="30" />
+    <VBox spacing="20" alignment="CENTER" AnchorPane.topAnchor="40" AnchorPane.leftAnchor="40"
+          AnchorPane.rightAnchor="40" AnchorPane.bottomAnchor="40"
+          style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 30;">
 
-        <Label layoutX="50" layoutY="80" text="Mot de passe :" />
-        <PasswordField fx:id="passwordField" layoutX="150" layoutY="80" />
+        <effect>
+            <DropShadow color="#00000044" radius="20" spread="0.1"/>
+        </effect>
 
-        <Label layoutX="50" layoutY="130" text="Vérification humaine :" />
-        <WebView fx:id="captchaWebView" layoutX="150" layoutY="130" prefWidth="250" prefHeight="150" />
+        <!-- Title -->
+        <Label text="Sign In"
+               style="-fx-font-size: 26px; -fx-text-fill: #2c3e50; -fx-font-weight: bold;" />
 
-        <Button text="Se connecter" layoutX="150" layoutY="300" onMouseClicked="#handleLogin" />
+        <!-- Email and Password Fields -->
+        <TextField fx:id="emailField" promptText="E-mail" styleClass="text-field"/>
+        <PasswordField fx:id="passwordField" promptText="Password" styleClass="text-field"/>
 
-        <Button text="Mot de passe oublié ?" layoutX="150" layoutY="350" onAction="#handleForgetPassword" />
-    </children>
+        <!-- reCAPTCHA -->
+        <Label text="Vérification humaine :"
+               style="-fx-text-fill: #7f8c8d; -fx-font-size: 14px;" />
+        <WebView fx:id="captchaWebView" prefWidth="300" prefHeight="150" />
+
+        <!-- Main Buttons -->
+        <Button text="Se connecter" onMouseClicked="#handleLogin" styleClass="primary-button" />
+        <Button text="Mot de passe oublié ?" onAction="#handleForgetPassword" styleClass="secondary-button" />
+
+        <!-- Sign Up Link -->
+        <Button text="Créer un compte" onAction="#handleBackToSignUp"
+                style="-fx-background-color: transparent; -fx-text-fill: #3498db; -fx-underline: true;" />
+
+        <!-- Divider -->
+        <Separator style="-fx-padding: 10px 0;" />
+
+        <!-- Fingerprint Login -->
+        <Button text="Se connecter avec empreinte digitale" onAction="#handleFingerprintLogin"
+                style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 10 20;" />
+    </VBox>
 </AnchorPane>
