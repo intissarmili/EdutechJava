@@ -2,10 +2,12 @@ package controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
@@ -26,7 +28,7 @@ public class affichierQuizController {
     @FXML private ListView<String> questionsListView;
     @FXML private Button addBtn;
     @FXML private Button deleteBtn;
-    @FXML private Button statsBtn; // Bouton pour les statistiques
+    @FXML private Button statsBtn;
 
     private final QuizService quizService = new QuizService();
     private final ObservableList<Quiz> quizzesList = FXCollections.observableArrayList();
@@ -87,7 +89,19 @@ public class affichierQuizController {
 
         addBtn.setOnAction(event -> openAddWindow());
         deleteBtn.setOnAction(event -> deleteSelectedQuiz());
-        statsBtn.setOnAction(event -> showStatistics()); // Gestionnaire pour le bouton stats
+        statsBtn.setOnAction(event -> showStatistics());
+    }
+
+    @FXML
+    private void naviguerVersAffichierQuiz(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/AffichierQuiz.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur de navigation",
+                    "Échec du chargement de la page: " + e.getMessage());
+        }
     }
 
     public void refreshQuizData() {

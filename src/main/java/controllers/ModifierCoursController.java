@@ -57,7 +57,7 @@ public class ModifierCoursController {
 
     @FXML
     private void ButtonAcceuil() {
-        // Implémentez la navigation vers l'accueil si nécessaire
+        closeWindow();
     }
 
     private boolean validateFields() {

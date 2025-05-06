@@ -8,7 +8,7 @@
 <ScrollPane xmlns="http://javafx.com/javafx/21.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.NavbarController"
- fitToWidth="false" hbarPolicy="ALWAYS" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="500.0" style="-fx-background: #1cacd2; -fx-background-color: #1cacd2;" vbarPolicy="NEVER" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0">
+            fitToWidth="false" hbarPolicy="ALWAYS" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="500.0" style="-fx-background: #1cacd2; -fx-background-color: #1cacd2;" vbarPolicy="NEVER" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0">
 
     <content>
         <!-- HBox avec largeur étendue pour forcer le scroll -->
@@ -26,19 +26,16 @@
 
                 <MenuButton text="Réservation" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 120; -fx-font-size: 16px; -fx-padding: 5 0;">
                     <items>
-                        <MenuItem text="Disponibilité" onAction="#naviguerVersAvaibility" style="-fx-text-fill: black;"/>
+                        <MenuItem text="Disponibilité" style="-fx-text-fill: black;"/>
                         <MenuItem text="Mes réservations" style="-fx-text-fill: black;"/>
                     </items>
                 </MenuButton>
-
-
-
 
                 <Button text="Portfolio" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 90; -fx-font-size: 16px; -fx-padding: 5 0;" />
                 <Button text="Abonnements" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 110; -fx-font-size: 16px; -fx-padding: 5 0;" />
                 <Button text="Team" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 70; -fx-font-size: 16px; -fx-padding: 5 0;" />
                 <Button text="Cours" onAction="#naviguerVersBlogCours" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 70; -fx-font-size: 16px; -fx-padding: 5 0;" />
-                <Button text="Feed"  onAction="#naviguerVersFeed" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 70; -fx-font-size: 16px; -fx-padding: 5 0;" />
+                <Button text="Feed" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 70; -fx-font-size: 16px; -fx-padding: 5 0;" />
 
                 <!-- Icônes -->
                 <StackPane style="-fx-padding: 0 10 0 0;">

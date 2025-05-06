@@ -1,15 +1,16 @@
 package controllers;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import models.Certification;
 import models.Question;
-import models.Quiz;
-import service.QuizService;
+import service.CertificationService;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class QuizView {
+public class CertificationView {
 
     @FXML private VBox quizContainer;
     @FXML private VBox resultsContainer;
@@ -23,15 +24,19 @@ public class QuizView {
     private List<Question> questions;
     private String[] userAnswers;
     private int currentIndex = 0;
-    private Quiz quiz;
+    private Certification certification;
 
-    public void initializeQuiz(int quizId) {
-        QuizService quizService = new QuizService();
-        this.questions = quizService.getQuestionsForQuiz(quizId);
-        this.userAnswers = new String[questions.size()];
-        this.quiz = new Quiz();
-        quiz.setQuestions(questions);
-        showQuestion(currentIndex);
+    public void initializeCertification(int certificationId) {
+        try {
+            CertificationService certService = new CertificationService();
+            this.certification = certService.findById(certificationId);
+
+            this.questions = certService.getQuestionsForCertification(certificationId);
+            this.userAnswers = new String[questions.size()];
+            showQuestion(currentIndex);
+        } catch (SQLException e) {
+            showAlert("Erreur", "Chargement échoué : " + e.getMessage());
+        }
     }
 
     private void showQuestion(int index) {
@@ -77,8 +82,13 @@ public class QuizView {
 
     @FXML
     private void handleSubmit() {
-        quiz.setReponseUtilisateur(userAnswers.clone());
-        int score = quiz.calculerNote();
+        int score = 0;
+        for (int i = 0; i < questions.size(); i++) {
+            if (userAnswers[i] != null && userAnswers[i].equals(questions.get(i).getReponseCorrecte())) {
+                score++;
+            }
+        }
+        certification.setNote(score);
         showResults(score);
     }
 
@@ -91,13 +101,12 @@ public class QuizView {
         quizContainer.setVisible(false);
         resultsContainer.setVisible(true);
 
-        int coins = score * 40;
-        resultIcon.setText(score > questions.size() / 2 ? "🏆" : "❌");
-        resultIcon.setStyle(score > questions.size() / 2 ? "-fx-text-fill: #28a745;" : "-fx-text-fill: #dc3545;");
-
-        scoreLabel.setText("Score: " + score + "/" + questions.size());
+        int coins = score * 50;
+        resultIcon.setText(score > questions.size() * 0.7 ? "🎓" : "❌");
+        resultIcon.setStyle(score > questions.size() * 0.7 ? "-fx-text-fill: #28a745;" : "-fx-text-fill: #dc3545;");
+        scoreLabel.setText("Note: " + score + "/" + questions.size());
         coinsLabel.setText("Pièces gagnées: " + coins + " 🪙");
-        noteLabel.setText("Quiz terminé!");
+        noteLabel.setText("Certification terminée!");
     }
 
     private void showAlert(String title, String message) {

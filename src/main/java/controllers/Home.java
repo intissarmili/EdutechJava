@@ -19,9 +19,8 @@ public class Home extends Application {
         try {
 
 
-
             // Load the FXML file (you can change the path if needed)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chat_view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficher-abonnements.fxml"));
             Parent root = loader.load();
 
             // Set up the stage
@@ -67,6 +66,9 @@ public class Home extends Application {
             System.err.println("Error during TTS initialization:");
             e.printStackTrace();
         }
+
+
+
 
         // Initialize Email service
         try {

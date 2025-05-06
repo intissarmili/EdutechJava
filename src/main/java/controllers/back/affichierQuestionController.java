@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import models.Question;
 import service.QuestionService;
+import javafx.event.ActionEvent;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -50,6 +51,27 @@ public class affichierQuestionController {
         );
 
         setupActionsColumn();
+    }
+
+
+
+
+
+    @FXML
+    private void btnAddQuestion(ActionEvent event) {
+        try {
+            // Chemin relatif depuis le package du contrôleur
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/back/AjouterQuestion.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Erreur de chargement: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void setupActionsColumn() {
