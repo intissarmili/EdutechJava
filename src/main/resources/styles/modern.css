@@ -1,0 +1,655 @@
+/* Variables globales */
+.root {
+    -fx-background-color: linear-gradient(to bottom, #f6f9ff, #eef2ff);
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Styles des cartes de feed */
+.feed-card {
+    -fx-background-color: linear-gradient(to bottom right, #fff, #f0f4ff 80%);
+    -fx-background-radius: 18px;
+    -fx-effect: dropshadow(gaussian, rgba(58,134,255,0.18), 12, 0, 0, 4);
+    -fx-padding: 22px;
+    -fx-spacing: 18px;
+    -fx-transition: all 0.3s cubic-bezier(.4,2,.6,1);
+}
+
+.feed-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(255,0,110,0.25), 18, 0, 0, 8);
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+}
+
+/* En-tête des cartes */
+.feed-header {
+    -fx-spacing: 15px;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.profile-picture {
+    -fx-background-color: #4154f1;
+    -fx-background-radius: 50%;
+    -fx-effect: dropshadow(gaussian, rgba(65,84,241,0.3), 5, 0, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+.profile-picture:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-effect: dropshadow(gaussian, rgba(65,84,241,0.5), 8, 0, 0, 3);
+}
+
+.username {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.timestamp {
+    -fx-font-size: 12px;
+    -fx-text-fill: #7f8c8d;
+}
+
+/* Zone de texte moderne */
+.modern-text-area {
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 10px;
+    -fx-border-color: #e9ecef;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #2c3e50;
+    -fx-transition: all 0.3s ease;
+}
+
+.modern-text-area:focused {
+    -fx-background-color: white;
+    -fx-border-color: #4154f1;
+    -fx-effect: dropshadow(gaussian, rgba(65,84,241,0.2), 5, 0, 0, 2);
+}
+
+/* Boutons modernes */
+.modern-button {
+    -fx-background-color: #4154f1;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 25px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(65,84,241,0.3), 5, 0, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+.modern-button:hover {
+    -fx-background-color: #3041c0;
+    -fx-effect: dropshadow(gaussian, rgba(65,84,241,0.5), 8, 0, 0, 3);
+    -fx-translate-y: -2px;
+}
+
+.modern-button:pressed {
+    -fx-background-color: #1f2b8f;
+    -fx-translate-y: 0px;
+}
+
+/* TableView moderne */
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+.table-view .column-header {
+    -fx-background-color: #4154f1;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell {
+    -fx-padding: 10px;
+    -fx-border-color: transparent;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f8f9fa;
+}
+
+.table-row-cell:even {
+    -fx-background-color: white;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #eef2ff;
+    -fx-cursor: hand;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #eef2ff;
+    -fx-text-fill: #4154f1;
+}
+
+/* Barre de défilement personnalisée */
+.scroll-bar:horizontal, .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track {
+    -fx-background-color: #f1f3f5;
+    -fx-background-radius: 5px;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #4154f1;
+    -fx-background-radius: 5px;
+    -fx-opacity: 0.5;
+}
+
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:hover {
+    -fx-opacity: 0.8;
+}
+
+/* Animation pour les boutons d'action */
+.action-buttons {
+    -fx-spacing: 10px;
+    -fx-padding: 10px 0;
+}
+
+/* Animation pour les transitions de scène */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { translate-x: -20px; opacity: 0; }
+    to { translate-x: 0px; opacity: 1; }
+}
+
+/* Effet de survol pour les cartes */
+.feed-card {
+    -fx-transition: all 0.3s ease;
+}
+
+.feed-card:hover {
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 4);
+}
+
+/* Style pour les séparateurs */
+.separator {
+    -fx-background-color: #e9ecef;
+    -fx-padding: 0 0 10px 0;
+}
+
+/* Style pour les alertes */
+.dialog-pane {
+    -fx-background-color: white;
+    -fx-background-radius: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
+}
+
+.dialog-pane .button {
+    -fx-background-color: #4154f1;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 25px;
+    -fx-padding: 8px 16px;
+}
+
+.dialog-pane .button:hover {
+    -fx-background-color: #3041c0;
+}
+
+/* Style pour les tooltips */
+.tooltip {
+    -fx-background-color: white;
+    -fx-text-fill: #2c3e50;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-padding: 5px;
+}
+
+/* Modern Social Feed Design */
+.root {
+    -fx-background-color: #f0f2f5;
+}
+
+/* Card Design */
+.feed-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+    -fx-padding: 15px;
+    -fx-spacing: 10px;
+}
+
+/* Header Design */
+.feed-header {
+    -fx-spacing: 10px;
+    -fx-alignment: center-left;
+}
+
+.profile-picture {
+    -fx-background-radius: 50%;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);
+}
+
+.username {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a1a1a;
+}
+
+.timestamp {
+    -fx-font-size: 12px;
+    -fx-text-fill: #65676b;
+}
+
+/* Content Design */
+.feed-content {
+    -fx-font-size: 15px;
+    -fx-text-fill: #1a1a1a;
+    -fx-line-spacing: 5px;
+}
+
+/* Action Buttons */
+.action-buttons {
+    -fx-spacing: 20px;
+    -fx-padding: 10px 0;
+}
+
+.action-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #65676b;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-padding: 8px 15px;
+    -fx-background-radius: 8px;
+}
+
+.action-button:hover {
+    -fx-background-color: #f0f2f5;
+}
+
+/* Like/Dislike Button */
+.like-button {
+    -fx-background-color: #1d1d1d;
+    -fx-background-radius: 16px;
+    -fx-pref-width: 136px;
+    -fx-pref-height: 48px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 4, 0, 0, 4);
+}
+
+.like-icon {
+    -fx-fill: #505050;
+}
+
+.like-count {
+    -fx-text-fill: #717070;
+    -fx-font-size: 16px;
+}
+
+.like-button:selected .like-icon {
+    -fx-fill: #fc4e4e;
+}
+
+/* Comment Section */
+.comment-section {
+    -fx-background-color: #f0f2f5;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px;
+}
+
+.comment-input {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-padding: 8px 15px;
+    -fx-font-size: 14px;
+}
+
+/* Modern Scrollbar */
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #c1c1c1;
+    -fx-background-radius: 5px;
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #a8a8a8;
+}
+
+/* Modern Table Design */
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+.table-view .column-header {
+    -fx-background-color: #f8f9fa;
+    -fx-text-fill: #1a1a1a;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: #f0f2f5;
+}
+
+/* Modern Button Design */
+.modern-button {
+    -fx-background-color: #1877f2;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+
+.modern-button:hover {
+    -fx-background-color: #166fe5;
+}
+
+.modern-button:pressed {
+    -fx-background-color: #1560d0;
+}
+
+/* Modern Text Area */
+.modern-text-area {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-border-color: #e4e6eb;
+    -fx-border-radius: 8px;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+}
+
+.modern-text-area:focused {
+    -fx-border-color: #1877f2;
+    -fx-effect: dropshadow(gaussian, rgba(24,119,242,0.2), 5, 0, 0, 2);
+}
+
+/* Palette vive */
+:root {
+    --main-blue: #3a86ff;
+    --main-pink: #ff006e;
+    --main-green: #06d6a0;
+    --main-yellow: #ffd60a;
+    --main-orange: #ffbe0b;
+    --main-purple: #8338ec;
+    --main-red: #ff1e56;
+}
+
+/* Boutons Like/Dislike */
+.like-btn, .dislike-btn {
+    -fx-background-radius: 50%;
+    -fx-min-width: 44px;
+    -fx-min-height: 44px;
+    -fx-max-width: 44px;
+    -fx-max-height: 44px;
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 4, 0, 0, 2);
+    -fx-transition: all 0.2s cubic-bezier(.4,2,.6,1);
+}
+.like-btn {
+    -fx-background-color: linear-gradient(to bottom, var(--main-green), #38b000);
+}
+.like-btn:hover, .like-btn:pressed {
+    -fx-background-color: linear-gradient(to bottom, #38b000, var(--main-green));
+    -fx-scale-x: 1.15;
+    -fx-scale-y: 1.15;
+    -fx-effect: dropshadow(gaussian, rgba(6,214,160,0.4), 8, 0, 0, 4);
+}
+.dislike-btn {
+    -fx-background-color: linear-gradient(to bottom, var(--main-red), #ff006e);
+}
+.dislike-btn:hover, .dislike-btn:pressed {
+    -fx-background-color: linear-gradient(to bottom, #ff006e, var(--main-red));
+    -fx-scale-x: 1.15;
+    -fx-scale-y: 1.15;
+    -fx-effect: dropshadow(gaussian, rgba(255,30,86,0.4), 8, 0, 0, 4);
+}
+
+/* Boutons Modifier/Supprimer */
+.edit-btn {
+    -fx-background-color: linear-gradient(to bottom, var(--main-yellow), #ffe066);
+    -fx-text-fill: #333;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12px;
+    -fx-padding: 8px 18px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(255,214,10,0.25), 6, 0, 0, 2);
+    -fx-transition: all 0.2s;
+}
+.edit-btn:hover {
+    -fx-background-color: linear-gradient(to bottom, #ffe066, var(--main-yellow));
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+}
+.delete-btn {
+    -fx-background-color: linear-gradient(to bottom, var(--main-red), #ff006e);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12px;
+    -fx-padding: 8px 18px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(255,30,86,0.25), 6, 0, 0, 2);
+    -fx-transition: all 0.2s;
+}
+.delete-btn:hover {
+    -fx-background-color: linear-gradient(to bottom, #ff006e, var(--main-red));
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+}
+
+/* Palette de couleurs homogène */
+:root {
+    --main-bg: #181824;
+    --card-bg: #23233a;
+    --primary: #683FEA;
+    --secondary: #A47CF3;
+    --accent: #9917FF;
+    --text-main: #f5f5fa;
+    --text-secondary: #AAAAAA;
+    --button-bg: #1C1A1C;
+    --button-hover-gradient: linear-gradient(0deg,#A47CF3,#683FEA);
+}
+
+/* Fond général */
+.root {
+    -fx-background-color: var(--main-bg);
+}
+
+/* Carte/Feed Design */
+.pro-card {
+    -fx-background-color: var(--card-bg);
+    -fx-background-radius: 18px;
+    -fx-effect: dropshadow(gaussian, rgba(164,124,243,0.10), 12, 0, 0, 4);
+    -fx-padding: 24px;
+    -fx-spacing: 18px;
+    -fx-transition: all 0.3s cubic-bezier(.4,2,.6,1);
+}
+.pro-card:hover {
+    -fx-effect: dropshadow(gaussian, #A47CF3, 18, 0.2, 0, 8);
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+}
+
+/* Header et textes */
+.pro-header {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: var(--secondary);
+}
+.pro-subtext {
+    -fx-font-size: 13px;
+    -fx-text-fill: var(--text-secondary);
+}
+
+/* Bouton animé façon Uiverse.io */
+.pro-btn {
+    -fx-background-color: var(--button-bg);
+    -fx-background-radius: 2.5em;
+    -fx-border-radius: 2.5em;
+    -fx-pref-width: 180px;
+    -fx-pref-height: 50px;
+    -fx-font-weight: 600;
+    -fx-text-fill: var(--text-secondary);
+    -fx-font-size: 15px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(153,23,255,0.15), 8, 0, 0, 2);
+    -fx-padding: 0 24px;
+    -fx-alignment: center;
+    -fx-transition: all 0.45s cubic-bezier(.4,2,.6,1);
+    -fx-content-display: left;
+    -fx-graphic-text-gap: 12px;
+}
+.pro-btn:hover {
+    -fx-background-color: var(--button-hover-gradient);
+    -fx-effect: dropshadow(gaussian, #9917FF, 18, 0.2, 0, 8);
+    -fx-translate-y: -2px;
+    -fx-text-fill: white;
+}
+.pro-btn:pressed {
+    -fx-background-color: var(--primary);
+    -fx-effect: dropshadow(gaussian, var(--primary), 8, 0.2, 0, 2);
+}
+
+/* Sparkle/Icone animée */
+.sparkle {
+    -fx-text-fill: var(--text-secondary);
+    -fx-transition: all 0.8s cubic-bezier(.4,2,.6,1);
+}
+.pro-btn:hover .sparkle {
+    -fx-text-fill: white;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+/* Palette Uiverse.io */
+:root {
+    --uiverse-bg: #181824;
+    --uiverse-card: #23233a;
+    --uiverse-gradient: linear-gradient(90deg,#A47CF3,#683FEA 80%);
+    --uiverse-shadow: rgba(153,23,255,0.18);
+    --uiverse-text: #f5f5fa;
+    --uiverse-subtext: #AAAAAA;
+    --uiverse-btn-bg: #1C1A1C;
+    --uiverse-btn-hover: linear-gradient(0deg,#A47CF3,#683FEA);
+    --uiverse-btn-shadow: #9917FF;
+}
+
+.root {
+    -fx-background-color: var(--uiverse-bg);
+}
+
+.uiverse-card {
+    -fx-background-color: var(--uiverse-card);
+    -fx-background-radius: 2em;
+    -fx-effect: dropshadow(gaussian, var(--uiverse-shadow), 16, 0.2, 0, 6);
+    -fx-padding: 32px;
+    -fx-spacing: 24px;
+    -fx-transition: all 0.3s cubic-bezier(.4,2,.6,1);
+}
+.uiverse-card:hover {
+    -fx-effect: dropshadow(gaussian, #A47CF3, 32, 0.3, 0, 12);
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+}
+
+.uiverse-header {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #A47CF3;
+}
+.uiverse-subtext {
+    -fx-font-size: 14px;
+    -fx-text-fill: var(--uiverse-subtext);
+}
+
+.uiverse-btn {
+    -fx-background-color: var(--uiverse-btn-bg);
+    -fx-background-radius: 3em;
+    -fx-border-radius: 3em;
+    -fx-pref-width: 220px;
+    -fx-pref-height: 60px;
+    -fx-font-weight: 600;
+    -fx-font-size: 18px;
+    -fx-text-fill: var(--uiverse-subtext);
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, var(--uiverse-shadow), 8, 0.2, 0, 2);
+    -fx-padding: 0 32px;
+    -fx-alignment: center;
+    -fx-content-display: left;
+    -fx-graphic-text-gap: 16px;
+    -fx-transition: all 0.45s cubic-bezier(.4,2,.6,1);
+}
+.uiverse-btn:hover {
+    -fx-background-color: var(--uiverse-btn-hover);
+    -fx-effect: dropshadow(gaussian, var(--uiverse-btn-shadow), 32, 0.3, 0, 8);
+    -fx-translate-y: -2px;
+    -fx-text-fill: white;
+}
+.uiverse-btn:pressed {
+    -fx-background-color: #683FEA;
+    -fx-effect: dropshadow(gaussian, #683FEA, 8, 0.2, 0, 2);
+}
+
+.uiverse-sparkle {
+    -fx-text-fill: var(--uiverse-subtext);
+    -fx-font-size: 22px;
+    -fx-transition: all 0.8s cubic-bezier(.4,2,.6,1);
+}
+.uiverse-btn:hover .uiverse-sparkle {
+    -fx-text-fill: white;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.modern-text-area {
+    -fx-background-color: #23233a;
+    -fx-background-radius: 1.5em;
+    -fx-border-color: #A47CF3;
+    -fx-border-radius: 1.5em;
+    -fx-border-width: 1.5px;
+    -fx-padding: 16px;
+    -fx-font-size: 16px;
+    -fx-text-fill: var(--uiverse-text);
+    -fx-transition: all 0.3s;
+}
+.modern-text-area:focused {
+    -fx-background-color: #23233a;
+    -fx-border-color: #683FEA;
+    -fx-effect: dropshadow(gaussian, #A47CF3, 8, 0.2, 0, 2);
+}
+
+.profile-picture {
+    -fx-background-color: #A47CF3;
+    -fx-background-radius: 50%;
+    -fx-effect: dropshadow(gaussian, #683FEA, 8, 0.2, 0, 2);
+} 
