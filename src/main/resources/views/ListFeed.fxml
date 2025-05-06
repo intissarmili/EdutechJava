@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.ListFeedController"
+      spacing="10"
+      style="-fx-background-color: white;">
+
+    <!-- Barre de navigation -->
+    <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #f5f5f5; -fx-padding: 10px;">
+        <Label text="Social Feed" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        
+        <!-- Bouton de notification -->
+        <Button fx:id="notificationButton" style="-fx-background-color: transparent;">
+            <graphic>
+                <StackPane>
+                    <Label fx:id="notificationBadge" 
+                           style="-fx-background-color: red; -fx-text-fill: white; -fx-padding: 2px 5px; -fx-background-radius: 10px;"
+                           visible="false"/>
+                </StackPane>
+            </graphic>
+        </Button>
+    </HBox>
+
+    <!-- Contenu principal -->
+    <ScrollPane fitToWidth="true" style="-fx-background: white;">
+        <content>
+            <VBox spacing="10" style="-fx-padding: 10px;">
+                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 12px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2); -fx-padding: 15px;">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Region style="-fx-background-radius: 50%; -fx-background-color: #4154f1;" prefWidth="50" prefHeight="50"/>
+                        <VBox>
+                            <Label text="Gestion des publications" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1a1a1a;"/>
+                            <Label text="Gérez vos publications et consultez les statistiques" style="-fx-font-size: 12px; -fx-text-fill: #65676b;"/>
+                        </VBox>
+                    </HBox>
+                    <HBox spacing="10">
+                        <Button text="Créer une publication" style="-fx-background-color: #4154f1; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 10px 20px;"/>
+                        <Button text="Historique" style="-fx-background-color: #4154f1; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 10px 20px;"/>
+                        <Button text="Statistiques" style="-fx-background-color: #4154f1; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 10px 20px;"/>
+                    </HBox>
+                    <!-- TableView et autres éléments -->
+                </VBox>
+                <VBox fx:id="feedContainer" spacing="10"/>
+            </VBox>
+        </content>
+    </ScrollPane>
+
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+</VBox> 

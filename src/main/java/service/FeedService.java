@@ -55,17 +55,17 @@ public class FeedService {
     }
 
     public Feed updateFeed(Feed feed) throws SQLException {
+        Feed oldFeed = getFeedById(feed.getId()); // Récupère l'ancien contenu
         try (PreparedStatement pstmt = connection.prepareStatement(UPDATE_FEED)) {
-            
             pstmt.setString(1, feed.getPublication());
             pstmt.setTimestamp(2, Timestamp.valueOf(feed.getLastModified()));
             pstmt.setInt(3, feed.getId());
-            
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Updating feed failed, no rows affected.");
             }
-            
+            // Enregistre l'historique
+            historyService.trackUpdate(oldFeed, feed);
             return feed;
         }
     }

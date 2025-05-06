@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FeedHistoryController">
+   <children>
+      <VBox prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label text="Historique des Publications" textFill="#3f51b5">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#showAllHistory" style="-fx-background-color: #3f51b5;" text="Afficher tout l'historique" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#refreshData" style="-fx-background-color: #4caf50;" text="Actualiser" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            <SplitPane dividerPositions="0.25" prefHeight="500.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
+               <items>
+                  <VBox prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Publications">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <ListView fx:id="feedsListView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Historique des modifications">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TableView fx:id="historyTableView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                           <columns>
+                              <TableColumn fx:id="feedIdColumn" prefWidth="75.0" text="ID Publication" />
+                              <TableColumn fx:id="actionTypeColumn" prefWidth="100.0" text="Action" />
+                              <TableColumn fx:id="oldContentColumn" prefWidth="200.0" text="Ancien contenu" />
+                              <TableColumn fx:id="newContentColumn" prefWidth="200.0" text="Nouveau contenu" />
+                              <TableColumn fx:id="timestampColumn" prefWidth="150.0" text="Date et heure" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </items>
+            </SplitPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane> 

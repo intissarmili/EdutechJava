@@ -96,7 +96,6 @@ public class ListFeedController {
             showErrorAlert("Erreur", "Impossible de charger les publications : " + e.getMessage());
         }
     }
-    
     private void editFeed(Feed feed) {
         TextInputDialog dialog = new TextInputDialog(feed.getPublication());
         dialog.setTitle("Modifier la publication");
@@ -105,21 +104,12 @@ public class ListFeedController {
 
         dialog.showAndWait().ifPresent(content -> {
             if (!content.trim().isEmpty()) {
-                String oldContent = feed.getPublication();
                 feed.setPublication(content);
                 feed.setLastModified(LocalDateTime.now());
                 try {
-                    feedService.updateFeed(feed);
+                    feedService.updateFeed(feed); // L'historique est géré dans le service
                     loadFeeds();
                     showInfoAlert("Succès", "Publication modifiée avec succès !");
-
-                    FeedHistory history = new FeedHistory(
-                        feed.getId(),
-                        oldContent,
-                        content,
-                        "UPDATE"
-                    );
-                    feedHistoryService.addHistory(history);
                 } catch (SQLException e) {
                     showErrorAlert("Erreur", "Impossible de modifier la publication : " + e.getMessage());
                 }
