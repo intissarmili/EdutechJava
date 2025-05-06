@@ -1,0 +1,493 @@
+.main-container {
+    -fx-padding: 40;
+    -fx-background-color: #ffffff;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.input-field {
+    -fx-pref-width: 180;
+    -fx-background-color: #f9f9f9;
+    -fx-text-fill: #333;
+    -fx-prompt-text-fill: #999;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 6 10;
+}
+
+.input-field-large {
+    -fx-pref-width: 350;
+    -fx-background-color: #f9f9f9;
+    -fx-text-fill: #333;
+    -fx-prompt-text-fill: #999;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 6 10;
+}
+
+.styled-table {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-table-cell-border-color: #e0e0e0;
+    -fx-text-fill: #333;
+}
+
+.styled-table .column-header-background {
+    -fx-background-color: #f1f1f1;
+}
+
+.button {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 20;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+/* Couleurs claires */
+.btn-green {
+    -fx-background-color: #a5d6a7;
+    -fx-text-fill: #1b5e20;
+}
+
+.btn-orange {
+    -fx-background-color: #ffe0b2;
+    -fx-text-fill: #e65100;
+}
+
+.btn-red {
+    -fx-background-color: #ef9a9a;
+    -fx-text-fill: #b71c1c;
+}
+
+/* Hover effets */
+.btn-green:hover {
+    -fx-background-color: #81c784;
+}
+
+.btn-orange:hover {
+    -fx-background-color: #ffcc80;
+}
+
+.btn-red:hover {
+    -fx-background-color: #e57373;
+    /* Dans src/main/resources/org/example/pidev1/ */
+    .root {
+        -fx-font-family: 'Arial';
+    }
+
+    .button {
+        -fx-padding: 8 16;
+        -fx-background-radius: 4;
+    }
+
+    .vbox-card {
+        -fx-background-color: #ffffff;
+        -fx-border-color: #e0e0e0;
+        -fx-border-radius: 8;
+        -fx-padding: 16;
+        -fx-spacing: 8;
+        -fx-min-width: 280;
+    }
+
+    .vbox-card:hover {
+        -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 8, 0, 0, 0);
+    }
+    /* Police FontAwesome */
+
+
+
+    /* Styles généraux */
+    .root {
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 14px;
+    }
+
+    /* Cartes d'abonnement */
+    .subscription-card {
+        -fx-background-color: white;
+        -fx-border-radius: 15;
+        -fx-background-radius: 15;
+        -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);
+        -fx-padding: 25;
+    }
+
+    .card-icon {
+        -fx-font-family: FontAwesome;
+        -fx-font-size: 28px;
+        -fx-text-fill: #3498db;
+    }
+
+    .card-title {
+        -fx-font-size: 22px;
+        -fx-font-weight: bold;
+        -fx-text-fill: #2c3e50;
+    }
+
+    .detail-icon {
+        -fx-font-family: FontAwesome;
+        -fx-text-fill: #7f8c8d;
+        -fx-min-width: 20px;
+    }
+
+    /* Bouton d'achat */
+    .purchase-btn {
+        -fx-background-color: #27ae60;
+        -fx-text-fill: white;
+        -fx-font-weight: bold;
+        -fx-font-size: 14px;
+        -fx-padding: 12 25;
+        -fx-background-radius: 8;
+        -fx-cursor: hand;
+        -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    }
+
+    .purchase-btn:hover {
+        -fx-background-color: #219a52;
+        -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 8, 0, 0, 3);
+    }
+
+    /* Couleurs thématiques */
+    #MasterPass .card-icon { -fx-text-fill: #e67e22; }
+    #Infinity .card-icon { -fx-text-fill: #2980b9; }
+    #ProLearn .card-icon { -fx-text-fill: #8e44ad; }
+
+    /* ================ BASE ================ */
+    .root {
+        -fx-font-family: 'Segoe UI', sans-serif;
+        -fx-font-size: 14px;
+        -fx-background-color: #f8f9fa;
+    }
+
+    /* ================ VARIABLES ================ */
+    .root {
+        -primary-color: #2c3e50;
+        -secondary-color: #3498db;
+        -success-color: #27ae60;
+        -danger-color: #e74c3c;
+        -text-color: #2c3e50;
+        -muted-color: #7f8c8d;
+    }
+
+    /* ================ COMPOSANTS ================ */
+    /* ---------- Header ---------- */
+    .header-container {
+        -fx-background-color: -primary-color;
+        -fx-padding: 2em;
+        -fx-spacing: 1.5em;
+    }
+
+    .header-title {
+        -fx-fill: white;
+        -fx-font-size: 2em;
+        -fx-font-weight: 800;
+        -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+    }
+
+    /* ---------- Cartes ---------- */
+    .subscription-card {
+        -fx-background-color: white;
+        -fx-background-radius: 15px;
+        -fx-padding: 1.5em;
+        -fx-spacing: 1em;
+        -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 12, 0, 0, 4);
+        -fx-min-width: 320px;
+        -fx-border-color: #e0e0e0;
+        -fx-border-width: 1px;
+        -fx-border-radius: 15px;
+        -fx-transition: all 0.3s ease;
+    }
+
+    .subscription-card:hover {
+        -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 15, 0, 0, 6);
+        -fx-translate-y: -3px;
+    }
+
+    .card-icon {
+        -fx-font-family: FontAwesome;
+        -fx-font-size: 2em;
+        -fx-padding: 0 0 0.5em 0;
+    }
+
+    .card-title {
+        -fx-font-size: 1.4em;
+        -fx-font-weight: 700;
+        -fx-text-fill: -text-color;
+    }
+
+    .card-price {
+        -fx-font-size: 2em;
+        -fx-font-weight: 900;
+        -fx-text-fill: -success-color;
+    }
+
+    .card-duration {
+        -fx-text-fill: -muted-color;
+        -fx-font-size: 0.9em;
+    }
+
+    /* ---------- Boutons ---------- */
+    .button {
+        -fx-background-radius: 8px;
+        -fx-padding: 0.8em 2em;
+        -fx-font-weight: 700;
+        -fx-cursor: hand;
+        -fx-transition: all 0.2s ease;
+    }
+
+    .purchase-btn {
+        -fx-background-color: -success-color;
+        -fx-text-fill: white;
+    }
+
+    .purchase-btn:hover {
+        -fx-background-color: #219a52;
+        -fx-effect: dropshadow(gaussian, rgba(46,204,113,0.3), 8, 0, 0, 2);
+    }
+
+    .action-btn {
+        -fx-padding: 0.6em 1.2em;
+        -fx-font-size: 0.9em;
+    }
+
+    .btn-green {
+        -fx-background-color: #a5d6a7;
+        -fx-text-fill: #1b5e20;
+    }
+
+    .btn-orange {
+        -fx-background-color: #ffe0b2;
+        -fx-text-fill: #e65100;
+    }
+
+    .btn-red {
+        -fx-background-color: #ef9a9a;
+        -fx-text-fill: #b71c1c;
+    }
+
+    /* ---------- Formulaire ---------- */
+    .input-field {
+        -fx-background-color: #ffffff;
+        -fx-border-color: #e0e0e0;
+        -fx-border-radius: 6px;
+        -fx-padding: 0.8em;
+        -fx-font-size: 1em;
+        -fx-effect: innershadow(gaussian, rgba(0,0,0,0.03), 2, 0, 0, 1);
+    }
+
+    .input-field:focused {
+        -fx-border-color: -secondary-color;
+        -fx-effect: dropshadow(gaussian, rgba(52,152,219,0.2), 6, 0, 0, 2);
+    }
+
+    /* ---------- Tableau ---------- */
+    .styled-table {
+        -fx-background-color: white;
+        -fx-border-color: #e0e0e0;
+        -fx-border-radius: 8px;
+        -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 6, 0, 0, 2);
+    }
+
+    .styled-table .column-header {
+        -fx-background-color: #f8f9fa;
+        -fx-font-weight: 600;
+        -fx-text-fill: -text-color;
+    }
+
+    /* ================ UTILITAIRES ================ */
+    .spacing-sm { -fx-spacing: 0.5em; }
+    .spacing-md { -fx-spacing: 1em; }
+    .spacing-lg { -fx-spacing: 1.5em; }
+
+    .padding-sm { -fx-padding: 0.5em; }
+    .padding-md { -fx-padding: 1em; }
+    .padding-lg { -fx-padding: 1.5em; }
+
+    /* ================ THÈMES ================ */
+    #MasterPass .card-icon { -fx-text-fill: #e67e22; }
+    #Infinity .card-icon { -fx-text-fill: #2980b9; }
+    #ProLearn .card-icon { -fx-text-fill: #8e44ad; }
+    .abonnement-card {
+        -fx-background-color: white;
+        -fx-padding: 20;
+        -fx-border-radius: 15;
+        -fx-background-radius: 15;
+        -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 4);
+        -fx-pref-width: 250;
+        -fx-alignment: center;
+        -fx-spacing: 10;
+    }
+
+    .abonnement-nom {
+        -fx-font-size: 18px;
+        -fx-font-weight: bold;
+        -fx-text-fill: #333;
+    }
+
+    .abonnement-prix {
+        -fx-font-size: 16px;
+        -fx-text-fill: #03A9F4;
+        -fx-font-weight: bold;
+    }
+
+    .abonnement-description {
+        -fx-font-size: 14px;
+        -fx-text-fill: #666;
+    }
+
+    .btn-acheter {
+        -fx-background-color: #03A9F4;
+        -fx-text-fill: white;
+        -fx-font-weight: bold;
+        -fx-padding: 8 16;
+        -fx-background-radius: 30;
+    }
+
+    .btn-acheter:hover {
+        -fx-background-color: #0288D1;
+    }
+
+
+    .card {
+        -fx-background-color: linear-gradient(to bottom right, #ffffff, #f1f1f1);
+        -fx-background-radius: 20;
+        -fx-border-radius: 20;
+        -fx-padding: 15;
+        -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);
+        -fx-transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        -fx-scale-x: 1.03;
+        -fx-scale-y: 1.03;
+        -fx-cursor: hand;
+    }
+
+    .card-title {
+        -fx-font-size: 20px;
+        -fx-text-fill: #2c3e50;
+        -fx-font-weight: bold;
+    }
+
+    .card-price {
+        -fx-text-fill: #27ae60;
+        -fx-font-size: 16px;
+    }
+
+    .card-duration, .card-description {
+        -fx-text-fill: #7f8c8d;
+        -fx-font-size: 13px;
+    }
+
+    .buy-button {
+        -fx-background-color: #3498db;
+        -fx-text-fill: white;
+        -fx-background-radius: 20;
+        -fx-padding: 10 20 10 20;
+        -fx-font-weight: bold;
+    }
+
+    .buy-button:hover {
+        -fx-background-color: #2980b9;
+    }
+    /* -- Style Global -- */
+    * {
+        -fx-font-family: "Arial", sans-serif;
+    }
+
+    /* -- Navbar -- */
+    .top {
+        -fx-background-color: #03A9F4;
+        -fx-padding: 15 30;
+    }
+
+    .nav-btn, .nav-btn-active {
+        -fx-background-color: transparent;
+        -fx-text-fill: white;
+        -fx-font-size: 14px;
+        -fx-padding: 10 20;
+        -fx-border-width: 0;
+        -fx-cursor: hand;
+        -fx-font-weight: bold;
+    }
+
+    .nav-btn:hover {
+        -fx-background-color: #0288D1;
+    }
+
+    .nav-btn-active {
+        -fx-background-color: #0288D1;
+    }
+
+    /* -- Search Bar -- */
+    #searchField {
+        -fx-pref-width: 400;
+        -fx-padding: 10;
+        -fx-background-radius: 30;
+        -fx-border-radius: 30;
+        -fx-border-color: #ccc;
+        -fx-font-size: 14px;
+    }
+
+    #searchField:focused {
+        -fx-border-color: #03A9F4;
+    }
+
+    /* -- Cards Container -- */
+    .cards-container {
+        -fx-padding: 20;
+        -fx-spacing: 30;
+    }
+
+    .card {
+        -fx-background-color: white;
+        -fx-border-radius: 15;
+        -fx-border-color: #ddd;
+        -fx-padding: 20;
+        -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 0);
+        -fx-background-insets: 0, 1;
+        -fx-min-width: 250px;
+        -fx-max-width: 300px;
+        -fx-alignment: center;
+    }
+
+    .card-title {
+        -fx-font-size: 18px;
+        -fx-font-weight: bold;
+        -fx-text-fill: #333;
+    }
+
+    .card-description {
+        -fx-font-size: 14px;
+        -fx-text-fill: #555;
+        -fx-wrap-text: true;
+        -fx-max-width: 280px;
+    }
+
+    .card-price {
+        -fx-font-size: 16px;
+        -fx-text-fill: #388E3C;
+        -fx-font-weight: bold;
+    }
+
+    .buy-button {
+        -fx-background-color: #03A9F4;
+        -fx-text-fill: white;
+        -fx-padding: 10 20;
+        -fx-font-weight: bold;
+        -fx-background-radius: 30;
+        -fx-border-radius: 30;
+    }
+
+    .buy-button:hover {
+        -fx-background-color: #0288D1;
+    }
+
+    /* -- WebView -- */
+    #paymentWebView {
+        -fx-background-color: #f1f1f1;
+        -fx-background-radius: 15;
+    }
+
+}

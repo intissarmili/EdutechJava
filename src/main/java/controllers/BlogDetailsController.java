@@ -121,9 +121,23 @@ public class BlogDetailsController {
     }
 
     private void playCertification(int certificationId) {
-        // TODO: Implémenter l'affichage de la certification
-        System.out.println("Afficher la certification avec l'ID: " + certificationId);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/playCertification.fxml"));
+            Parent certifView = loader.load();
+
+            CertificationView controller = loader.getController();
+            controller.initializeCertification(certificationId); // Assure-toi que cette méthode existe
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(certifView));
+            stage.setTitle("Certification");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Erreur", "Impossible de charger la certification.");
+        }
     }
+
 
     private void playQuiz(int quizId) {
         try {

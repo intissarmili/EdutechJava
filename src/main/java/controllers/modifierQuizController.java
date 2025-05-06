@@ -98,9 +98,6 @@ public class modifierQuizController {
             }
 
             closeWindow();
-        } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur de modification",
-                    "Échec de la modification du quiz: " + e.getMessage());
         } catch (NumberFormatException e) {
             showAlert(Alert.AlertType.ERROR, "Format invalide",
                     "Veuillez entrer une valeur numérique valide pour le prix pièce");

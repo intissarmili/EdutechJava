@@ -36,7 +36,11 @@
 
          <!-- Buttons -->
          <HBox spacing="30.0" alignment="CENTER">
-            <Button text="Annuler" onAction="#handleCancel" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 12 25; -fx-background-radius: 8;" />
+            <Button fx:id="cancelBtn"
+                    text="Annuler"
+                    onAction="#handleCancel"
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 12 25; -fx-background-radius: 8;" />
+
             <Button text="Confirmer" onAction="#ajouterCoursAction" style="-fx-background-color: #4154f1; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 12 25; -fx-background-radius: 8;" />
          </HBox>
 

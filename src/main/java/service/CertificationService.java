@@ -1,14 +1,14 @@
 package service;
 
-import interfaces.IService;
+import service.IServicee;
 import models.Certification;
 import utils.MaConnexion;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-public class CertificationService implements IService<Certification> {
+import models.Question;
+public class CertificationService implements IServicee <Certification> {
     private Connection cnx;
 
     public CertificationService() {
@@ -29,7 +29,7 @@ public class CertificationService implements IService<Certification> {
 
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    certification.setId(rs.getInt(1));
+                    certification.setId(rs.getInt(1)); // Set the ID generated
                 }
             }
         }
@@ -59,27 +59,6 @@ public class CertificationService implements IService<Certification> {
             ps.executeUpdate();
         }
     }
-    public Certification findById(int id) throws SQLException {
-        String query = "SELECT * FROM certification WHERE id = ?";
-        try (PreparedStatement ps = cnx.prepareStatement(query)) {
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    Certification cert = new Certification(
-                            rs.getInt("id"),
-                            rs.getString("nom"),
-                            rs.getString("description"),
-                            rs.getDouble("prix"),
-                            rs.getString("img"),
-                            rs.getInt("prix_piece")
-                    );
-                    cert.setNote(rs.getObject("note") != null ? rs.getInt("note") : null);
-                    return cert;
-                }
-            }
-        }
-        return null;
-    }
 
     @Override
     public List<Certification> readAll() throws SQLException {
@@ -97,12 +76,37 @@ public class CertificationService implements IService<Certification> {
                         rs.getDouble("prix"),
                         rs.getString("img"),
                         rs.getInt("prix_piece")
+
                 );
                 cert.setNote(rs.getObject("note") != null ? rs.getInt("note") : null);
                 certifications.add(cert);
             }
         }
         return certifications;
+    }
+
+
+    public Certification findById(int id) throws SQLException {
+        String query = "SELECT * FROM certification WHERE id = ?";
+        try (PreparedStatement ps = cnx.prepareStatement(query)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Certification cert = new Certification(
+                            rs.getInt("id"),
+                            rs.getString("nom"),
+                            rs.getString("description"),
+                            rs.getDouble("prix"),
+                            rs.getString("img"),
+                            rs.getInt("prix_piece")
+
+                    );
+                    cert.setNote(rs.getObject("note") != null ? rs.getInt("note") : null);
+                    return cert;
+                }
+            }
+        }
+        return null;
     }
 
     public boolean certificationExists(int id) throws SQLException {
@@ -113,8 +117,6 @@ public class CertificationService implements IService<Certification> {
             return rs.next() && rs.getInt(1) > 0;
         }
     }
-
-
 
     public List<Integer> getAvailableCertificationIds() throws SQLException {
         List<Integer> ids = new ArrayList<>();
@@ -140,5 +142,88 @@ public class CertificationService implements IService<Certification> {
             }
         }
         return ids;
+    }
+    public Certification getById(int id) {
+        String SQL = "SELECT * FROM Certification WHERE id = ?";
+        Certification certif = null;
+
+        try {
+            PreparedStatement st = cnx.prepareStatement(SQL);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()) {
+                certif = mapResultSetToCertification(rs);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la récupération de la certification par ID : " + e.getMessage());
+        }
+
+        return certif;
+    }
+
+    public List<Certification> getAll() {
+        List<Certification> certifications = new ArrayList<>();
+        String SQL = "SELECT * FROM Certification";
+
+        try {
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery(SQL);
+
+            while (rs.next()) {
+                Certification certif = mapResultSetToCertification(rs);
+                certifications.add(certif);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors du chargement des certifications : " + e.getMessage());
+        }
+
+        return certifications;
+    }
+    private Certification mapResultSetToCertification(ResultSet rs) throws SQLException {
+        return new Certification(
+                rs.getInt("id"),
+                rs.getString("nom"),
+                rs.getString("description"),
+                rs.getInt("prix"),
+                rs.getString("img"),
+                rs.getInt("prix_piece")
+
+        );
+    }
+
+
+
+
+
+
+    public List<Question> getQuestionsForCertification(int certificationId) throws SQLException {
+        List<Question> questions = new ArrayList<>();
+        String query = "SELECT * FROM question WHERE certification_id = ?";
+
+        try (PreparedStatement ps = cnx.prepareStatement(query)) {
+            ps.setInt(1, certificationId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Question q = new Question();
+                    q.setId(rs.getInt("id"));
+                    q.setQuestion(rs.getString("question"));
+
+                    // Récupérer les options (en supposant qu'elles sont stockées en format CSV)
+                    String optionsStr = rs.getString("options");
+                    String[] options = optionsStr != null ? optionsStr.split(",") : new String[0]; // On sépare par virgule
+
+                    q.setOptions(options);
+                    q.setReponseCorrecte(rs.getString("reponse_correcte"));
+                    q.setQuizId(rs.getInt("quiz_id"));
+                    q.setCertificationId(rs.getInt("certification_id"));
+
+                    questions.add(q);
+                }
+            }
+        }
+
+        return questions;
     }
 }

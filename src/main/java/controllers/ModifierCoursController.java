@@ -49,19 +49,15 @@ public class ModifierCoursController {
             coursToEdit.setCategorie(categorieM.getText());
             coursToEdit.setCertificationId(idCertifM.getValue());
 
-            try {
-                coursService.update(coursToEdit);
-                showAlert("Succès", "Cours modifié avec succès", Alert.AlertType.INFORMATION);
-                closeWindow();
-            } catch (SQLException e) {
-                showAlert("Erreur", "Échec de la modification: " + e.getMessage(), Alert.AlertType.ERROR);
-            }
+            coursService.update(coursToEdit);
+            showAlert("Succès", "Cours modifié avec succès", Alert.AlertType.INFORMATION);
+            closeWindow();
         }
     }
 
     @FXML
     private void ButtonAcceuil() {
-        // Implémentez la navigation vers l'accueil si nécessaire
+        closeWindow();
     }
 
     private boolean validateFields() {

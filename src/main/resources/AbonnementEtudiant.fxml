@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Pos?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.AbonnementEtudiantController"
+            style="-fx-background-color: #ffffff;"> <!-- Changer la couleur de fond générale à blanc -->
+
+    <!-- Top : Navbar (modifiée) -->
+    <top>
+        <HBox spacing="50" style="-fx-background-color: #03A9F4;" alignment="CENTER_LEFT"> <!-- Changer la couleur de fond en #03A9F4 -->
+            <!-- Logo EduTech -->
+            <Label text="EduTech" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+
+            <!-- Menu navigation -->
+            <HBox spacing="20" alignment="CENTER_RIGHT">
+                <Button text="Accueil" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button text="Abonnements" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button text="Panier" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button text="Favoris" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button text="Cours" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button text="Profil" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            </HBox>
+        </HBox>
+    </top>
+
+    <!-- Centre : Contenu avec liste d'abonnements -->
+    <center>
+        <VBox alignment="TOP_CENTER" spacing="20" style="-fx-padding: 30 20 20 20;">
+
+            <!-- Label Abonnements en gros et en noir -->
+            <Label text="Abonnements" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: black;" />
+
+            <!-- Barre de recherche -->
+            <TextField fx:id="searchField"
+                       promptText="Rechercher un abonnement..."
+                       style="-fx-pref-width: 500; -fx-padding: 10; -fx-background-radius: 30; -fx-border-radius: 30; -fx-border-color: #90caf9; -fx-background-color: white;" />
+
+            <!-- Conteneur des abonnements -->
+            <ScrollPane fitToWidth="true" prefHeight="500" style="-fx-background: transparent; -fx-background-color: transparent;">
+                <content>
+                    <FlowPane fx:id="abonnementsPane"
+                              hgap="30"
+                              vgap="30"
+                              alignment="CENTER"
+                              style="-fx-padding: 20;">
+                        <!-- Exemple d'abonnement -->
+                    </FlowPane>
+                </content>
+            </ScrollPane>
+        </VBox>
+    </center>
+
+</BorderPane>

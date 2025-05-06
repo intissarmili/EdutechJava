@@ -31,7 +31,9 @@
          </GridPane>
 
          <HBox spacing="20.0" alignment="CENTER">
-            <Button text="Annuler"
+            <Button fx:id="cancelBtn"
+                    text="Annuler"
+                    onAction="#handleCancel"
                     style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 10 20; -fx-background-radius: 5;" />
 
             <Button text="Confirmer"

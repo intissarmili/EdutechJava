@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import javafx.scene.Node;
 
 public class addCoursController {
     @FXML private TextField titreTextField;
@@ -81,8 +82,6 @@ public class addCoursController {
             coursService.create(cours);
             showAlert("Succès", "Cours ajouté avec succès", Alert.AlertType.INFORMATION);
             redirectToCoursList();
-        } catch (SQLException e) {
-            showAlert("Erreur", "Échec de l'ajout du cours: " + e.getMessage(), Alert.AlertType.ERROR);
         } catch (IOException e) {
             showAlert("Erreur", "Erreur lors de la redirection: " + e.getMessage(), Alert.AlertType.ERROR);
         }
@@ -130,14 +129,21 @@ public class addCoursController {
     }
 
 
+
+
+
     @FXML
     private void handleCancel() {
-        closeWindow();
-    }
-    private void closeWindow() {
         Stage stage = (Stage) cancelBtn.getScene().getWindow();
+        stage.close(); // ferme uniquement la fenêtre actuelle
+    }
+
+    private void closeWindow() {
+        Stage stage = (Stage) cancelBtn.getScene().getWindow(); // titreM est un TextField ou un autre contrôle sur la scène
         stage.close();
     }
+
+
 
     private void redirectToCoursList() throws IOException {
         // Fermer la fenêtre actuelle

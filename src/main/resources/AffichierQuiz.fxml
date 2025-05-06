@@ -7,10 +7,19 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.shape.*?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.affichierQuizController" style="-fx-background-color: #f5f5f5;">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0"
+            xmlns="http://javafx.com/javafx/21.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.affichierQuizController"
+            style="-fx-background-color: #f5f5f5;">
 
-    <!-- Barre de navigation identique au cours -->
+    <!-- Barre de navigation incluse -->
+    <fx:include fx:id="navBar" source="navbar.fxml"
+                AnchorPane.topAnchor="0"
+                AnchorPane.leftAnchor="0"
+                AnchorPane.rightAnchor="0"/>
+
+    <!-- Barre de navigation personnalisée -->
     <ScrollPane fitToWidth="false" hbarPolicy="ALWAYS" vbarPolicy="NEVER"
                 style="-fx-background: #1cacd2; -fx-background-color: #1cacd2;"
                 AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"
@@ -25,8 +34,6 @@
 
                 <!-- Menu principal -->
                 <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-background-color: #1cacd2;">
-                    <!-- ... (Reprendre le même menu que dans cours.fxml) ... -->
-
                     <MenuButton text="Gérer" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 90; -fx-font-size: 16px; -fx-padding: 5 0;">
                         <items>
                             <MenuItem text="Gérer Cours" style="-fx-text-fill: black;"/>
@@ -51,37 +58,45 @@
         <TableView fx:id="quizTable" style="-fx-font-size: 14px;">
             <columns>
                 <TableColumn fx:id="idCol" text="ID" prefWidth="60">
-                    <cellValueFactory><PropertyValueFactory property="id"/></cellValueFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="id"/>
+                    </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="noteCol" text="Note" prefWidth="80">
-                    <cellValueFactory><PropertyValueFactory property="note"/></cellValueFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="note"/>
+                    </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="prixPieceCol" text="Prix Pièce" prefWidth="100">
-                    <cellValueFactory><PropertyValueFactory property="prixPiece"/></cellValueFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="prixPiece"/>
+                    </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="coursIdCol" text="ID Cours" prefWidth="80">
-                    <cellValueFactory><PropertyValueFactory property="coursId"/></cellValueFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="coursId"/>
+                    </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="questionsCol" text="Questions" prefWidth="200">
-                    <cellValueFactory><PropertyValueFactory property="questionsConcatenated"/></cellValueFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="questionsConcatenated"/>
+                    </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Actions" fx:id="actionsCol" prefWidth="120">
-                    <!-- Cellule des actions gérée dans le contrôleur -->
-                </TableColumn>
+                <TableColumn text="Actions" fx:id="actionsCol" prefWidth="120"/>
             </columns>
         </TableView>
 
         <!-- Liste des questions -->
         <ListView fx:id="questionsListView" prefHeight="150.0"
-                  style="-fx-font-size: 13px; -fx-border-color: #ddd; -fx-border-radius: 3;" />
+                  style="-fx-font-size: 13px; -fx-border-color: #ddd; -fx-border-radius: 3;"/>
 
         <!-- Boutons d'actions -->
         <HBox alignment="CENTER" spacing="25">
             <Button fx:id="addBtn" text="➕ Ajouter Quiz"
-                    style="-fx-background-color: #16ac63; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-font-size: 14px; -fx-background-radius: 3;" />
+                    style="-fx-background-color: #16ac63; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-font-size: 14px; -fx-background-radius: 3;"/>
 
             <Button fx:id="deleteBtn" text="🗑️ Supprimer"
-                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-font-size: 14px; -fx-background-radius: 3;" />
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-font-size: 14px; -fx-background-radius: 3;"/>
         </HBox>
     </VBox>
 </AnchorPane>
