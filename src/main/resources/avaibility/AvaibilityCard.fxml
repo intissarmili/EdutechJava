@@ -3,17 +3,28 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
 
-<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #ddd; -fx-border-width: 1; -fx-border-radius: 5;"
-      spacing="10" prefWidth="300">
+<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+           stylesheets="@../styles/style.css"
+           prefWidth="300" prefHeight="200">
 
-    <Label fx:id="dateLabel" style="-fx-font-weight: bold; -fx-font-size: 14;"/>
-    <Label fx:id="timeLabel"/>
-    <Label fx:id="tutorLabel"/>
+    <!-- Card container with hover effects -->
+    <AnchorPane styleClass="card">
+        <!-- Card content with hover animations -->
+        <VBox styleClass="card-content" spacing="10" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+              AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
 
-    <HBox spacing="10">
-        <Button fx:id="detailsButton" text="Details" style="-fx-background-color: #f0f0f0;"/>
-        <Button fx:id="reserveButton" text="Reserve" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-    </HBox>
-</VBox>
+            <!-- Card title and information -->
+            <Label fx:id="dateLabel" styleClass="card-title"/>
+            <Label fx:id="timeLabel" styleClass="card-para"/>
+            <Label fx:id="tutorLabel" styleClass="card-para"/>
+
+            <!-- Action buttons -->
+            <HBox spacing="10">
+                <Button fx:id="detailsButton" text="Details" styleClass="card-button, details-button"/>
+                <Button fx:id="reserveButton" text="Reserve" styleClass="card-button, reserve-button"/>
+            </HBox>
+        </VBox>
+    </AnchorPane>
+</StackPane>

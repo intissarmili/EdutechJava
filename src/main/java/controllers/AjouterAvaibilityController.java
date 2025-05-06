@@ -121,7 +121,7 @@ public class AjouterAvaibilityController implements Initializable {
             Parent root = loader.load();
 
             // Get current scene dimensions
-            Stage currentStage = (Stage) contentPane.getScene().getWindow();
+            Stage currentStage = (Stage) datePicker.getScene().getWindow();
             double width = currentStage.getWidth();
             double height = currentStage.getHeight();
 
@@ -267,9 +267,19 @@ public class AjouterAvaibilityController implements Initializable {
     @FXML
     void cancelAction(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/avaibility/list.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/avaibility/listCards.fxml"));
             Parent root = loader.load();
-            datePicker.getScene().setRoot(root);
+            
+            // Get current scene dimensions
+            Stage currentStage = (Stage) datePicker.getScene().getWindow();
+            double width = currentStage.getWidth();
+            double height = currentStage.getHeight();
+            
+            // Create new scene with the same dimensions
+            Scene scene = new Scene(root, width, height);
+            
+            currentStage.setScene(scene);
+            currentStage.show();
         } catch (IOException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la navigation: " + e.getMessage());

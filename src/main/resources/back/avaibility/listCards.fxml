@@ -4,66 +4,167 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.SVGPath?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.back.ListAvaibilityController"
-            style="-fx-background-color: #f8f9fa;">
+            style="-fx-background-color: white;">
 
-    <!-- Header with Add Button -->
+    <!-- Header with Title and Action Buttons -->
     <HBox spacing="20" alignment="CENTER_LEFT"
-          AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30" AnchorPane.topAnchor="25">
-        <Label text="Tutor Availability"
-               style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
-               HBox.hgrow="ALWAYS"/>
+          style="-fx-background-color: white; -fx-padding: 20 30;"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+          
+        <!-- Title with Icon -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Tutor Availability"
+                   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #424242; -fx-font-family: 'Segoe UI';" />
+            <Label text="+" 
+                   style="-fx-font-size: 18px; -fx-text-fill: #42A5F5; -fx-cursor: hand;" />
+        </HBox>
 
-        <Button text="Add Availability"
-                fx:id="addButton"
-                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5;"
-                onAction="#handleAddAvaibility"/>
-        <Button text="List Reservations"
-                fx:id="listReservationButton"
-                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5;"
-                onAction="#handleListReservation"/>
-
+        <Region HBox.hgrow="ALWAYS" />
+        
+        <!-- Search Field and Action Buttons -->
+        <HBox spacing="15" alignment="CENTER">
+            <TextField promptText="Search..."
+                       style="-fx-background-color: #f5f5f5; -fx-background-radius: 4px; 
+                              -fx-padding: 7 12; -fx-pref-width: 200px; -fx-font-size: 13px;" />
+                              
+            <Button text="⟳" 
+                    style="-fx-background-color: #f5f5f5; -fx-text-fill: #757575; 
+                           -fx-background-radius: 4px; -fx-font-size: 14px; -fx-padding: 5 10;" />
+                               
+            <Button text="Add Availability"
+                    fx:id="addButton"
+                    style="-fx-background-color: #42A5F5; -fx-text-fill: white; 
+                           -fx-font-weight: normal; -fx-padding: 7 15; 
+                           -fx-background-radius: 4px; -fx-font-size: 13px;"
+                    onAction="#handleAddAvaibility"/>
+                    
+            <Button text="List Reservations"
+                    fx:id="listReservationButton"
+                    style="-fx-background-color: #f5f5f5; -fx-text-fill: #757575; 
+                           -fx-font-weight: normal; -fx-padding: 7 15; 
+                           -fx-background-radius: 4px; -fx-font-size: 13px;"
+                    onAction="#handleListReservation"/>
+        </HBox>
     </HBox>
 
-    <!-- Main Content Area -->
-    <StackPane fx:id="contentPane"
-               AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30"
-               AnchorPane.topAnchor="80" AnchorPane.bottomAnchor="25">
-
-        <!-- Table View -->
-        <TableView fx:id="availabilityTable" style="-fx-background-color: transparent;">
-            <columns>
-                <!-- Date Column -->
-                <TableColumn fx:id="dateColumn" text="Date" prefWidth="150"/>
-
-                <!-- Time Column (Handled in controller using custom binding) -->
-                <TableColumn fx:id="timeColumn" text="Time" prefWidth="120"/>
-
-                <!-- Tutor Column -->
-                <TableColumn fx:id="tutorColumn" text="Tutor" prefWidth="150"/>
-            </columns>
-        </TableView>
-
-        <!-- Details View -->
-        <AnchorPane fx:id="detailsPane" visible="false"
-                    style="-fx-background-color: #ffffff; -fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 8;">
-            <Label fx:id="detailsTitle" text="Availability Details"
-                   style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
-                   layoutX="25" layoutY="25"/>
-
-            <VBox spacing="15" layoutX="25" layoutY="70">
-                <Label fx:id="detailsDate" style="-fx-font-size: 15; -fx-text-fill: #333;"/>
-                <Label fx:id="detailsTime" style="-fx-font-size: 15; -fx-text-fill: #333;"/>
-                <Label fx:id="detailsTutor" style="-fx-font-size: 15; -fx-text-fill: #333;"/>
-
-                <HBox spacing="10" style="-fx-padding: 15 0 0 0;">
-                    <Button text="Back" onAction="#handleBackToList"
-                            style="-fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5;"/>
-                </HBox>
-            </VBox>
-        </AnchorPane>
-    </StackPane>
+    <!-- Main Table Content Area -->
+    <VBox style="-fx-padding: 0 30 30 30; -fx-background-color: white;"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+          AnchorPane.topAnchor="70" AnchorPane.bottomAnchor="0">
+          
+        <!-- Clean Table Header -->
+        <HBox style="-fx-background-color: #f8f9fa; -fx-padding: 12 20; -fx-background-radius: 6 6 0 0; -fx-border-color: #eeeeee; -fx-border-width: 1 1 0 1; -fx-border-radius: 6 6 0 0;">
+            <Label text="AVAILABILITY LIST" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #616161;" />
+        </HBox>
+        
+        <!-- Table Container with Subtle Border -->
+        <StackPane fx:id="contentPane" 
+                   style="-fx-background-color: white; 
+                          -fx-border-color: #eeeeee; -fx-border-width: 1px; 
+                          -fx-border-radius: 0 0 6px 6px;">
+            
+            <!-- Clean Modern Table -->
+            <TableView fx:id="availabilityTable" 
+                       style="-fx-background-color: transparent; 
+                              -fx-border-color: transparent;
+                              -fx-table-cell-border-color: #f0f0f0;">
+                <columns>
+                    <!-- Date Column -->
+                    <TableColumn fx:id="dateColumn" text="Date" prefWidth="150"
+                                 style="-fx-alignment: CENTER-LEFT; -fx-font-size: 13px;"/>
+                    
+                    <!-- Time Column -->
+                    <TableColumn fx:id="timeColumn" text="Time" prefWidth="150"
+                                 style="-fx-alignment: CENTER-LEFT; -fx-font-size: 13px;"/>
+                    
+                    <!-- Tutor Column -->
+                    <TableColumn fx:id="tutorColumn" text="Tutor" prefWidth="150"
+                                 style="-fx-alignment: CENTER-LEFT; -fx-font-size: 13px;"/>
+                                 
+                    <!-- Actions Column -->
+                    <TableColumn text="Actions" prefWidth="120"
+                                 style="-fx-alignment: CENTER; -fx-font-size: 13px;"/>
+                </columns>
+                <placeholder>
+                    <Label text="No availability found" 
+                           style="-fx-text-fill: #9E9E9E; -fx-font-style: italic;"/>
+                </placeholder>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+            </TableView>
+            
+            <!-- Details View Panel - Clean Modern Design -->
+            <AnchorPane fx:id="detailsPane" visible="false"
+                        style="-fx-background-color: white; -fx-background-radius: 8px; 
+                               -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);">
+                               
+                <!-- Header with Title -->
+                <VBox spacing="20" AnchorPane.leftAnchor="25" AnchorPane.rightAnchor="25"
+                      AnchorPane.topAnchor="25" AnchorPane.bottomAnchor="25">
+                    
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label fx:id="detailsTitle" text="Availability Details"
+                               style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #424242;"/>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button text="×" onAction="#handleBackToList"
+                                style="-fx-background-color: transparent; -fx-text-fill: #9E9E9E; -fx-font-size: 18px;"/>
+                    </HBox>
+                    
+                    <!-- Details Content -->
+                    <VBox spacing="15" style="-fx-padding: 15 0;">
+                        <HBox spacing="10">
+                            <Label text="Date: " style="-fx-font-weight: bold; -fx-text-fill: #616161;"/>
+                            <Label fx:id="detailsDate" style="-fx-text-fill: #424242;"/>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="Time: " style="-fx-font-weight: bold; -fx-text-fill: #616161;"/>
+                            <Label fx:id="detailsTime" style="-fx-text-fill: #424242;"/>
+                        </HBox>
+                        <HBox spacing="10">
+                            <Label text="Tutor: " style="-fx-font-weight: bold; -fx-text-fill: #616161;"/>
+                            <Label fx:id="detailsTutor" style="-fx-text-fill: #424242;"/>
+                        </HBox>
+                    </VBox>
+                    
+                    <!-- Action Buttons -->
+                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                        <Button text="Edit" 
+                                style="-fx-background-color: #42A5F5; -fx-text-fill: white; 
+                                       -fx-padding: 7 15; -fx-background-radius: 4px;"/>
+                        <Button text="Back" onAction="#handleBackToList"
+                                style="-fx-background-color: #f5f5f5; -fx-text-fill: #616161; 
+                                       -fx-padding: 7 15; -fx-background-radius: 4px;"/>
+                    </HBox>
+                </VBox>
+            </AnchorPane>
+        </StackPane>
+        
+        <!-- Pagination Controls -->
+        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 15 0 0 0;">
+            <Label text="Rows per page: " style="-fx-text-fill: #757575; -fx-font-size: 12px;"/>
+            <ComboBox value="10" prefWidth="70"
+                      style="-fx-background-color: #f5f5f5; -fx-background-radius: 4px; -fx-font-size: 12px;">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="5"/>
+                        <String fx:value="10"/>
+                        <String fx:value="20"/>
+                        <String fx:value="50"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+            <Label text="1-10 of 24" style="-fx-text-fill: #757575; -fx-font-size: 12px;"/>
+            <Button text="&lt;" style="-fx-background-color: transparent; -fx-text-fill: #42A5F5;"/>
+            <Button text="&gt;" style="-fx-background-color: transparent; -fx-text-fill: #42A5F5;"/>
+        </HBox>
+    </VBox>
 </AnchorPane>

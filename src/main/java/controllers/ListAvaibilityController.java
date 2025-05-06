@@ -3,7 +3,9 @@ package controllers;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
 import javafx.util.StringConverter;
 import models.avaibility;
 import service.AvaibilityService;
@@ -27,30 +29,20 @@ import java.util.List;
 
 public class ListAvaibilityController {
 
-    @FXML private VBox cardsContainer;
+    @FXML private FlowPane cardsContainer;
     @FXML private StackPane contentPane;
-    @FXML private AnchorPane addFormPane;
     @FXML private AnchorPane detailsPane;
-
-    // Add form fields
-    @FXML private TextField dateField;
-    @FXML private TextField startTimeField;
-    @FXML private TextField endTimeField;
-    @FXML private TextField tutorIdField;
+    @FXML private Button addButton;
 
     // Details view fields
     @FXML private Label detailsDate;
     @FXML private Label detailsTime;
     @FXML private Label detailsTutor;
-    // Add filter controls
-
+    
+    // Filter controls
+    @FXML private DatePicker dateFilter;
     @FXML private Button filterButton;
     @FXML private Button clearFilterButton;
-    // Filter control
-    @FXML private DatePicker dateFilter;
-
-
-    private Parent addFormNode;
 
     private final AvaibilityService avaibilityService = new AvaibilityService();
 
@@ -59,26 +51,38 @@ public class ListAvaibilityController {
         setupDateFilter();
         loadAvaibilityCards();
         showOnly(getCardsScrollPane());
+        
+        // Style the Add Availability button - simplified
+        addButton.setStyle("-fx-background-color: #1CACD2; -fx-text-fill: white; -fx-background-radius: 5px;");
     }
 
-    // Update setupDateFilters method:
-// Update setupDateFilters method:
-    private void setupDateFilter() {  // Renamed from setupDateFilters
-        // Set default date format
+    private void setupDateFilter() {
+        // Style the date picker - simplified
+        dateFilter.setStyle("-fx-background-color: white; -fx-background-radius: 4px; -fx-border-color: #e0e0e0; -fx-border-radius: 4px;");
+        dateFilter.setPromptText("Sélectionner une date");
+        
+        // Set date converter
         dateFilter.setConverter(new LocalDateStringConverter());
-
+        
+        // Style the Apply Filter button - simplified
+        filterButton.setStyle("-fx-background-color: #1CACD2; -fx-text-fill: white; -fx-background-radius: 4px;");
+        
+        // Style the Show All button - simplified
+        clearFilterButton.setStyle("-fx-background-color: #f0f0f0; -fx-text-fill: #555; -fx-background-radius: 4px; -fx-border-color: #e0e0e0; -fx-border-radius: 4px; -fx-border-width: 1px;");
+        
         // Set initial date (today)
         dateFilter.setValue(LocalDate.now());
-
+        
         // Handle filter button click
         filterButton.setOnAction(event -> loadAvaibilityCards());
-
+        
         // Handle clear filter button
         clearFilterButton.setOnAction(event -> {
             dateFilter.setValue(null);
             loadAvaibilityCards();
         });
-    }    // Custom StringConverter for DatePicker
+    }
+
     // Custom StringConverter for DatePicker
     private static class LocalDateStringConverter extends StringConverter<LocalDate> {
         private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -102,83 +106,85 @@ public class ListAvaibilityController {
         }
     }
 
-
     private AnchorPane createAvaibilityCard(avaibility avaibility) {
+        // Create card with gradient background from CSS styles
         AnchorPane card = new AnchorPane();
-        card.setStyle("-fx-background-color: white; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1);");
-        card.setPrefWidth(400);
+        card.getStyleClass().add("card");
+        card.setPrefWidth(300);
+        card.setPrefHeight(180);  // Shorter height to match screenshot
 
+        // Create content container using VBox
+        VBox contentBox = new VBox(10);
+        contentBox.getStyleClass().add("card-content");
+        contentBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        contentBox.setPadding(new javafx.geometry.Insets(15, 15, 15, 15));
+        AnchorPane.setTopAnchor(contentBox, 0.0);
+        AnchorPane.setLeftAnchor(contentBox, 0.0);
+        AnchorPane.setRightAnchor(contentBox, 0.0);
+        AnchorPane.setBottomAnchor(contentBox, 0.0);
+        
+        // Create date header with larger font
         Label dateLabel = new Label("Date: " + avaibility.getDate());
-        dateLabel.setLayoutX(15);
-        dateLabel.setLayoutY(15);
-
-        Label timeLabel = new Label("Time: " + avaibility.getStartTime() + " - " + avaibility.getEndTime());
-        timeLabel.setLayoutX(15);
-        timeLabel.setLayoutY(40);
-
-        Label tutorLabel = new Label("Tutor ID: " + avaibility.getTutorId());
-        tutorLabel.setLayoutX(15);
-        tutorLabel.setLayoutY(65);
-
-        Button detailsButton = new Button("Details");
-        detailsButton.setLayoutX(300);
-        detailsButton.setLayoutY(15);
-        detailsButton.setStyle("-fx-background-color: #607D8B; -fx-text-fill: white;");
+        dateLabel.getStyleClass().add("card-title");
+        dateLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        
+        // Add time info
+        Label timeLabel = new Label("Horaire: " + avaibility.getStartTime() + " - " + avaibility.getEndTime());
+        timeLabel.getStyleClass().add("card-para");
+        
+        // Add tutor info
+        Label tutorLabel = new Label("Tuteur ID: " + avaibility.getTutorId());
+        tutorLabel.getStyleClass().add("card-para");
+        
+        // Add spacer to push buttons to bottom
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, Priority.ALWAYS);
+        
+        // Create button container - just 2 buttons like in screenshot
+        HBox buttonBox = new HBox(20); // Wider spacing
+        buttonBox.setAlignment(javafx.geometry.Pos.CENTER);
+        
+        // Details button with eye icon (icon only)
+        Button detailsButton = new Button("👁");
+        detailsButton.setTooltip(new Tooltip("Voir les détails"));
+        detailsButton.getStyleClass().addAll("card-button", "icon-only-button");
+        detailsButton.setStyle("-fx-background-color: #1CACD2; -fx-text-fill: white; -fx-background-radius: 50%; -fx-min-width: 40; -fx-min-height: 40; -fx-max-width: 40; -fx-max-height: 40;");
         detailsButton.setOnAction(event -> showDetails(avaibility));
-
-        Button reserveButton = new Button("Reserve");
-        reserveButton.setLayoutX(300);
-        reserveButton.setLayoutY(50);
-        reserveButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+        
+        // Reserve button with reserve icon (icon only)
+        Button reserveButton = new Button("✅");
+        reserveButton.setTooltip(new Tooltip("Réserver"));
+        reserveButton.getStyleClass().addAll("card-button", "icon-only-button");
+        reserveButton.setStyle("-fx-background-color: #1CACD2; -fx-text-fill: white; -fx-background-radius: 50%; -fx-min-width: 40; -fx-min-height: 40; -fx-max-width: 40; -fx-max-height: 40;");
         reserveButton.setOnAction(event -> handleReservation(avaibility));
-
-        // Add View Reservations button
-        Button viewReservationsButton = new Button("View Reservations");
-        viewReservationsButton.setLayoutX(300);
-        viewReservationsButton.setLayoutY(85);
-        viewReservationsButton.setStyle("-fx-background-color: #999893; -fx-text-fill: white;");
-        viewReservationsButton.setOnAction(event -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/reservation/list.fxml"));
-                Parent root = loader.load();
-
-                // Passe l'avaibilityId au contrôleur
-                ReservationListController controller = loader.getController();
-                controller.setAvaibilityId(avaibility.getId());
-
-                Stage stage = new Stage();
-                stage.setTitle("Reservations for Avaibility");
-                stage.setScene(new Scene(root));
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
-        // Add Calendar Button with icon
-        Button calendarButton = new Button();
-        calendarButton.setLayoutX(240);  // Position to the left of other buttons
-        calendarButton.setLayoutY(85);   // Same height as "View Reservations" button
-        calendarButton.setLayoutY(85);   // Same height as "View Reservations" button
-        calendarButton.setPrefSize(40, 25);  // Small square button for icon
-
-
-        calendarButton.setText("📅");
-
-
-        calendarButton.setTooltip(new Tooltip("View Calendar"));
-        calendarButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
+        
+        // Calendar button with calendar icon (icon only)
+        Button calendarButton = new Button("📅");
+        calendarButton.setTooltip(new Tooltip("Voir le calendrier"));
+        calendarButton.getStyleClass().addAll("card-button", "icon-only-button");
+        calendarButton.setStyle("-fx-background-color: #1CACD2; -fx-text-fill: white; -fx-background-radius: 50%; -fx-min-width: 40; -fx-min-height: 40; -fx-max-width: 40; -fx-max-height: 40;");
         calendarButton.setOnAction(event -> openCalendarView(avaibility));
-
-        // Add Delete Button
-        Button deleteButton = new Button("Delete");
-        deleteButton.setLayoutX(300);
-        deleteButton.setLayoutY(120);
-        deleteButton.setStyle("-fx-background-color: #F44336; -fx-text-fill: white;");
+        
+        // Add buttons to button container
+        buttonBox.getChildren().addAll(detailsButton, reserveButton, calendarButton);
+        
+        // Add simple X button for delete at top right (white without background)
+        Button deleteButton = new Button("X");
+        deleteButton.getStyleClass().add("delete-button");
+        deleteButton.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px;");
+        deleteButton.setTooltip(new Tooltip("Supprimer"));
         deleteButton.setOnAction(event -> handleDeleteAvaibility(avaibility));
-
-        card.getChildren().addAll(dateLabel, timeLabel, tutorLabel, detailsButton, reserveButton,
-                viewReservationsButton, calendarButton, deleteButton);
+        
+        // Position delete button at top-right corner
+        AnchorPane.setTopAnchor(deleteButton, 5.0);
+        AnchorPane.setRightAnchor(deleteButton, 5.0);
+        
+        // Add all elements to content box
+        contentBox.getChildren().addAll(dateLabel, timeLabel, tutorLabel, spacer, buttonBox);
+        
+        // Add content box and delete button to card
+        card.getChildren().addAll(contentBox, deleteButton);
+        
         return card;
     }
 
@@ -218,9 +224,10 @@ public class ListAvaibilityController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            showAlert("Error", "Failed to load availabilities: " + e.getMessage());
+            showAlert("Erreur", "Échec du chargement des disponibilités: " + e.getMessage());
         }
     }
+    
     private void openCalendarView(avaibility availability) {
         try {
             // Load the FXML
@@ -233,7 +240,7 @@ public class ListAvaibilityController {
 
             // Show the view in a new window
             Stage stage = new Stage();
-            stage.setTitle("Calendar View - " + availability.getDate());
+            stage.setTitle("Vue Calendrier - " + availability.getDate());
             Scene scene = new Scene(root, 800, 600);
             scene.getStylesheets().add(getClass().getResource("/styles/style.css").toExternalForm());
             stage.setScene(scene);
@@ -242,15 +249,15 @@ public class ListAvaibilityController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "Failed to open calendar view: " + e.getMessage());
+            showAlert("Erreur", "Échec de l'ouverture de la vue calendrier: " + e.getMessage());
         }
     }
 
     private void handleDeleteAvaibility(avaibility avaibility) {
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Confirm Delete");
-        confirmAlert.setHeaderText("Delete Availability");
-        confirmAlert.setContentText("Are you sure you want to delete this availability?\nAll related reservations will be marked as canceled.");
+        confirmAlert.setTitle("Confirmer la suppression");
+        confirmAlert.setHeaderText("Supprimer la disponibilité");
+        confirmAlert.setContentText("Êtes-vous sûr de vouloir supprimer cette disponibilité?\nToutes les réservations associées seront marquées comme annulées.");
 
         // Show the confirmation dialog and wait for user response
         confirmAlert.showAndWait().ifPresent(response -> {
@@ -258,11 +265,11 @@ public class ListAvaibilityController {
                 try {
                     // Call service to delete availability with cascade
                     avaibilityService.deleteCascade(avaibility.getId());
-                    showAlert("Success", "Availability deleted successfully");
+                    showAlert("Succès", "Disponibilité supprimée avec succès");
                     loadAvaibilityCards(); // Refresh the list
                 } catch (SQLException e) {
                     e.printStackTrace();
-                    showAlert("Error", "Failed to delete availability: " + e.getMessage());
+                    showAlert("Erreur", "Échec de la suppression de la disponibilité: " + e.getMessage());
                 }
             }
         });
@@ -310,7 +317,7 @@ public class ListAvaibilityController {
             currentStage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "Could not load reservation form: " + e.getMessage());
+            showAlert("Erreur", "Impossible de charger le formulaire de réservation: " + e.getMessage());
         }
     }
 
@@ -332,42 +339,14 @@ public class ListAvaibilityController {
             currentStage.show();
         } catch (IOException e) {
             e.printStackTrace();
+            showAlert("Erreur", "Impossible de charger le formulaire d'ajout: " + e.getMessage());
         }
-    }
-
-    @FXML
-    private void handleSaveAvaibility() {
-        try
-        {
-            avaibility newAvaibility = new avaibility(
-                    0,
-                    dateField.getText(),
-                    startTimeField.getText(),
-                    endTimeField.getText(),
-                    Integer.parseInt(tutorIdField.getText())
-            );
-
-            avaibilityService.add(newAvaibility);
-            showAlert("Success", "Avaibility added successfully");
-
-            backToListView();
-            loadAvaibilityCards();
-        } catch (NumberFormatException e) {
-            showAlert("Error", "Please enter a valid Tutor ID");
-        } catch (SQLException e) {
-            showAlert("Error", "Failed to add avaibility: " + e.getMessage());
-        }
-    }
-
-    @FXML
-    private void handleCancelAdd() {
-        backToListView();
     }
 
     private void showDetails(avaibility avaibility) {
         detailsDate.setText("Date: " + avaibility.getDate());
-        detailsTime.setText("Time: " + avaibility.getStartTime() + " - " + avaibility.getEndTime());
-        detailsTutor.setText("Tutor ID: " + avaibility.getTutorId());
+        detailsTime.setText("Horaire: " + avaibility.getStartTime() + " - " + avaibility.getEndTime());
+        detailsTutor.setText("Tuteur ID: " + avaibility.getTutorId());
 
         showOnly(detailsPane);
     }
@@ -391,8 +370,11 @@ public class ListAvaibilityController {
     // Helper to find the ScrollPane holding the cards
     private ScrollPane getCardsScrollPane() {
         for (Node child : contentPane.getChildren()) {
-            if (child instanceof ScrollPane && ((ScrollPane) child).getContent() == cardsContainer) {
-                return (ScrollPane) child;
+            if (child instanceof ScrollPane) {
+                ScrollPane scrollPane = (ScrollPane) child;
+                if (scrollPane.getContent() instanceof FlowPane) {
+                    return scrollPane;
+                }
             }
         }
         return null;
