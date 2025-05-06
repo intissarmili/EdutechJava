@@ -14,6 +14,7 @@ import utils.ReservationExample;
 
 public class Home extends Application {
 
+
     @Override
     public void start(Stage primaryStage) {
         try {
