@@ -12,7 +12,7 @@ public class ChatController {
     @FXML private Label errorLabel;
     @FXML private ProgressIndicator loadingSpinner;
 
-    private final HuggingFaceService hfService = new HuggingFaceService("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");
+    private final HuggingFaceService hfService = new HuggingFaceService("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");
 
     @FXML
     private void handleSend() {

@@ -7,6 +7,7 @@ import utils.MaConnexion;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import models.Question;
 
 public class CertificationService implements IService<Certification> {
     private Connection cnx;
@@ -141,4 +142,39 @@ public class CertificationService implements IService<Certification> {
         }
         return ids;
     }
+
+    public List<Question> getQuestionsForCertification(int certificationId) throws SQLException {
+        List<Question> questions = new ArrayList<>();
+        String query = "SELECT * FROM question WHERE certification_id = ?";
+
+        try (PreparedStatement ps = cnx.prepareStatement(query)) {
+            ps.setInt(1, certificationId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Question q = new Question();
+                    q.setId(rs.getInt("id"));
+                    q.setQuestion(rs.getString("question"));
+
+                    // Récupérer les options (en supposant qu'elles sont stockées en format CSV)
+                    String optionsStr = rs.getString("options");
+                    String[] options = optionsStr != null ? optionsStr.split(",") : new String[0]; // On sépare par virgule
+
+                    q.setOptions(options);
+                    q.setReponseCorrecte(rs.getString("reponse_correcte"));
+                    q.setQuizId(rs.getInt("quiz_id"));
+                    q.setCertificationId(rs.getInt("certification_id"));
+
+                    questions.add(q);
+                }
+            }
+        }
+
+        return questions;
+    }
+
+
+
+
+
 }

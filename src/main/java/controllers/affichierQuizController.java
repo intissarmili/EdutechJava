@@ -37,6 +37,7 @@ public class affichierQuizController {
             configureTableColumns();
             setupActionsColumn();
             setupEventHandlers();
+
             refreshQuizData();
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Erreur d'initialisation",
