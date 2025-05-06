@@ -34,12 +34,14 @@
                 <Label fx:id="feedLengthLabel" text="0/14" styleClass="timestamp"/>
 
                 <HBox styleClass="action-buttons" alignment="CENTER_RIGHT">
-                    <Button styleClass="uiverse-btn">
+                    <Button styleClass="uiverse-btn" onAction="#addFeed">
                         <graphic>
                             <Label text="★" styleClass="uiverse-sparkle"/>
                         </graphic>
                         <text>Publier</text>
                     </Button>
+
+
 
                     <Button fx:id="btnVoirListe"
                             text="Voir liste"
