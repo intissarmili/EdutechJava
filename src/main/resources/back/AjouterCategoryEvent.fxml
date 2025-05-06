@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/17"
+      fx:controller="controllers.back.AjouterCategoryEventController"
+      spacing="15"
+      style="-fx-background-color: white;"
+      prefWidth="450">
+
+    <padding>
+        <Insets top="20" right="25" bottom="20" left="25"/>
+    </padding>
+
+    <Label text="Ajouter une nouvelle catégorie"
+           style="-fx-text-fill: #324054; -fx-font-weight: bold;">
+        <font>
+            <Font size="20"/>
+        </font>
+    </Label>
+
+    <Separator />
+
+    <!-- Champ LIEU avec ComboBox -->
+    <VBox spacing="5">
+        <Label text="Lieu" style="-fx-text-fill: #324054; -fx-font-weight: bold;">
+            <font>
+                <Font size="14" />
+            </font>
+        </Label>
+
+        <ComboBox fx:id="cbLocation"
+                  prefWidth="400" prefHeight="35"
+                  promptText="Sélectionner un gouvernorat" />
+
+        <Label text="Le lieu doit contenir au moins 6 caractères"
+               style="-fx-text-fill: #e74c3c; -fx-font-size: 11px;" />
+    </VBox>
+
+    <!-- Champ TYPE -->
+    <VBox spacing="5">
+        <Label text="Type" style="-fx-text-fill: #324054; -fx-font-weight: bold;">
+            <font>
+                <Font size="14" />
+            </font>
+        </Label>
+
+        <TextField fx:id="tfType"
+                   prefWidth="400" prefHeight="35"
+                   promptText="Type (minimum 6 caractères)" />
+    </VBox>
+
+    <!-- Champ DURÉE -->
+    <VBox spacing="5">
+        <Label text="Durée" style="-fx-text-fill: #324054; -fx-font-weight: bold;">
+            <font>
+                <Font size="14" />
+            </font>
+        </Label>
+
+        <HBox spacing="10">
+            <TextField fx:id="tfDuration"
+                       prefWidth="400" prefHeight="35"
+                       promptText="Format: HH:MM (min. 60:00)" />
+        </HBox>
+    </VBox>
+
+    <Separator />
+
+    <!-- Boutons -->
+    <HBox spacing="15" alignment="CENTER_RIGHT">
+        <Button text="Annuler"
+                onAction="#handleCancel"
+                prefWidth="100" prefHeight="35"
+                style="-fx-background-color: #95a5a6; -fx-text-fill: white;" />
+
+        <Button fx:id="addButton"
+                text="Ajouter"
+                onAction="#handleAdd"
+                prefWidth="100" prefHeight="35"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white;" />
+    </HBox>
+</VBox>

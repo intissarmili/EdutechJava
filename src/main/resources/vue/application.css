@@ -1,0 +1,141 @@
+/* Ajoutez ces styles à votre fichier application.css */
+
+/* Styles pour les boutons plus petits */
+.btn-small {
+    -fx-padding: 3px 8px;
+    -fx-font-size: 11px;
+    -fx-background-radius: 3px;
+}
+
+/* Styles pour les cartes d'événements plus petites */
+.event-card {
+    -fx-background-color: white;
+    -fx-padding: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-background-radius: 5px;
+}
+
+.event-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.event-date {
+    -fx-font-size: 11px;
+    -fx-text-fill: #7f8c8d;
+}
+
+.event-category {
+    -fx-font-size: 11px;
+    -fx-padding: 2px 5px;
+    -fx-background-color: #3498db;
+    -fx-background-radius: 3px;
+    -fx-text-fill: white;
+}
+
+.event-description {
+    -fx-font-size: 12px;
+    -fx-text-fill: #34495e;
+}
+
+/* Styles pour le filtre de catégorie */
+.filter-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+}
+
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 3px;
+    -fx-padding: 2px;
+}
+
+.combo-box .list-cell {
+    -fx-padding: 4px 8px;
+    -fx-text-fill: #2c3e50;
+}
+
+.combo-box .list-view .list-cell:filled:selected {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+
+/* Rendre l'interface plus compacte */
+.header-container {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 1);
+    -fx-spacing: 8;
+}
+
+.footer {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #e0e0e0 transparent transparent transparent;
+    -fx-border-width: 1px 0 0 0;
+}
+
+/* Améliorer la visibilité du ScrollPane */
+.content-area {
+    -fx-background-color: #f5f7fa;
+    -fx-padding: 0;
+    -fx-border-width: 0;
+}
+
+.content-area .viewport {
+    -fx-background-color: #f5f7fa;
+}
+
+/* Styles pour les boutons d'action */
+.action-buttons {
+    -fx-padding: 3px 0 0 0;
+    -fx-spacing: 5;
+}
+.weather-info {
+    -fx-font-size: 14px;
+    -fx-padding: 0 0 0 5px;
+}
+
+/* Pour aligner le contenu du HBox titre/météo */
+.form-title-container {
+    -fx-alignment: center-left;
+}
+.weather-container {
+    -fx-background-color: #f5f9ff;
+    -fx-padding: 8px 12px;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #d0e0ff;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);
+}
+
+.weather-info {
+    -fx-font-size: 16px;
+    -fx-padding: 0 0 0 5px;
+    -fx-text-fill: #0077cc;
+}
+/* Ajoutez ces styles à votre fichier CSS d'application */
+
+.button-secondary {
+    -fx-background-color: #5bc0de;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 5 10;
+    -fx-cursor: hand;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #46b8da;
+}
+
+.button-secondary:disabled {
+    -fx-background-color: #cccccc;
+    -fx-text-fill: #999999;
+}
+
+.generating-label {
+    -fx-text-fill: #5bc0de;
+    -fx-font-style: italic;
+}

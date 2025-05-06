@@ -20,7 +20,7 @@ public class Home extends Application {
 
 
             // Load the FXML file (you can change the path if needed)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/avaibility/listCards.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/back/ListeCategoryEvent.fxml"));
             Parent root = loader.load();
 
             // Set up the stage
@@ -31,7 +31,7 @@ public class Home extends Application {
             primaryStage.setMinWidth(800);
             primaryStage.setMinHeight(600);
 
-          
+
 
             primaryStage.show();
         } catch (Exception e) {

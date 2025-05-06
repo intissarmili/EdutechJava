@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane prefHeight="700.0" prefWidth="1000.0" stylesheets="/vue/styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ListeEventController">
+    <top>
+        <!-- En-tête simplifiée -->
+        <VBox spacing="0.0" styleClass="header-container">
+            <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="top-header">
+                <padding>
+                    <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                </padding>
+                <Label text="Event.TN" styleClass="logo-text">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+                <Region HBox.hgrow="ALWAYS" />
+                <HBox spacing="15.0" alignment="CENTER_RIGHT">
+
+                </HBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <!-- ScrollPane principal contenant tout le contenu -->
+        <ScrollPane fitToWidth="true" styleClass="main-scroll-pane" vbarPolicy="ALWAYS" pannable="true">
+            <content>
+                <VBox spacing="10.0">
+                    <!-- Barre de recherche -->
+                    <HBox alignment="CENTER" spacing="15.0" styleClass="search-bar">
+                        <padding>
+                            <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                        </padding>
+                        <TextField fx:id="searchField" promptText="Rechercher un événement..." HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" onAction="#handleFilterApply" styleClass="search-button" text="Rechercher" />
+                    </HBox>
+
+                    <!-- Filtres repliables -->
+                    <VBox fx:id="advancedFilters" styleClass="advanced-filters-container">
+                        <padding>
+                            <Insets bottom="10.0" left="20.0" right="20.0" top="5.0" />
+                        </padding>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <Label text="Filtres et tri:" styleClass="filter-section-label" />
+                            <Button mnemonicParsing="false" onAction="#toggleFiltersVisibility" styleClass="toggle-filter-button" fx:id="toggleFiltersButton">
+                                <graphic>
+                                    <HBox alignment="CENTER" spacing="5.0">
+                                        <Label text="Afficher les filtres" fx:id="toggleFiltersLabel" />
+                                        <Label text="▼" styleClass="arrow-down" fx:id="toggleArrow" />
+                                    </HBox>
+                                </graphic>
+                            </Button>
+                        </HBox>
+
+                        <!-- Grille de filtres simplifiée -->
+                        <GridPane fx:id="filtersGrid" hgap="10.0" vgap="10.0" visible="false" managed="false" styleClass="filters-grid">
+                            <padding>
+                                <Insets top="10.0" />
+                            </padding>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+
+                            <!-- Ligne 1 -->
+                            <VBox spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <Label text="Catégorie" styleClass="filter-label" />
+                                <ComboBox fx:id="categoryFilterComboBox" promptText="Toutes les catégories" styleClass="filter-control" />
+                            </VBox>
+                            <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <Label text="Date" styleClass="filter-label" />
+                                <DatePicker fx:id="datePicker" promptText="Toutes les dates" styleClass="filter-control" />
+                            </VBox>
+                            <VBox spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                                <Label text="Score minimum" styleClass="filter-label" />
+                                <TextField fx:id="scoreFilterField" promptText="0" styleClass="filter-control" />
+                            </VBox>
+                            <VBox spacing="5.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                                <Label text="État" styleClass="filter-label" />
+                                <ComboBox fx:id="statusFilterComboBox" promptText="Tous les états" styleClass="filter-control" />
+                            </VBox>
+
+                            <!-- Ligne 2 -->
+                            <VBox spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <Label text="Tri par" styleClass="filter-label" />
+                                <ComboBox fx:id="sortComboBox" promptText="Date (plus récent)" styleClass="filter-control" />
+                            </VBox>
+                            <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <Label text="Ordre" styleClass="filter-label" />
+                                <ComboBox fx:id="orderComboBox" promptText="Décroissant" styleClass="filter-control" />
+                            </VBox>
+                            <Button mnemonicParsing="false" onAction="#handleFilterApply" styleClass="apply-filter-button" text="Appliquer" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                            <Button mnemonicParsing="false" onAction="#clearFilters" styleClass="clear-filter-button" text="Réinitialiser" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        </GridPane>
+                    </VBox>
+
+                    <!-- Carousel principal avec 3 images côte à côte horizontal -->
+                    <VBox fx:id="carouselContainer" styleClass="carousel-container" maxHeight="250.0">
+                        <!-- Container pour le groupe d'images visible -->
+                        <StackPane>
+                            <!-- Premier groupe d'images (visible par défaut) -->
+                            <HBox fx:id="imageGroup1" spacing="5.0" alignment="CENTER" visible="true" styleClass="carousel-image-group">
+                                <ImageView fx:id="eventImage1" fitWidth="328.0" fitHeight="250.0" preserveRatio="false" />
+                                <ImageView fx:id="eventImage2" fitWidth="328.0" fitHeight="250.0" preserveRatio="false" />
+                                <ImageView fx:id="eventImage3" fitWidth="328.0" fitHeight="250.0" preserveRatio="false" />
+                            </HBox>
+
+                            <!-- Deuxième groupe d'images -->
+                            <HBox fx:id="imageGroup2" spacing="5.0" alignment="CENTER" visible="false" styleClass="carousel-image-group">
+                                <ImageView fx:id="eventImage4" fitWidth="328.0" fitHeight="250.0" preserveRatio="false" />
+                                <ImageView fx:id="eventImage5" fitWidth="328.0" fitHeight="250.0" preserveRatio="false" />
+                                <ImageView fx:id="eventImage6" fitWidth="328.0" fitHeight="250.0" preserveRatio="false" />
+                            </HBox>
+
+                            <!-- Troisième groupe d'images -->
+                            <HBox fx:id="imageGroup3" spacing="5.0" alignment="CENTER" visible="false" styleClass="carousel-image-group">
+                                <ImageView fx:id="eventImage7" fitWidth="328.0" fitHeight="250.0" preserveRatio="false" />
+                                <ImageView fx:id="eventImage8" fitWidth="328.0" fitHeight="250.0" preserveRatio="false" />
+                                <ImageView fx:id="eventImage9" fitWidth="328.0" fitHeight="250.0" preserveRatio="false" />
+                            </HBox>
+                        </StackPane>
+
+                        <!-- Pagination -->
+                        <HBox alignment="CENTER" spacing="10.0">
+                            <padding><Insets bottom="10.0" top="10.0" /></padding>
+                            <Button fx:id="carouselDot1" mnemonicParsing="false" onAction="#showCarouselImage1" styleClass="carousel-dot, carousel-dot-active" text="" />
+                            <Button fx:id="carouselDot2" mnemonicParsing="false" onAction="#showCarouselImage2" styleClass="carousel-dot" text="" />
+                            <Button fx:id="carouselDot3" mnemonicParsing="false" onAction="#showCarouselImage3" styleClass="carousel-dot" text="" />
+                        </HBox>
+
+                        <!-- Navigation dans un StackPane pour le positionnement -->
+                        <StackPane>
+                            <Button fx:id="carouselPrev" mnemonicParsing="false" onAction="#previousCarouselImage" styleClass="carousel-nav-btn" text="&lt;" StackPane.alignment="CENTER_LEFT">
+                                <StackPane.margin><Insets left="10.0" /></StackPane.margin>
+                            </Button>
+                            <Button fx:id="carouselNext" mnemonicParsing="false" onAction="#nextCarouselImage" styleClass="carousel-nav-btn" text="&gt;" StackPane.alignment="CENTER_RIGHT">
+                                <StackPane.margin><Insets right="10.0" /></StackPane.margin>
+                            </Button>
+                        </StackPane>
+                    </VBox>
+
+                    <!-- Contrôles admin -->
+                    <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="admin-controls">
+                        <padding>
+                            <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+                        </padding>
+
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label fx:id="statusLabel" textFill="#7f8c8d">
+                            <font><Font size="12.0" /></font>
+                        </Label>
+                    </HBox>
+
+                    <!-- Carousel météo -->
+
+
+                    <!-- Titre section -->
+                    <VBox alignment="CENTER" styleClass="section-title-container">
+                        <padding>
+                            <Insets top="10.0" bottom="5.0" />
+                        </padding>
+                        <Label text="Evenement DE TUNIS" styleClass="section-title">
+                            <font><Font name="System Bold" size="18.0" /></font>
+                        </Label>
+                    </VBox>
+
+                    <!-- Grille d'événements -->
+                    <GridPane fx:id="eventsContainer" hgap="15.0" vgap="15.0">
+                        <padding>
+                            <Insets bottom="15.0" left="15.0" right="15.0" top="10.0" />
+                        </padding>
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="33.0" />
+                            <ColumnConstraints percentWidth="33.0" />
+                            <ColumnConstraints percentWidth="33.0" />
+                        </columnConstraints>
+                        <!-- Rangées ajoutées dynamiquement -->
+                    </GridPane>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER" spacing="10.0" styleClass="footer">
+            <padding>
+                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+            </padding>
+            <Label text="© 2024 Event.TN - Tous droits réservés" textFill="#95a5a6">
+                <font><Font size="12.0" /></font>
+            </Label>
+        </HBox>
+    </bottom>
+</BorderPane>
