@@ -1,4 +1,4 @@
-package controllers;
+package controllers.user;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -10,9 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.User;
-import service.user.IUserService;
-import service.user.UserService;
+import services.user.IUserService;
+import services.user.UserService;
 import utils.Session;
+import javafx.event.ActionEvent;
+
 
 import java.io.IOException;
 import java.util.Timer;
@@ -31,7 +33,7 @@ public class AdminController {
     @FXML private TableColumn<User, String> approvedColumn; // ✅ New approved status column
     @FXML private TextField searchField;
 
-    private final IUserService userService = (IUserService) new UserService();
+    private final IUserService userService = new UserService();
     private ObservableList<User> userList;
     private Timer banCheckTimer;
 
@@ -87,7 +89,7 @@ public class AdminController {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/user/ModifierBack.fxml"));
                 Parent root = loader.load();
-                controllers.ModifierBackController controller = loader.getController();
+                ModifierBackController controller = loader.getController();
                 controller.setUser(selected);
                 Stage stage = new Stage();
                 stage.setTitle("Modifier l'utilisateur");
@@ -177,7 +179,7 @@ public class AdminController {
             public void run() {
                 User currentUser = Session.getCurrentUser();
                 if (currentUser != null) {
-                    IUserService userService = (IUserService) new UserService();
+                    IUserService userService = new UserService();
                     User freshUser = userService.getUserByEmail(currentUser.getEmail());
                     if (freshUser.isBanned()) {
                         Platform.runLater(() -> {
@@ -238,4 +240,24 @@ public class AdminController {
             e.printStackTrace();
         }
     }
+    @FXML
+    private void handleLogout(ActionEvent event) {
+        Session.setCurrentUser(null);
+        if (banCheckTimer != null) {
+            banCheckTimer.cancel();
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/user/SignIn.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) userTable.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("EduTech - Connexion");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Erreur", "Impossible de charger l'écran de connexion !");
+        }
+    }
+
 }

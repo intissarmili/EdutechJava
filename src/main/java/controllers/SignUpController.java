@@ -1,4 +1,4 @@
-package controllers;
+package controllers.user;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -9,8 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.User;
-import service.user.IUserService;
-import service.user.UserService;
+import services.user.IUserService;
+import services.user.UserService;
 import utils.EmailUtil;
 
 import java.util.Random;
@@ -24,6 +24,7 @@ public class SignUpController {
     @FXML private TextField phoneNumberField;
     @FXML private ComboBox<String> roleComboBox;
     @FXML private TextField verificationCodeField;
+    @FXML private CheckBox fingerprintCheckBox; // New CheckBox for fingerprint activation
 
     private final IUserService userService = new UserService();
     private String generatedCode;
@@ -61,6 +62,7 @@ public class SignUpController {
         String phone = phoneNumberField.getText().trim();
         String role = roleComboBox.getValue();
         String inputCode = verificationCodeField.getText().trim();
+        boolean enableFingerprint = fingerprintCheckBox.isSelected();
 
         if (email.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phone.isEmpty() || role == null || inputCode.isEmpty()) {
             showAlert("Erreur", "Veuillez remplir tous les champs !");
@@ -73,7 +75,7 @@ public class SignUpController {
         }
 
         if (!firstName.matches("[a-zA-Z]+") || !lastName.matches("[a-zA-Z]+")) {
-            showAlert("Erreur", "Le prénom et le nom ne doivent contenir que des lettres !");
+            showAlert("Erreur", "Le prénom et le nom doivent contenir que des lettres !");
             return;
         }
 
@@ -100,11 +102,12 @@ public class SignUpController {
         User newUser = new User(email, password, role, firstName, lastName, phone);
         newUser.setEmailVerified(true);
         newUser.setBanned(false);
+        newUser.setUseFingerprintLogin(enableFingerprint);
 
         if (role.equals("ROLE_ADMIN")) {
-            newUser.setApproved(false); // 🛑 Admin needs manual approval!
+            newUser.setApproved(false);
         } else {
-            newUser.setApproved(true); // ✅ Students and Teachers are auto-approved
+            newUser.setApproved(true);
         }
 
         userService.addUser(newUser);
@@ -135,6 +138,7 @@ public class SignUpController {
         phoneNumberField.clear();
         roleComboBox.setValue(null);
         verificationCodeField.clear();
+        fingerprintCheckBox.setSelected(false);
     }
 
     private void redirectToSignIn(ActionEvent event) {

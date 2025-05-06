@@ -1,4 +1,3 @@
-// Updated User.java
 package models;
 
 public class User {
@@ -13,7 +12,8 @@ public class User {
     private String googleId;
     private boolean emailVerified;
     private boolean banned;
-    private boolean approved = true; // ✅ NEW FIELD
+    private boolean approved = true; // ✅ ALREADY
+    private boolean useFingerprintLogin; // ✅ NEW FIELD
 
     public User() {}
 
@@ -27,6 +27,7 @@ public class User {
         this.emailVerified = false;
         this.banned = false;
         this.approved = true;
+        this.useFingerprintLogin = false; // by default
     }
 
     public User(int id, String email, String password, String roles) {
@@ -77,6 +78,9 @@ public class User {
     public boolean isApproved() { return approved; }
     public void setApproved(boolean approved) { this.approved = approved; }
 
+    public boolean isUseFingerprintLogin() { return useFingerprintLogin; } // ✅ Getter
+    public void setUseFingerprintLogin(boolean useFingerprintLogin) { this.useFingerprintLogin = useFingerprintLogin; } // ✅ Setter
+
     @Override
     public String toString() {
         return "User{" +
@@ -92,6 +96,7 @@ public class User {
                 ", emailVerified=" + emailVerified +
                 ", banned=" + banned +
                 ", approved=" + approved +
+                ", useFingerprintLogin=" + useFingerprintLogin +
                 '}';
     }
 }

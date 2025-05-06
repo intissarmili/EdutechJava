@@ -1,4 +1,4 @@
-package controllers;
+package controllers.user;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -10,8 +10,8 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import models.User;
-import service.user.IUserService;
-import service.user.UserService;
+import services.user.IUserService;
+import services.user.UserService;
 import utils.Session;
 
 import java.io.IOException;

@@ -1,5 +1,5 @@
 // Updated UserService.java
-package service.user;
+package services.user;
 
 import models.User;
 import utils.MaConnexion;

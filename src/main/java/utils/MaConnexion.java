@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class MaConnexion {
 
-    private final String URL = "jdbc:mysql://localhost:3306/app";
+    private final String URL = "jdbc:mysql://localhost:3306/app"; // 🔁 base = app
     private final String USER = "root";
-    private final String PASSWORD = "";
+    private final String PASSWORD = ""; // 🔁 mets ton mot de passe ici si tu en as un
 
     private Connection connection;
     private static MaConnexion instance;
@@ -16,9 +16,9 @@ public class MaConnexion {
     private MaConnexion() {
         try {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("✅ Connecté à la base de données MySQL (connexion initiale)");
+            System.out.println("✅ Connecté à la base de données MySQL");
         } catch (SQLException e) {
-            System.err.println("❌ Erreur de connexion initiale : " + e.getMessage());
+            System.err.println("❌ Erreur de connexion : " + e.getMessage());
         }
     }
 
@@ -30,14 +30,6 @@ public class MaConnexion {
     }
 
     public Connection getConnection() {
-        try {
-            if (connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection(URL, USER, PASSWORD);
-                System.out.println("🔄 Connexion MySQL réinitialisée");
-            }
-        } catch (SQLException e) {
-            System.err.println("❌ Erreur lors de la récupération de connexion : " + e.getMessage());
-        }
         return connection;
     }
 }

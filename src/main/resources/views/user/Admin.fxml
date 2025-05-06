@@ -2,46 +2,99 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.AdminController" prefWidth="850" prefHeight="500">
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.user.AdminController"
+            prefWidth="1200" prefHeight="700"
+            stylesheets="@/styles/style.css"
+            style="-fx-background-color: linear-gradient(to bottom right, #8e2de2, #4a00e0);">
+
+    <!-- Top Title and Search -->
     <top>
-        <VBox spacing="10" alignment="CENTER" BorderPane.alignment="CENTER">
-            <Label text="Interface Admin - Gestion des utilisateurs" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 10px;" />
-            <HBox spacing="10" alignment="CENTER">
-                <Label text="Recherche par nom :" style="-fx-font-size: 14px;" />
-                <TextField fx:id="searchField" promptText="Tapez un prénom ou nom" />
+        <VBox spacing="10" alignment="CENTER_LEFT"
+              style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 0 0 20 20;">
+
+            <HBox alignment="TOP_RIGHT">
+                <Region fx:id="spacer" HBox.hgrow="ALWAYS" />
+                <Button text="Se déconnecter" onAction="#handleLogout"
+                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;" />
+            </HBox>
+
+            <Label text="Gestion des Utilisateurs"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Recherche par nom :" style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;" />
+                <TextField fx:id="searchField" promptText="Tapez un prénom ou nom" styleClass="text-field" />
             </HBox>
         </VBox>
     </top>
 
+    <!-- Center Table -->
     <center>
-        <TableView fx:id="userTable" prefHeight="300">
-            <columns>
-                <TableColumn fx:id="idColumn" text="ID" prefWidth="40"/>
-                <TableColumn fx:id="emailColumn" text="Email" prefWidth="150"/>
-                <TableColumn fx:id="firstNameColumn" text="Prénom" prefWidth="100"/>
-                <TableColumn fx:id="lastNameColumn" text="Nom" prefWidth="100"/>
-                <TableColumn fx:id="roleColumn" text="Rôle" prefWidth="100"/>
-                <TableColumn fx:id="phoneColumn" text="Téléphone" prefWidth="100"/>
-                <TableColumn fx:id="bannedColumn" text="Statut" prefWidth="80"/>
-                <TableColumn fx:id="approvedColumn" text="Validation" prefWidth="100"/>
-            </columns>
-        </TableView>
+        <VBox spacing="10" alignment="CENTER" style="-fx-padding: 20;">
+            <TableView fx:id="userTable" prefHeight="500" styleClass="table-view">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
+                    <TableColumn fx:id="emailColumn" text="Email" prefWidth="180"/>
+                    <TableColumn fx:id="firstNameColumn" text="Prénom" prefWidth="130"/>
+                    <TableColumn fx:id="lastNameColumn" text="Nom" prefWidth="130"/>
+                    <TableColumn fx:id="roleColumn" text="Rôle" prefWidth="130"/>
+                    <TableColumn fx:id="phoneColumn" text="Téléphone" prefWidth="130"/>
+                    <TableColumn fx:id="bannedColumn" text="Statut" prefWidth="100"/>
+                    <TableColumn fx:id="approvedColumn" text="Validation" prefWidth="100"/>
+                </columns>
+            </TableView>
+        </VBox>
     </center>
 
+    <!-- Bottom Buttons -->
     <bottom>
-        <HBox spacing="15" alignment="CENTER">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-            <Button text="Ajouter" onAction="#handleAdd"/>
-            <Button text="Modifier" onAction="#handleEdit"/>
-            <Button text="Supprimer" onAction="#handleDelete"/>
-            <Button text="Bannir" onAction="#handleBan"/>
-            <Button text="Débannir" onAction="#handleUnban"/>
-            <Button text="Approuver" onAction="#handleApprove"/>
-            <Button text="Voir Historique" onAction="#handleOpenLogs"/>
-            <Button text="Voir Dashboard" onAction="#handleOpenDashboard"/>
+        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 15; -fx-background-color: white;">
+
+            <!-- Expandable Icon Buttons -->
+            <Button onAction="#handleAdd" styleClass="sidebar-button-expand">
+                <graphic><Label text="➕ " /></graphic>
+                <text>Ajouter</text>
+            </Button>
+
+            <Button onAction="#handleEdit" styleClass="sidebar-button-expand">
+                <graphic><Label text="✏️ " /></graphic>
+                <text>Modifier</text>
+            </Button>
+
+            <Button onAction="#handleDelete" styleClass="sidebar-button-expand">
+                <graphic><Label text="🗑️ " /></graphic>
+                <text>Supprimer</text>
+            </Button>
+
+            <Button onAction="#handleBan" styleClass="sidebar-button-expand">
+                <graphic><Label text="🚫 " /></graphic>
+                <text>Bannir</text>
+            </Button>
+
+            <Button onAction="#handleUnban" styleClass="sidebar-button-expand">
+                <graphic><Label text="✅ " /></graphic>
+                <text>Débannir</text>
+            </Button>
+
+            <Button onAction="#handleApprove" styleClass="sidebar-button-expand">
+                <graphic><Label text="✔️ " /></graphic>
+                <text>Approuver</text>
+            </Button>
+
+            <Button onAction="#handleOpenLogs" styleClass="sidebar-button-expand">
+                <graphic><Label text="📜 " /></graphic>
+                <text>Historique</text>
+            </Button>
+
+            <Button onAction="#handleOpenDashboard" styleClass="sidebar-button-expand">
+                <graphic><Label text="📊 " /></graphic>
+                <text>Dashboard</text>
+            </Button>
+
         </HBox>
     </bottom>
+
 </BorderPane>
