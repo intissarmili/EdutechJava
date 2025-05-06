@@ -67,6 +67,7 @@ public class Home extends Application {
             e.printStackTrace();
         }
 
+
         // Initialize Email service
         try {
             System.out.println("Initializing Email service...");
