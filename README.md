@@ -48,12 +48,7 @@ Edutech est une plateforme **e-learning** complète qui couvre plusieurs aspects
 
 ## 🛠️ Technologies utilisées
 
-### Backend
-- Symfony (PHP)
-- API RESTful
-
-### Frontend
-- JavaFX (interface utilisateur)
+application descktop
 
 ### Base de données
 - MySQL
