@@ -27,7 +27,8 @@ Edutech est une plateforme **e-learning** complète qui couvre plusieurs aspects
 - Favoriser l’apprentissage autonome et assisté.
 - Mettre en relation tuteurs et étudiants via des sessions planifiées.
 - Gérer les abonnements, les certifications et les ressources éducatives.
-- Offrir une expérience utilisateur fluide et intuitive à travers une application desktop en **JavaFX** et une API backend en **Symfony**.
+- Offrir une expérience utilisateur fluide et intuitive à travers une application desktop en **JavaFX** et application web .
+
 
 ---
 
